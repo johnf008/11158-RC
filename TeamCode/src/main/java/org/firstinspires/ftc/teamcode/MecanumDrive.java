@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name="11158-Drive", group="Controlled")
@@ -22,11 +23,13 @@ public class MecanumDrive extends OpMode {
         backLeft = hardwareMap.dcMotor.get("leftBack");
         backRight = hardwareMap.dcMotor.get("rightBack");
 
+
         // Set motor directions
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         frontRight.setDirection(DcMotor.Direction.FORWARD);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
+
 
 
         // Initialize servos
@@ -43,6 +46,7 @@ public class MecanumDrive extends OpMode {
         frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
     }
 
@@ -98,14 +102,12 @@ public class MecanumDrive extends OpMode {
             }
         }
 
-
-
-
         // Set motor power
         frontLeft.setPower(-frontLeftPower);
         frontRight.setPower(-frontRightPower);
         backLeft.setPower(-backLeftPower);
         backRight.setPower(-backRightPower);
+
 
 
 
