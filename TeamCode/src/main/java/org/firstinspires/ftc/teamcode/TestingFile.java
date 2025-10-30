@@ -1,8 +1,6 @@
-//This file shall hold the official code our team will use in matches.
-//This means that everything in here should EXACTLY correlate with the hardware connected to the robot (ie. intake, outtake, etc.)
-
-//Anything experimental shall be in the other file named "TestingFile.java" with the name on the driver hub being "11158-Testing-Drive"
-
+//This file shall hold the experimental stuff of the code our team will use in matches.
+//This will be used to hold things we're testing with the robot that aren't final.
+//Once the code is finalized in here, it shall be transferred to the MecanumDrive.Java file
 
 package org.firstinspires.ftc.teamcode;
 
@@ -13,10 +11,11 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name="11158-Drive", group="Controlled")
-public class MecanumDrive extends OpMode {
+@TeleOp(name="11158-Testing-Drive", group="Controlled")
+public class TestingFile extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
+    private DcMotor intake;
     private Servo intake_one, intake_two;
 
     public double intake_num = 0.0;
@@ -28,6 +27,7 @@ public class MecanumDrive extends OpMode {
         backLeft = hardwareMap.dcMotor.get("leftBack");
         backRight = hardwareMap.dcMotor.get("rightBack");
 
+        intake = hardwareMap.dcMotor.get("intake");
 
 
         // Set motor directions
@@ -36,6 +36,7 @@ public class MecanumDrive extends OpMode {
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
+        intake.setDirection(DcMotor.Direction.FORWARD);
 
 
 
@@ -54,6 +55,7 @@ public class MecanumDrive extends OpMode {
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
     }
@@ -106,6 +108,14 @@ public class MecanumDrive extends OpMode {
             {
                 intake_two.setPosition(0);
             }
+        }
+
+        while (gamepad2.left_bumper){
+            intake.setPower(1);
+        }
+
+        while(gamepad2.right_bumper){
+            intake.setPower(-1);
         }
 
         // Set motor power
