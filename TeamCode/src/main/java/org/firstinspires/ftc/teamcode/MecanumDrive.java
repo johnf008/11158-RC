@@ -17,7 +17,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class MecanumDrive extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
-    private Servo intake_one, intake_two;
 
     public double intake_num = 0.0;
 
@@ -38,7 +37,7 @@ public class MecanumDrive extends OpMode {
 
 
 
-
+        /*
         // Initialize servos
         intake_one = hardwareMap.get(Servo.class, "IntakeOne");
         intake_two = hardwareMap.get(Servo.class, "IntakeTwo");
@@ -46,6 +45,8 @@ public class MecanumDrive extends OpMode {
         // Set servo directions
         intake_one.setDirection(Servo.Direction.FORWARD);
         intake_two.setDirection(Servo.Direction.REVERSE);
+        */
+
 
 
         // Set motor modes
@@ -84,6 +85,8 @@ public class MecanumDrive extends OpMode {
             backRightPower = (backRightPower / maxPower) * speedReductionFactor;
         }
 
+
+        /*
         // Control Servos
         if (gamepad2.x) {
             if ((intake_one.getPosition()) == 0.0) {
@@ -107,6 +110,8 @@ public class MecanumDrive extends OpMode {
                 intake_two.setPosition(0);
             }
         }
+
+         */
 
         // Set motor power
         frontLeft.setPower(-frontLeftPower);
