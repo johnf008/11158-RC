@@ -114,9 +114,9 @@ public class TestingFile extends OpMode {
             intake.setPower(1);
         }
 
-        while(gamepad2.right_bumper){
+       /* while(gamepad2.right_bumper){
             intake.setPower(-1);
-        }
+        }*/
 
         // Set motor power
         frontLeft.setPower(-frontLeftPower);
