@@ -97,7 +97,7 @@ public class StrafeRightAuto extends LinearOpMode {
         frontLeft.setPower(-0.5);
         frontRight.setPower(0.5);
 
-        sleep(1700);
+        sleep(time);
 
         backLeft.setPower(0);
         backRight.setPower(0);
@@ -111,7 +111,7 @@ public class StrafeRightAuto extends LinearOpMode {
         frontLeft.setPower(0.5);
         frontRight.setPower(-0.5);
 
-        sleep(1700);
+        sleep(time);
 
         backLeft.setPower(0);
         backRight.setPower(0);
