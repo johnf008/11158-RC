@@ -110,13 +110,12 @@ public class TestingFile extends OpMode {
             }
         }
 
-        while (gamepad2.left_bumper){
-            intake.setPower(1);
+        if (gamepad2.a) { // Hold for 2 seconds to turn off
+            intake.setPower(intake.getPower() == 0 ? 1 : 0);
+
         }
 
-       /* while(gamepad2.right_bumper){
-            intake.setPower(-1);
-        }*/
+
 
         // Set motor power
         frontLeft.setPower(-frontLeftPower);
