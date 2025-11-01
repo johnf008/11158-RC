@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name="Strafe Left Auto", group = "Auto")
+@Autonomous(name="Strafe Right Auto", group = "Auto")
 public class StrafeRightAuto extends LinearOpMode {
     public DcMotor frontLeft = null;
     public DcMotor frontRight = null;
