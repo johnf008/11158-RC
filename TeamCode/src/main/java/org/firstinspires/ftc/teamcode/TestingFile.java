@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class TestingFile extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
-    private DcMotor intake;
+    private DcMotor intake, outtake;
     private Servo intake_one, intake_two;
 
     public double intake_num = 0.0;
@@ -28,6 +28,7 @@ public class TestingFile extends OpMode {
         backRight = hardwareMap.dcMotor.get("rightBack");
 
         intake = hardwareMap.dcMotor.get("intake");
+        outtake = hardwareMap.dcMotor.get("outtake");
 
 
         // Set motor directions
@@ -37,6 +38,7 @@ public class TestingFile extends OpMode {
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
         intake.setDirection(DcMotor.Direction.FORWARD);
+        outtake.setDirection(DcMotorSimple.Direction.FORWARD);
 
 
 
@@ -56,6 +58,7 @@ public class TestingFile extends OpMode {
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        outtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
     }
@@ -112,6 +115,11 @@ public class TestingFile extends OpMode {
 
         if (gamepad2.a) { // Hold for 2 seconds to turn off
             intake.setPower(intake.getPower() == 0 ? 1 : 0);
+
+        }
+
+        if (gamepad2.x) { // Hold for 2 seconds to turn off
+            outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
 
         }
 
