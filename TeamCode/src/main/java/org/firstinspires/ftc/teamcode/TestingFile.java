@@ -124,9 +124,6 @@ public class TestingFile extends OpMode {
         backLeft.setPower(-backLeftPower);
         backRight.setPower(-backRightPower);
 
-
-
-
         telemetry.addLine("We're running");
         telemetry.update();
     }

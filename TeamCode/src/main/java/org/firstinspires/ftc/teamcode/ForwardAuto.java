@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name="Strafe Right  Auto", group = "Auto")
-public class StrafeLeftAuto extends LinearOpMode {
+@Autonomous(name="Forward Auto Blue", group = "Auto")
+public class ForwardAuto extends LinearOpMode {
     public DcMotor frontLeft = null;
     public DcMotor frontRight = null;
     public DcMotor backLeft = null;
@@ -31,16 +31,16 @@ public class StrafeLeftAuto extends LinearOpMode {
 
         sleep(5000);
 
-        strafeLeft(2200);
+        forward(2000);
 
 
     }
 
     public void forward(int time){
-        backLeft.setPower(0.5);
-        backRight.setPower(0.5);
-        frontLeft.setPower(0.5);
-        frontRight.setPower(0.5);
+        backLeft.setPower(-0.5);
+        backRight.setPower(-0.5);
+        frontLeft.setPower(-0.5);
+        frontRight.setPower(-0.5);
 
         sleep(time);
 
