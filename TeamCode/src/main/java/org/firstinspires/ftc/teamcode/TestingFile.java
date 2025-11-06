@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class TestingFile extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
-    private DcMotor intake;
+    private DcMotor intake, outtake;
     private Servo intake_one, intake_two;
 
     public double intake_num = 0.0;
@@ -28,6 +28,7 @@ public class TestingFile extends OpMode {
         backRight = hardwareMap.dcMotor.get("rightBack");
 
         intake = hardwareMap.dcMotor.get("intake");
+        outtake = hardwareMap.dcMotor.get("outtake");
 
 
         // Set motor directions
@@ -37,6 +38,7 @@ public class TestingFile extends OpMode {
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
         intake.setDirection(DcMotor.Direction.FORWARD);
+        outtake.setDirection(DcMotorSimple.Direction.FORWARD);
 
 
 
@@ -56,6 +58,7 @@ public class TestingFile extends OpMode {
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        outtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
     }
@@ -87,7 +90,7 @@ public class TestingFile extends OpMode {
         }
 
         // Control Servos
-        if (gamepad2.x) {
+     /*   if (gamepad2.x) {
             if ((intake_one.getPosition()) == 0.0) {
                 intake_one.setPosition(1);
                 intake_two.setPosition(1);
@@ -96,10 +99,10 @@ public class TestingFile extends OpMode {
                 intake_one.setPosition(0);
                 intake_two.setPosition(0);
             }
-        }
+        }*/
 
 
-        if (gamepad2.y){
+       /* if (gamepad2.y){
             if ((intake_two.getPosition()) == 0.0)
             {
                 intake_two.setPosition(1);
@@ -108,15 +111,31 @@ public class TestingFile extends OpMode {
             {
                 intake_two.setPosition(0);
             }
+        }*/
+
+        if (gamepad2.a) { // Hold for 2 seconds to turn off
+            intake.setPower(intake.getPower() == 0 ? 1 : 0);
+
+            try {
+                wait(3);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
         }
 
-        while (gamepad2.left_bumper){
-            intake.setPower(1);
+        if (gamepad2.x) { // Hold for 2 seconds to turn off
+            outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
+
+            try {
+                wait(3);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
         }
 
-        while(gamepad2.right_bumper){
-            intake.setPower(-1);
-        }
+
 
         // Set motor power
         frontLeft.setPower(-frontLeftPower);
