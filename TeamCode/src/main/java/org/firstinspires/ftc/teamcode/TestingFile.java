@@ -119,26 +119,12 @@ public class TestingFile extends OpMode {
             }
         }*/
 
-        if (gamepad2.a) { // Hold for 2 seconds to turn off
-            intake.setPower(intake.getPower() == 0 ? 1 : 0);
-
-            try {
-                wait(3);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
+        if (gamepad2.aWasPressed()) { // Hold for 2 seconds to turn off
+            intake.setPower(intake.getPower() == 0 ? .6 : 0);
         }
 
-        if (gamepad2.x) { // Hold for 2 seconds to turn off
+        if (gamepad2.xWasPressed()) { // Hold for 2 seconds to turn off
             outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
-
-            try {
-                wait(3);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
         }
 
 

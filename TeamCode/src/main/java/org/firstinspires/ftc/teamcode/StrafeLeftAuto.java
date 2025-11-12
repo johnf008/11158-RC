@@ -7,19 +7,23 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name="Strafe Right  Auto", group = "Auto")
+@Autonomous(name="Strafe Left Auto", group = "Auto")
 public class StrafeLeftAuto extends LinearOpMode {
     public DcMotor frontLeft = null;
     public DcMotor frontRight = null;
     public DcMotor backLeft = null;
     public DcMotor backRight = null;
+    private DcMotor intake = null;
+    private DcMotor outtake = null;
 
     public void runOpMode(){
-        //drive intitialize
+        //drive initialize
         this.backLeft = (DcMotor) hardwareMap.get(DcMotor.class, "leftBack");
         this.backRight = (DcMotor) hardwareMap.get(DcMotor.class, "rightBack");
         this.frontLeft = (DcMotor) hardwareMap.get(DcMotor.class, "leftFront");
         this.frontRight = (DcMotor) hardwareMap.get(DcMotor.class, "rightFront");
+        this.intake = (DcMotor) hardwareMap.get(DcMotor.class, "intake");
+        this.outtake = (DcMotor) hardwareMap.get(DcMotor.class, "outtake");
 
 
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
