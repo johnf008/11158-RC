@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class TestingFile extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
-    private DcMotor intake, outtake;
+    private DcMotor intake, outtake, test;
     private Servo intake_one, intake_two;
 
     public double intake_num = 0.0;
@@ -28,7 +28,8 @@ public class TestingFile extends OpMode {
         backRight = hardwareMap.dcMotor.get("rightBack");
 
         intake = hardwareMap.dcMotor.get("intake");
-        outtake = hardwareMap.dcMotor.get("outtake");
+        //outtake = hardwareMap.dcMotor.get("outtake");
+        test = hardwareMap.dcMotor.get("test");
 
 
         // Set motor directions
@@ -38,7 +39,8 @@ public class TestingFile extends OpMode {
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
         intake.setDirection(DcMotor.Direction.FORWARD);
-        outtake.setDirection(DcMotorSimple.Direction.FORWARD);
+        test.setDirection(DcMotorSimple.Direction.FORWARD);
+        //outtake.setDirection(DcMotorSimple.Direction.FORWARD);
 
 
 
@@ -57,8 +59,12 @@ public class TestingFile extends OpMode {
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        test.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        outtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
     }
@@ -137,11 +143,16 @@ public class TestingFile extends OpMode {
 
 
 
+
+
         // Set motor power
         frontLeft.setPower(-frontLeftPower);
         frontRight.setPower(-frontRightPower);
         backLeft.setPower(-backLeftPower);
         backRight.setPower(-backRightPower);
+
+        intake.setPower(gamepad2.right_stick_y * -0.5);
+        test.setPower(gamepad2.right_stick_y * -0.5);
 
         telemetry.addLine("We're running");
         telemetry.update();
