@@ -17,6 +17,7 @@ public class TestingFile extends OpMode {
     private DcMotor frontLeft, frontRight, backLeft, backRight;
     private DcMotor intake, outtake, test;
     private Servo intake_one, intake_two;
+    private Double ticksPerRev; // ticks per revolution
 
     public double intake_num = 0.0;
 
@@ -63,9 +64,10 @@ public class TestingFile extends OpMode {
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
-        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        ticksPerRev = intake.getMotorType().getTicksPerRev();
 
     }
 
@@ -120,15 +122,12 @@ public class TestingFile extends OpMode {
         }*/
 
         if (gamepad2.aWasPressed()) { // Hold for 2 seconds to turn off
-            intake.setPower(intake.getPower() == 0 ? .6 : 0);
+            intake.setPower(intake.getPower() == 0 ? .9 : 0);
         }
 
         if (gamepad2.xWasPressed()) { // Hold for 2 seconds to turn off
             outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
         }
-
-
-
 
 
         // Set motor power
@@ -141,6 +140,11 @@ public class TestingFile extends OpMode {
         test.setPower(gamepad2.right_stick_y * -0.5);
 
         telemetry.addLine("We're running");
+        telemetry.addData("Motor Revs", getMotorRevs());
         telemetry.update();
+    }
+
+    public double getMotorRevs() {
+        return intake.getCurrentPosition() / ticksPerRev; //ticks -> revolutions translate (need to check sku number to see if we have a gear ratio)
     }
 }
