@@ -9,6 +9,10 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.teamcode.AprilTagWebcam;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -19,6 +23,8 @@ public class MecanumDrive extends OpMode {
     private DcMotor frontLeft, frontRight, backLeft, backRight;
 
     public double intake_num = 0.0;
+
+    AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
 
     @Override
     public void init() {
@@ -60,7 +66,7 @@ public class MecanumDrive extends OpMode {
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
+        aprilTagWebcam.init(hardwareMap, telemetry);
 
     }
 
@@ -123,6 +129,11 @@ public class MecanumDrive extends OpMode {
         frontRight.setPower(-frontRightPower);
         backLeft.setPower(-backLeftPower);
         backRight.setPower(-backRightPower);
+
+        aprilTagWebcam.update();
+
+        AprilTagDetection id20 = aprilTagWebcam.getTagBySpecific(20);
+        aprilTagWebcam.displayDetectionTelemetry(id20);
 
 
 
