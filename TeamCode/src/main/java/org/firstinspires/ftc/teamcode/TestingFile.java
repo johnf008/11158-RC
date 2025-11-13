@@ -19,8 +19,6 @@ public class TestingFile extends OpMode {
     private Servo intake_one, intake_two;
     private Double ticksPerRev; // ticks per revolution
 
-    public double intake_num = 0.0;
-
     @Override
     public void init() {
         frontLeft = hardwareMap.dcMotor.get("leftFront");
@@ -86,8 +84,8 @@ public class TestingFile extends OpMode {
 
         double speedReductionFactor = 0.6;
         double maxPower = Math.max(
-                Math.max(Math.abs(frontLeftPower), Math.abs(frontRightPower)),
-                Math.max(Math.abs(backLeftPower), Math.abs(backRightPower))
+                Math.max( Math.abs(frontLeftPower), Math.abs(frontRightPower) ),
+                Math.max( Math.abs(backLeftPower), Math.abs(backRightPower) )
         );
 
         if (maxPower > 0) {
@@ -97,35 +95,11 @@ public class TestingFile extends OpMode {
             backRightPower = (backRightPower / maxPower) * speedReductionFactor;
         }
 
-        // Control Servos
-     /*   if (gamepad2.x) {
-            if ((intake_one.getPosition()) == 0.0) {
-                intake_one.setPosition(1);
-                intake_two.setPosition(1);
-
-            } else if ((intake_one.getPosition()) == 1.0) {
-                intake_one.setPosition(0);
-                intake_two.setPosition(0);
-            }
-        }*/
-
-
-       /* if (gamepad2.y){
-            if ((intake_two.getPosition()) == 0.0)
-            {
-                intake_two.setPosition(1);
-            }
-            else if ((intake_two.getPosition()) == 1.0)
-            {
-                intake_two.setPosition(0);
-            }
-        }*/
-
-        if (gamepad2.aWasPressed()) { // Hold for 2 seconds to turn off
+        if (gamepad2.aWasPressed()) {
             intake.setPower(intake.getPower() == 0 ? .9 : 0);
         }
 
-        if (gamepad2.xWasPressed()) { // Hold for 2 seconds to turn off
+        if (gamepad2.xWasPressed()) {
             outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
         }
 
