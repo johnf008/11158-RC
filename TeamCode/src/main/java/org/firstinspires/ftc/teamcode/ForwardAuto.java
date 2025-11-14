@@ -1,128 +1,24 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name="Forward Auto Blue", group = "Auto")
-public class ForwardAuto extends LinearOpMode {
-    public DcMotor frontLeft = null;
-    public DcMotor frontRight = null;
-    public DcMotor backLeft = null;
-    public DcMotor backRight = null;
-    private DcMotor intake = null;
-    private DcMotor outtake = null;
+public class ForwardAuto extends AutoBaseFile {
 
+@Override
     public void runOpMode(){
-        //drive initialize
-        this.backLeft = (DcMotor) hardwareMap.get(DcMotor.class, "leftBack");
-        this.backRight = (DcMotor) hardwareMap.get(DcMotor.class, "rightBack");
-        this.frontLeft = (DcMotor) hardwareMap.get(DcMotor.class, "leftFront");
-        this.frontRight = (DcMotor) hardwareMap.get(DcMotor.class, "rightFront");
-        this.intake = (DcMotor) hardwareMap.get(DcMotor.class, "intake");
-        this.outtake = (DcMotor) hardwareMap.get(DcMotor.class, "outtake");
-
-
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.FORWARD);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
-
-        waitForStart();
+    // Initialize hardware and wait for start
+        super.runOpMode();
 
         sleep(5000);
 
-        forward(2000);
+        forward(1000);
+
+        sleep(3000);
+
+        toggleIntake();
 
 
     }
-
-    public void forward(int time){
-        backLeft.setPower(-0.5);
-        backRight.setPower(-0.5);
-        frontLeft.setPower(-0.5);
-        frontRight.setPower(-0.5);
-
-        sleep(time);
-
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-    }
-
-    public void backward(int time){
-        backLeft.setPower(-0.5);
-        backRight.setPower(-0.5);
-        frontLeft.setPower(-0.5);
-        frontRight.setPower(-0.5);
-
-        sleep(time);
-
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-    }
-
-    public void strafeLeft(int time){
-        backLeft.setPower(0.5);
-        backRight.setPower(-0.5);
-        frontLeft.setPower(-0.5);
-        frontRight.setPower(0.5);
-
-        sleep(time);
-
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-    }
-    public void strafeRight(int time){
-        backLeft.setPower(-0.5);
-        backRight.setPower(0.5);
-        frontLeft.setPower(0.5);
-        frontRight.setPower(-0.5);
-
-        sleep(time);
-
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-    }
-
-    public void rotateLeft(int time){
-        backLeft.setPower(-0.5);
-        backRight.setPower(0.5);
-        frontLeft.setPower(-0.5);
-        frontRight.setPower(0.5);
-
-        sleep(1700);
-
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-    }
-
-    public void rotateRight(int time){
-        backLeft.setPower(0.5);
-        backRight.setPower(-0.5);
-        frontLeft.setPower(0.5);
-        frontRight.setPower(-0.5);
-
-        sleep(1700);
-
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-    }
-
-
-
 }
