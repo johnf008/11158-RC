@@ -11,6 +11,8 @@ public class ForwardAuto extends AutoBaseFile {
     // Initialize hardware and wait for start
         super.runOpMode();
 
+
+        waitForStart();
         sleep(5000);
 
         forward(1000);
@@ -19,6 +21,7 @@ public class ForwardAuto extends AutoBaseFile {
 
         toggleIntake();
 
+        sleep(5000);
 
     }
 }

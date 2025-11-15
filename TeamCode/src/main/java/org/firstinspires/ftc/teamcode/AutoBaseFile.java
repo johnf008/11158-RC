@@ -10,7 +10,6 @@ public class AutoBaseFile extends LinearOpMode {
     public DcMotor backLeft = null;
     public DcMotor backRight = null;
     public DcMotor intake = null;
-    public DcMotor outtake = null;
 
 
     public void runOpMode(){
@@ -20,16 +19,15 @@ public class AutoBaseFile extends LinearOpMode {
         this.frontLeft = (DcMotor) hardwareMap.get(DcMotor.class, "leftFront");
         this.frontRight = (DcMotor) hardwareMap.get(DcMotor.class, "rightFront");
         this.intake = (DcMotor) hardwareMap.get(DcMotor.class, "intake");
-        this.outtake = (DcMotor) hardwareMap.get(DcMotor.class, "outtake");
 
 
+        //set motor directions
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         frontRight.setDirection(DcMotor.Direction.FORWARD);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
         intake.setDirection(DcMotor.Direction.FORWARD);
-        outtake.setDirection(DcMotor.Direction.FORWARD);
 
         frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -37,11 +35,10 @@ public class AutoBaseFile extends LinearOpMode {
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        outtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        waitForStart();
 
     }
+    //movement methods
 
     public void forward(int time){
         backLeft.setPower(-0.5);
