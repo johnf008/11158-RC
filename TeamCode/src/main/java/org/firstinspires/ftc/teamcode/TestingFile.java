@@ -16,7 +16,7 @@ public class TestingFile extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
     private DcMotor intake, outtake, test;
-    private Servo intake_one, intake_two;
+
     private Double ticksPerRev; // ticks per revolution
 
     @Override
@@ -43,13 +43,6 @@ public class TestingFile extends OpMode {
 
 
 
-        // Initialize servos
-        intake_one = hardwareMap.get(Servo.class, "IntakeOne");
-        intake_two = hardwareMap.get(Servo.class, "IntakeTwo");
-
-        // Set servo directions
-        intake_one.setDirection(Servo.Direction.FORWARD);
-        intake_two.setDirection(Servo.Direction.REVERSE);
 
 
         // Set motor modes
@@ -100,7 +93,7 @@ public class TestingFile extends OpMode {
         }
 
         if (gamepad2.xWasPressed()) {
-            outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
+            //outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
         }
 
 

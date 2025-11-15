@@ -21,10 +21,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class MecanumDrive extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
+    private DcMotor intake;
 
     public double intake_num = 0.0;
 
-    AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
+    //AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
 
     @Override
     public void init() {
@@ -33,27 +34,16 @@ public class MecanumDrive extends OpMode {
         backLeft = hardwareMap.dcMotor.get("leftBack");
         backRight = hardwareMap.dcMotor.get("rightBack");
 
-
+        intake = hardwareMap.dcMotor.get("intake");
+        intake.setDirection(DcMotor.Direction.REVERSE);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Set motor directions
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         frontRight.setDirection(DcMotor.Direction.FORWARD);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
-
-
-
-        /*
-        // Initialize servos
-        intake_one = hardwareMap.get(Servo.class, "IntakeOne");
-        intake_two = hardwareMap.get(Servo.class, "IntakeTwo");
-
-        // Set servo directions
-        intake_one.setDirection(Servo.Direction.FORWARD);
-        intake_two.setDirection(Servo.Direction.REVERSE);
-        */
-
-
 
         // Set motor modes
         frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -66,7 +56,7 @@ public class MecanumDrive extends OpMode {
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        aprilTagWebcam.init(hardwareMap, telemetry);
+        //aprilTagWebcam.init(hardwareMap, telemetry);
 
     }
 
@@ -96,33 +86,10 @@ public class MecanumDrive extends OpMode {
             backRightPower = (backRightPower / maxPower) * speedReductionFactor;
         }
 
-
-        /*
-        // Control Servos
-        if (gamepad2.x) {
-            if ((intake_one.getPosition()) == 0.0) {
-                intake_one.setPosition(1);
-                intake_two.setPosition(1);
-
-            } else if ((intake_one.getPosition()) == 1.0) {
-                intake_one.setPosition(0);
-                intake_two.setPosition(0);
-            }
+        if (gamepad2.a) {
+            intake.setPower(intake.getPower() == 0 ? .05: 0);
         }
 
-
-        if (gamepad2.y){
-            if ((intake_two.getPosition()) == 0.0)
-            {
-                intake_two.setPosition(1);
-            }
-            else if ((intake_two.getPosition()) == 1.0)
-            {
-                intake_two.setPosition(0);
-            }
-        }
-
-         */
 
         // Set motor power
         frontLeft.setPower(-frontLeftPower);
@@ -130,10 +97,10 @@ public class MecanumDrive extends OpMode {
         backLeft.setPower(-backLeftPower);
         backRight.setPower(-backRightPower);
 
-        aprilTagWebcam.update();
+        //aprilTagWebcam.update();
 
-        AprilTagDetection id20 = aprilTagWebcam.getTagBySpecific(20);
-        aprilTagWebcam.displayDetectionTelemetry(id20);
+        //AprilTagDetection id21 = aprilTagWebcam.getTagBySpecific(21);
+        //aprilTagWebcam.displayDetectionTelemetry(id21);
 
 
 
