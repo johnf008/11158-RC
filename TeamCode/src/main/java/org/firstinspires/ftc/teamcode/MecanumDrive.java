@@ -21,11 +21,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class MecanumDrive extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
-    private DcMotor intake;
+    private DcMotor intake, outtake;
 
-    public double intake_num = 0.0;
-
-    //AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
+    AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
 
     @Override
     public void init() {
@@ -35,15 +33,17 @@ public class MecanumDrive extends OpMode {
         backRight = hardwareMap.dcMotor.get("rightBack");
 
         intake = hardwareMap.dcMotor.get("intake");
-        intake.setDirection(DcMotor.Direction.REVERSE);
-        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        outtake = hardwareMap.dcMotor.get("outtake");
+
 
         // Set motor directions
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.FORWARD);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
+        frontRight.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection(DcMotor.Direction.FORWARD);
+        backRight.setDirection(DcMotor.Direction.FORWARD);
+
+        intake.setDirection(DcMotor.Direction.REVERSE);
+        outtake.setDirection(DcMotor.Direction.FORWARD);
 
         // Set motor modes
         frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -51,12 +51,18 @@ public class MecanumDrive extends OpMode {
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        outtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        //aprilTagWebcam.init(hardwareMap, telemetry);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        outtake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        aprilTagWebcam.init(hardwareMap, telemetry);
 
     }
 
@@ -85,24 +91,34 @@ public class MecanumDrive extends OpMode {
             backLeftPower = (backLeftPower / maxPower) * speedReductionFactor;
             backRightPower = (backRightPower / maxPower) * speedReductionFactor;
         }
+        // Set Intake/Outtake controls
+        if (gamepad2.aWasPressed()) {
+            intake.setPower(intake.getPower() <= 0 ? 0.05: 0);
+        }
 
-        if (gamepad2.a) {
-            intake.setPower(intake.getPower() == 0 ? .05: 0);
+        if (gamepad2.yWasPressed()) {
+            intake.setPower(intake.getPower() >= 0  ? -0.05: 0);
+        }
+
+        if (gamepad2.xWasPressed()) {
+            outtake.setPower(outtake.getPower() == 0 ? 1.0 : 0);
         }
 
 
+
         // Set motor power
-        frontLeft.setPower(-frontLeftPower);
-        frontRight.setPower(-frontRightPower);
-        backLeft.setPower(-backLeftPower);
-        backRight.setPower(-backRightPower);
+        frontLeft.setPower(frontLeftPower);
+        frontRight.setPower(frontRightPower);
+        backLeft.setPower(backLeftPower);
+        backRight.setPower(backRightPower);
 
-        //aprilTagWebcam.update();
+        aprilTagWebcam.update();
 
-        //AprilTagDetection id21 = aprilTagWebcam.getTagBySpecific(21);
-        //aprilTagWebcam.displayDetectionTelemetry(id21);
+        AprilTagDetection id20 = aprilTagWebcam.getTagBySpecific(20);
+        aprilTagWebcam.displayDetectionTelemetry(id20);
 
-
+        AprilTagDetection id24 = aprilTagWebcam.getTagBySpecific(24);
+        aprilTagWebcam.displayDetectionTelemetry(id24);
 
 
         telemetry.addLine("We're running");

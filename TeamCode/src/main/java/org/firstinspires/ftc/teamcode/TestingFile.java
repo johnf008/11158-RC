@@ -27,8 +27,8 @@ public class TestingFile extends OpMode {
         backRight = hardwareMap.dcMotor.get("rightBack");
 
         intake = hardwareMap.dcMotor.get("intake");
-        //outtake = hardwareMap.dcMotor.get("outtake");
-        test = hardwareMap.dcMotor.get("test");
+        outtake = hardwareMap.dcMotor.get("outtake");
+        //test = hardwareMap.dcMotor.get("test");
 
 
         // Set motor directions
@@ -38,12 +38,8 @@ public class TestingFile extends OpMode {
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
         intake.setDirection(DcMotor.Direction.FORWARD);
-        test.setDirection(DcMotorSimple.Direction.FORWARD);
-        //outtake.setDirection(DcMotorSimple.Direction.FORWARD);
-
-
-
-
+        outtake.setDirection(DcMotorSimple.Direction.FORWARD);
+        //test.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Set motor modes
         frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -51,12 +47,12 @@ public class TestingFile extends OpMode {
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        test.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //test.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         ticksPerRev = intake.getMotorType().getTicksPerRev();
 
@@ -89,11 +85,23 @@ public class TestingFile extends OpMode {
         }
 
         if (gamepad2.aWasPressed()) {
-            intake.setPower(intake.getPower() == 0 ? .9 : 0);
+            intake.setPower(intake.getPower() <= 0 ? .05: 0);
         }
 
+        if (gamepad2.yWasPressed()) {
+            intake.setPower(intake.getPower() >= 0  ? -0.05: 0);
+        }
+
+
+
         if (gamepad2.xWasPressed()) {
-            //outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
+            if (outtake.getPower() == 0.0){
+                outtake.setPower(1.0);
+            }
+            else{
+                outtake.setPower(0.0);
+            }
+
         }
 
 
@@ -104,7 +112,7 @@ public class TestingFile extends OpMode {
         backRight.setPower(-backRightPower);
 
         intake.setPower(gamepad2.right_stick_y * -0.5);
-        test.setPower(gamepad2.right_stick_y * -0.5);
+        //test.setPower(gamepad2.right_stick_y * -0.5);
 
         telemetry.addLine("We're running");
         telemetry.addData("Motor Revs", getMotorRevs());
