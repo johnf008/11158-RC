@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -10,7 +11,6 @@ public class AutoBaseFile extends LinearOpMode {
     public DcMotor backLeft = null;
     public DcMotor backRight = null;
     public DcMotor intake = null;
-    public DcMotor outtake = null;
 
 
     public void runOpMode(){
@@ -19,9 +19,7 @@ public class AutoBaseFile extends LinearOpMode {
         this.backRight = (DcMotor) hardwareMap.get(DcMotor.class, "rightBack");
         this.frontLeft = (DcMotor) hardwareMap.get(DcMotor.class, "leftFront");
         this.frontRight = (DcMotor) hardwareMap.get(DcMotor.class, "rightFront");
-
         this.intake = (DcMotor) hardwareMap.get(DcMotor.class, "intake");
-        this.outtake = (DcMotor) hardwareMap.get(DcMotor.class, "outtake");
 
 
         //set motor directions
@@ -31,71 +29,59 @@ public class AutoBaseFile extends LinearOpMode {
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
         intake.setDirection(DcMotor.Direction.REVERSE);
-        outtake.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        // Set motor modes
         frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        outtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
     }
     //movement methods
-    public void forward(int time){
-        backLeft.setPower(-0.5);
-        backRight.setPower(-0.5);
-        frontLeft.setPower(-0.5);
-        frontRight.setPower(-0.5);
-
-        sleep(time);
-
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
+    public void setWheelMotorsPower(double power){
+        backLeft.setPower(power);
+        backRight.setPower(power);
+        frontLeft.setPower(power);
+        frontRight.setPower(power);
     }
 
-    public void backward(int time){
-        backLeft.setPower(-0.5);
-        backRight.setPower(-0.5);
-        frontLeft.setPower(-0.5);
-        frontRight.setPower(-0.5);
+    public void forward(int durationMilliseconds){
+        setWheelMotorsPower(0.5);
 
-        sleep(time);
+        sleep(durationMilliseconds);
 
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
+        setWheelMotorsPower(0);
     }
 
-    public void strafeLeft(int time){
+    public void backward(int durationMilliseconds){
+        setWheelMotorsPower(-0.5);
+
+        sleep(durationMilliseconds);
+
+        setWheelMotorsPower(0);
+    }
+
+    public void strafeLeft(int durationMilliseconds){
         backLeft.setPower(0.5);
         backRight.setPower(-0.5);
         frontLeft.setPower(-0.5);
         frontRight.setPower(0.5);
 
-        sleep(time);
+        sleep(durationMilliseconds);
 
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
+        setWheelMotorsPower(0);
     }
-    public void strafeRight(int time){
+    public void strafeRight(int durationMilliseconds){
         backLeft.setPower(-0.5);
         backRight.setPower(0.5);
         frontLeft.setPower(0.5);
         frontRight.setPower(-0.5);
 
-        sleep(time);
+        sleep(durationMilliseconds);
 
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
+        setWheelMotorsPower(0);
     }
 
     public void rotateLeft(){
@@ -106,10 +92,7 @@ public class AutoBaseFile extends LinearOpMode {
 
         sleep(1700);
 
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
+        setWheelMotorsPower(0);
     }
 
     public void rotateRight(){
@@ -120,18 +103,12 @@ public class AutoBaseFile extends LinearOpMode {
 
         sleep(1700);
 
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
+        setWheelMotorsPower(0);
     }
-    //Other Methods
+    //other methods
+
     public void toggleIntake(){
 
-        intake.setPower(intake.getPower() == 0 ? .05 : 0);
-    }
-    public void toggleOuttake(){
-
-        outtake.setPower(outtake.getPower() == 0 ? 1.0 : 0);
+        intake.setPower(intake.getPower() == 0 ? .9 : 0);
     }
 }

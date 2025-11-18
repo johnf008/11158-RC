@@ -7,16 +7,14 @@ public class ForwardAuto extends AutoBaseFile {
 
 @Override
     public void runOpMode(){
-
-    // Initialize hardware and wait for start
+        // Initialize hardware and wait for start
         super.runOpMode();
         waitForStart();
 
+        // Autonomous actions
         sleep(5000);
 
         forward(1000);
-
-        sleep(3000);
 
     }
 }
