@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class AutoBaseFile extends LinearOpMode {
     public DcMotor frontLeft = null;
@@ -27,7 +28,7 @@ public class AutoBaseFile extends LinearOpMode {
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
-        intake.setDirection(DcMotor.Direction.FORWARD);
+        intake.setDirection(DcMotor.Direction.REVERSE);
 
         frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -39,60 +40,48 @@ public class AutoBaseFile extends LinearOpMode {
 
     }
     //movement methods
-
-    public void forward(int time){
-        backLeft.setPower(-0.5);
-        backRight.setPower(-0.5);
-        frontLeft.setPower(-0.5);
-        frontRight.setPower(-0.5);
-
-        sleep(time);
-
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
+    public void setWheelMotorsPower(double power){
+        backLeft.setPower(power);
+        backRight.setPower(power);
+        frontLeft.setPower(power);
+        frontRight.setPower(power);
     }
 
-    public void backward(int time){
-        backLeft.setPower(-0.5);
-        backRight.setPower(-0.5);
-        frontLeft.setPower(-0.5);
-        frontRight.setPower(-0.5);
+    public void forward(int durationMilliseconds){
+        setWheelMotorsPower(0.5);
 
-        sleep(time);
+        sleep(durationMilliseconds);
 
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
+        setWheelMotorsPower(0);
     }
 
-    public void strafeLeft(int time){
+    public void backward(int durationMilliseconds){
+        setWheelMotorsPower(-0.5);
+
+        sleep(durationMilliseconds);
+
+        setWheelMotorsPower(0);
+    }
+
+    public void strafeLeft(int durationMilliseconds){
         backLeft.setPower(0.5);
         backRight.setPower(-0.5);
         frontLeft.setPower(-0.5);
         frontRight.setPower(0.5);
 
-        sleep(time);
+        sleep(durationMilliseconds);
 
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
+        setWheelMotorsPower(0);
     }
-    public void strafeRight(int time){
+    public void strafeRight(int durationMilliseconds){
         backLeft.setPower(-0.5);
         backRight.setPower(0.5);
         frontLeft.setPower(0.5);
         frontRight.setPower(-0.5);
 
-        sleep(time);
+        sleep(durationMilliseconds);
 
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
+        setWheelMotorsPower(0);
     }
 
     public void rotateLeft(){
@@ -103,10 +92,7 @@ public class AutoBaseFile extends LinearOpMode {
 
         sleep(1700);
 
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
+        setWheelMotorsPower(0);
     }
 
     public void rotateRight(){
@@ -117,11 +103,9 @@ public class AutoBaseFile extends LinearOpMode {
 
         sleep(1700);
 
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
+        setWheelMotorsPower(0);
     }
+    //other methods
 
     public void toggleIntake(){
 
