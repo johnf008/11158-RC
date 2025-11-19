@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class AutoBaseFile extends LinearOpMode {
     public DcMotor frontLeft = null;
@@ -15,11 +13,11 @@ public class AutoBaseFile extends LinearOpMode {
 
     public void runOpMode(){
         //drive initialize
-        this.backLeft = (DcMotor) hardwareMap.get(DcMotor.class, "leftBack");
-        this.backRight = (DcMotor) hardwareMap.get(DcMotor.class, "rightBack");
-        this.frontLeft = (DcMotor) hardwareMap.get(DcMotor.class, "leftFront");
-        this.frontRight = (DcMotor) hardwareMap.get(DcMotor.class, "rightFront");
-        this.intake = (DcMotor) hardwareMap.get(DcMotor.class, "intake");
+        this.backLeft = hardwareMap.get(DcMotor.class, "leftBack");
+        this.backRight = hardwareMap.get(DcMotor.class, "rightBack");
+        this.frontLeft = hardwareMap.get(DcMotor.class, "leftFront");
+        this.frontRight = hardwareMap.get(DcMotor.class, "rightFront");
+        this.intake = hardwareMap.get(DcMotor.class, "intake");
 
 
         //set motor directions
@@ -27,16 +25,19 @@ public class AutoBaseFile extends LinearOpMode {
         frontRight.setDirection(DcMotor.Direction.FORWARD);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
-
         intake.setDirection(DcMotor.Direction.REVERSE);
 
         frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     }
     //movement methods
