@@ -16,6 +16,7 @@ public class TestingFile extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
     private DcMotor intake, outtake, test;
+    private Servo servoLeft, servoRight;
 
     private Double ticksPerRev; // ticks per revolution
 
@@ -30,6 +31,10 @@ public class TestingFile extends OpMode {
         outtake = hardwareMap.dcMotor.get("outtake");
         //test = hardwareMap.dcMotor.get("test");
 
+        servoLeft = hardwareMap.servo.get("leftServo");
+        servoRight = hardwareMap.servo.get("rightServo");
+
+
 
         // Set motor directions
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
@@ -41,6 +46,9 @@ public class TestingFile extends OpMode {
         outtake.setDirection(DcMotorSimple.Direction.FORWARD);
         //test.setDirection(DcMotorSimple.Direction.FORWARD);
 
+        servoLeft.setDirection(Servo.Direction.FORWARD);
+        servoRight.setDirection(Servo.Direction.FORWARD);
+
         // Set motor modes
         frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -49,6 +57,9 @@ public class TestingFile extends OpMode {
 
         //test.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        outtake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
 
 
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -92,7 +103,11 @@ public class TestingFile extends OpMode {
             intake.setPower(intake.getPower() >= 0  ? -0.05: 0);
         }
 
+        if (gamepad2.rightBumperWasPressed()) {
+            servoLeft.setPosition(99);
+            servoRight.setPosition(99);
 
+        }
 
         if (gamepad2.xWasPressed()) {
             if (outtake.getPower() == 0.0){
