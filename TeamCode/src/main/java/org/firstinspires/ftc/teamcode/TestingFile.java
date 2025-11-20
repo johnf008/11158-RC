@@ -105,17 +105,17 @@ public class TestingFile extends OpMode {
 
         if (gamepad2.rightBumperWasPressed()) {
             servoLeft.setPosition(99);
-            servoRight.setPosition(99);
+            servoRight.setPosition(-99);
+        }
 
+        if (gamepad2.leftBumperWasPressed())
+        {
+            servoLeft.setPosition(0);
+            servoRight.setPosition(0);
         }
 
         if (gamepad2.xWasPressed()) {
-            if (outtake.getPower() == 0.0){
-                outtake.setPower(1.0);
-            }
-            else{
-                outtake.setPower(0.0);
-            }
+            outtake.setPower(outtake.getPower() == 0 ? 1.0 : 0);
 
         }
 
