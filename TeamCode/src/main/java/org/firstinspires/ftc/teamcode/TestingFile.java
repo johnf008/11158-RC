@@ -10,13 +10,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 @TeleOp(name="11158-Testing-Drive", group="Controlled")
 public class TestingFile extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
     private DcMotor intake, outtake, test;
-    private Servo servoLeft, servoRight;
+    private CRServo servoLeft, servoRight;
 
     private Double ticksPerRev; // ticks per revolution
 
@@ -31,8 +32,9 @@ public class TestingFile extends OpMode {
         outtake = hardwareMap.dcMotor.get("outtake");
         //test = hardwareMap.dcMotor.get("test");
 
-        servoLeft = hardwareMap.servo.get("leftServo");
-        servoRight = hardwareMap.servo.get("rightServo");
+        servoLeft = hardwareMap.crservo.get("leftServo");
+        servoRight = hardwareMap.crservo.get("rightServo");
+
 
 
 
@@ -46,8 +48,8 @@ public class TestingFile extends OpMode {
         outtake.setDirection(DcMotorSimple.Direction.FORWARD);
         //test.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        servoLeft.setDirection(Servo.Direction.FORWARD);
-        servoRight.setDirection(Servo.Direction.FORWARD);
+        servoLeft.setDirection(CRServo.Direction.FORWARD);
+        servoRight.setDirection(CRServo.Direction.FORWARD);
 
         // Set motor modes
         frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -95,29 +97,31 @@ public class TestingFile extends OpMode {
             backRightPower = (backRightPower / maxPower) * speedReductionFactor;
         }
 
+        // Set Intake/Outtake controls
         if (gamepad2.aWasPressed()) {
-            intake.setPower(intake.getPower() <= 0 ? .05: 0);
+            intake.setPower(intake.getPower() <= 0 ? 0.05: 0);
         }
 
         if (gamepad2.yWasPressed()) {
             intake.setPower(intake.getPower() >= 0  ? -0.05: 0);
         }
 
+        if (gamepad2.xWasPressed()) {
+            outtake.setPower(outtake.getPower() == 0 ? 1.0 : 0);
+        }
+
         if (gamepad2.rightBumperWasPressed()) {
-            servoLeft.setPosition(99);
-            servoRight.setPosition(-99);
+            servoRight.setPower(-1);
+            servoLeft.setPower(1);
+
         }
 
         if (gamepad2.leftBumperWasPressed())
         {
-            servoLeft.setPosition(0);
-            servoRight.setPosition(0);
+            servoLeft.setPower(0);
+            servoRight.setPower(0);
         }
 
-        if (gamepad2.xWasPressed()) {
-            outtake.setPower(outtake.getPower() == 0 ? 1.0 : 0);
-
-        }
 
 
         // Set motor power
