@@ -117,6 +117,13 @@ public class MecanumDrive extends OpMode {
         AprilTagDetection id20 = aprilTagWebcam.getTagBySpecific(20);
         aprilTagWebcam.displayDetectionTelemetry(id20);
 
+        //get april tag telemetry of the id from the goal
+        //if april tag has an input for distance, set variable equal to the distance
+        //if there's no april tag input, keep that same input
+        //
+        //If april tag distance = xxxx inches
+        //set power to x (needs testing
+
         AprilTagDetection id24 = aprilTagWebcam.getTagBySpecific(24);
         aprilTagWebcam.displayDetectionTelemetry(id24);
 

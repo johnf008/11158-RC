@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="11158-Testing-Drive", group="Controlled")
 public class TestingFile extends OpMode {
@@ -18,6 +19,9 @@ public class TestingFile extends OpMode {
     private DcMotor frontLeft, frontRight, backLeft, backRight;
     private DcMotor intake, outtake, test;
     private CRServo servoLeft, servoRight;
+
+
+    private ElapsedTime timer;
 
     private Double ticksPerRev; // ticks per revolution
 
@@ -69,6 +73,8 @@ public class TestingFile extends OpMode {
 
         ticksPerRev = intake.getMotorType().getTicksPerRev();
 
+        timer = new ElapsedTime();
+
     }
 
     @Override
@@ -107,13 +113,23 @@ public class TestingFile extends OpMode {
         }
 
         if (gamepad2.xWasPressed()) {
-            outtake.setPower(outtake.getPower() == 0 ? 1.0 : 0);
+            outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
         }
 
         if (gamepad2.rightBumperWasPressed()) {
+            timer.reset();
             servoRight.setPower(-1);
-            servoLeft.setPower(1);
 
+        }
+
+        if ((timer.milliseconds() >= 1500) && (servoRight.getPower() != 0)){
+            servoRight.setPower(1);
+            timer.reset();
+        }
+
+        if ((timer.milliseconds() >= 700) && (servoRight.getPower() == 1)){
+            servoRight.setPower(0);
+            timer.reset();
         }
 
         if (gamepad2.leftBumperWasPressed())
@@ -135,6 +151,7 @@ public class TestingFile extends OpMode {
 
         telemetry.addLine("We're running");
         telemetry.addData("Motor Revs", getMotorRevs());
+        telemetry.addData("Timer", timer.milliseconds());
         telemetry.update();
     }
 
