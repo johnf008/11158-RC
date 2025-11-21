@@ -92,25 +92,18 @@ public class MecanumDrive extends OpMode {
             backRightPower = (backRightPower / maxPower) * speedReductionFactor;
         }
         // Set Intake/Outtake controls
-        if (gamepad2.aWasPressed()) {
-            intake.setPower(intake.getPower() <= 0 ? 0.05: 0);
-        }
-
-        if (gamepad2.yWasPressed()) {
-            intake.setPower(intake.getPower() >= 0  ? -0.05: 0);
-        }
-
         if (gamepad2.xWasPressed()) {
             outtake.setPower(outtake.getPower() == 0 ? 1.0 : 0);
         }
-
-
 
         // Set motor power
         frontLeft.setPower(frontLeftPower);
         frontRight.setPower(frontRightPower);
         backLeft.setPower(backLeftPower);
         backRight.setPower(backRightPower);
+
+        intake.setPower(gamepad2.right_stick_y * -0.5);
+
 
         aprilTagWebcam.update();
 
