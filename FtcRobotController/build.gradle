@@ -27,4 +27,8 @@ android {
     namespace = 'com.qualcomm.ftcrobotcontroller'
 }
 
+dependencies {
+    implementation "com.bylazar:<PRESET>:<VERSION>"
+}
+
 apply from: '../build.dependencies.gradle'
