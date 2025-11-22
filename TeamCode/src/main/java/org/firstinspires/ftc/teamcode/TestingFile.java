@@ -69,6 +69,7 @@ public class TestingFile extends OpMode {
 
 
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         ticksPerRev = intake.getMotorType().getTicksPerRev();
@@ -111,16 +112,16 @@ public class TestingFile extends OpMode {
 
         if (gamepad2.rightBumperWasPressed()) {
             timer.reset();
-            servoRight.setPower(-1);
+            servoRight.setPower(1);
 
         }
 
         if ((timer.milliseconds() >= 1500) && (servoRight.getPower() != 0)){
-            servoRight.setPower(1);
+            servoRight.setPower(-1);
             timer.reset();
         }
 
-        if ((timer.milliseconds() >= 700) && (servoRight.getPower() == 1)){
+        if ((timer.milliseconds() >= 700) && (servoRight.getPower() == -1)){
             servoRight.setPower(0);
             timer.reset();
         }
