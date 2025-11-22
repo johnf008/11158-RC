@@ -28,7 +28,8 @@ android {
 }
 
 dependencies {
-    implementation "com.bylazar:<PRESET>:<VERSION>"
+    implementation "com.bylazar:docs:1.0.5"
+    implementation "com.bylazar:fullpanels:1.0.10"
 }
 
 apply from: '../build.dependencies.gradle'

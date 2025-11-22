@@ -1,4 +1,3 @@
 include ':FtcRobotController'
 include ':TeamCode'
 
-maven {            url = "https://mymaven.bylazar.com/releases"        }
