@@ -28,7 +28,8 @@ android {
 }
 
 dependencies {
-
+    implementation "com.bylazar:docs:1.0.5"
+    implementation "com.bylazar:camerastream:1.0.0"
 }
 
 apply from: '../build.dependencies.gradle'
