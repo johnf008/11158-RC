@@ -13,7 +13,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
-            .mass(7.25748);
+            .mass(7.25748)
+            .forwardZeroPowerAcceleration(-54.3284011730608)
+            .lateralZeroPowerAcceleration(-92.36846907394845);
 
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(1)
@@ -24,12 +26,14 @@ public class Constants {
             .leftFrontMotorDirection(DcMotor.Direction.FORWARD)
             .leftRearMotorDirection(DcMotor.Direction.FORWARD)
             .rightFrontMotorDirection(DcMotor.Direction.REVERSE)
-            .rightRearMotorDirection(DcMotor.Direction.FORWARD);
+            .rightRearMotorDirection(DcMotor.Direction.FORWARD)
+            .xVelocity(55.3491004633247)
+            .yVelocity(11.218999118399186);
 
     public static ThreeWheelConstants localizerConstants = new ThreeWheelConstants()
-            .forwardTicksToInches(.001984923805888705)
-            .strafeTicksToInches(.0019896424495536255)
-            .turnTicksToInches(.001988080149629663)
+            .forwardTicksToInches(.001983775901617467)
+            .strafeTicksToInches(.001993081732545835)
+            .turnTicksToInches(.002000331877214644)
             .leftPodY(-7)
             .rightPodY(7)
             .strafePodX(-7)
