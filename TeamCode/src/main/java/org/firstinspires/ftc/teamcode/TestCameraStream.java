@@ -15,7 +15,7 @@ import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import androidx.core.graphics.BitmapCompat;
-import com.bylazar.docs.R;
+//import com.bylazar.docs.R;
 
 import com.bylazar.camerastream.*;
 
