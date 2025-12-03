@@ -36,7 +36,7 @@ import com.bylazar.camerastream.*;
 public class TestingFileForAimbot extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
-    private DcMotor intake, outtake, test;
+    private DcMotorEx intake, outtake, test;
     private CRServo servoLeft, servoRight;
     AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
 
@@ -83,8 +83,8 @@ public class TestingFileForAimbot extends OpMode {
         backLeft = hardwareMap.dcMotor.get("leftBack");
         backRight = hardwareMap.dcMotor.get("rightBack");
 
-        intake = hardwareMap.dcMotor.get("intake");
-        outtake = hardwareMap.dcMotor.get("outtake");
+        intake = hardwareMap.get(DcMotorEx.class,"intake");
+        outtake = hardwareMap.get(DcMotorEx.class ,"outtake");
         //test = hardwareMap.dcMotor.get("test");
 
         servoLeft = hardwareMap.crservo.get("leftServo");
@@ -98,8 +98,8 @@ public class TestingFileForAimbot extends OpMode {
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
-        intake.setDirection(DcMotor.Direction.FORWARD);
-        outtake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setDirection(DcMotorEx.Direction.FORWARD);
+        outtake.setDirection(DcMotorEx.Direction.FORWARD);
         //test.setDirection(DcMotorSimple.Direction.FORWARD);
 
         servoLeft.setDirection(CRServo.Direction.FORWARD);
@@ -168,6 +168,8 @@ public class TestingFileForAimbot extends OpMode {
         AprilTagDetection id21 = aprilTagWebcam.getTagBySpecific(21);
         aprilTagWebcam.displayDetectionTelemetry(id21);
 
+        //assign the range for the distance for each goal that will be used
+        //this is able to be applied for both the red and blue goals
         for (AprilTagDetection detection: aprilTagWebcam.getDetectedTags()){
             double detected_range = detection.ftcPose.range;
             int aprilTag = detection.id;
@@ -178,12 +180,16 @@ public class TestingFileForAimbot extends OpMode {
 
         }
 
+        //if rangeOfGoal >= ##
+        //set motor power to some number
+        //display telemetry to something
+        //
+        //elif....
+
         telemetry.addData("Ts (this) should always be the range: ", rangeOfGoal);
 
         AprilTagDetection id24 = aprilTagWebcam.getTagBySpecific(24);
         aprilTagWebcam.displayDetectionTelemetry(id24);
-
-        aprilTagWebcam.update();
 
 
 
@@ -193,26 +199,19 @@ public class TestingFileForAimbot extends OpMode {
             outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
         }
 
-
         if (gamepad2.rightBumperWasPressed()) {
             timer.reset();
             servoRight.setPower(1);
 
         }
-
         if ((timer.milliseconds() >= 1500) && (servoRight.getPower() != 0)){
             servoRight.setPower(-1);
             timer.reset();
         }
-
-        //get the april tag length telemetry
-        //if so and so set so and so equal to
-
         if ((timer.milliseconds() >= 700) && (servoRight.getPower() == -1)){
             servoRight.setPower(0);
             timer.reset();
         }
-
         if (gamepad2.leftBumperWasPressed())
         {
             servoLeft.setPower(0);
@@ -228,12 +227,19 @@ public class TestingFileForAimbot extends OpMode {
         backRight.setPower(-backRightPower);
 
         intake.setPower(gamepad2.right_stick_y * -0.5);
+
         //test.setPower(gamepad2.right_stick_y * -0.5);
 
         telemetry.addLine("We're running");
         telemetry.addData("Motor Revs", getMotorRevs());
+
+        double rpm = (outtake.getVelocity() / ticksPerRev) * 60;
+        telemetry.addData("The current rpm for the outtake: ", rpm);
+
         telemetry.addData("Timer", timer.milliseconds());
+
         telemetry.update();
+        aprilTagWebcam.update();
 
     }
 
