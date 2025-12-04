@@ -122,7 +122,7 @@ public class TestingFileForAimbot extends OpMode {
         outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        ticksPerRev = intake.getMotorType().getTicksPerRev();
+        ticksPerRev = outtake.getMotorType().getTicksPerRev();
 
         timer = new ElapsedTime();
 
@@ -180,11 +180,26 @@ public class TestingFileForAimbot extends OpMode {
 
         }
 
-        //if rangeOfGoal >= ##
-        //set motor power to some number
-        //display telemetry to something
-        //
-        //elif....
+        //Based on the blue goal at HCH
+        //at 25 in: 0.50 power 80% success rate
+        //at 30 in: 0.50 power 90% success rate
+        //at 35 in: 0.50 power 70% success rate
+
+        if (gamepad2.dpadDownWasPressed()){
+            outtake.setPower(0.75);
+        }
+
+        if (gamepad2.dpadLeftWasPressed()){
+            outtake.setPower(0.5);
+        }
+
+        if (gamepad2.dpadRightWasPressed()){
+            outtake.setPower(0.25);
+        }
+
+        if (gamepad2.dpadUpWasPressed()){
+            outtake.setPower(0);
+        }
 
         telemetry.addData("Ts (this) should always be the range: ", rangeOfGoal);
 
