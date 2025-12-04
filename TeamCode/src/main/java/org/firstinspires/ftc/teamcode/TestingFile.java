@@ -37,41 +37,12 @@ public class TestingFile extends OpMode {
     private DcMotor frontLeft, frontRight, backLeft, backRight;
     private DcMotor intake, outtake, test;
     private CRServo servoLeft, servoRight;
-
-
     private ElapsedTime timer;
 
     private Double ticksPerRev; // ticks per revolution
 
-    private static class Processor implements VisionProcessor, CameraStreamSource {
-        private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
 
-        @Override
-        public void init(int width, int height, CameraCalibration calibration) {
-            lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));
 
-        }
-
-        @Override
-        public Object processFrame(Mat frame, long captureTimeNanos) {
-            Bitmap bitmap = Bitmap.createBitmap(frame.width(), frame.height(), Bitmap.Config.RGB_565);
-            Utils.matToBitmap(frame, bitmap);
-            lastFrame.set(bitmap);
-            return null;
-        }
-
-        @Override
-        public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
-            // Not used
-        }
-
-        @Override
-        public void getFrameBitmap(Continuation<? extends Consumer<Bitmap>> continuation) {
-            continuation.dispatch(bitmapConsumer -> bitmapConsumer.accept(lastFrame.get()));
-        }
-    }
-
-    private final Processor processor = new Processor();
 
     @Override
     public void init() {
@@ -124,12 +95,6 @@ public class TestingFile extends OpMode {
 
         timer = new ElapsedTime();
 
-        new VisionPortal.Builder()
-                .addProcessor(processor)
-                .setCamera(BuiltinCameraDirection.BACK)
-                .build();
-
-        PanelsCameraStream.INSTANCE.startStream(processor, 60);
 
     }
 
