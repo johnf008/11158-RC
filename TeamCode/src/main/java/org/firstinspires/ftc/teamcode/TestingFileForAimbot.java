@@ -174,7 +174,7 @@ public class TestingFileForAimbot extends OpMode {
             double detected_range = detection.ftcPose.range;
             int aprilTag = detection.id;
 
-            if (aprilTag == 20 || aprilTag == 24 || aprilTag == 21){
+            if (aprilTag == 20 || aprilTag == 24){
                 rangeOfGoal = detected_range;
             }
 
