@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name="Forward Auto Blue", group = "Auto")
-public class ForwardAuto extends AutoBaseFile {
+@Autonomous(name="Strafe Left Auto", group = "Auto")
+public class StrafeLeftAuto extends AutoBaseFile {
 
-@Override
+    @Override
     public void runOpMode(){
         // Initialize hardware and wait for start
         super.runOpMode();
@@ -14,12 +14,7 @@ public class ForwardAuto extends AutoBaseFile {
         // Autonomous actions
         sleep(5000);
 
-
-        rotateLeft();
-        sleep(1000);
-        rotateRight();
-
-        sleep(5000);
+        strafeLeft(1000);
 
     }
 }
