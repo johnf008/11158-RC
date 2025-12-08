@@ -91,7 +91,7 @@ public class AutoBaseFile extends LinearOpMode {
         frontLeft.setPower(-0.5);
         frontRight.setPower(0.5);
 
-        sleep(1700);
+        sleep(850);
 
         setWheelMotorsPower(0);
     }
@@ -102,7 +102,7 @@ public class AutoBaseFile extends LinearOpMode {
         frontLeft.setPower(0.5);
         frontRight.setPower(-0.5);
 
-        sleep(1700);
+        sleep(850);
 
         setWheelMotorsPower(0);
     }

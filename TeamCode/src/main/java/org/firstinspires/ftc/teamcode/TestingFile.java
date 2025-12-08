@@ -129,6 +129,15 @@ public class TestingFile extends OpMode {
         if (gamepad2.xWasPressed()) {
             outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
         }
+        if (gamepad2.yWasPressed()) {
+            outtake.setPower(outtake.getPower() == 0 ? .9 : 0);
+        }
+        if (gamepad2.bWasPressed()) {
+            outtake.setPower(outtake.getPower() == 0 ? .8 : 0);
+        }
+        if (gamepad2.aWasPressed()) {
+            outtake.setPower(outtake.getPower() == 0 ? .4 : 0);
+        }
 
         if (gamepad2.rightBumperWasPressed()) {
             timer.reset();
@@ -146,11 +155,6 @@ public class TestingFile extends OpMode {
             timer.reset();
         }
 
-        if (gamepad2.leftBumperWasPressed())
-        {
-            servoLeft.setPower(0);
-            servoRight.setPower(0);
-        }
 
 
 
@@ -161,12 +165,14 @@ public class TestingFile extends OpMode {
         backRight.setPower(-backRightPower);
 
         intake.setPower(gamepad2.right_stick_y * -0.5);
+        servoRight.setPower(gamepad2.left_stick_y);
         //test.setPower(gamepad2.right_stick_y * -0.5);
 
         telemetry.addLine("We're running");
         telemetry.addData("Motor Revs", getMotorRevs());
         telemetry.addData("Timer", timer.milliseconds());
         telemetry.update();
+
     }
 
     public double getMotorRevs() {

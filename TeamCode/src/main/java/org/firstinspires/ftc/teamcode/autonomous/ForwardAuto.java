@@ -12,14 +12,9 @@ public class ForwardAuto extends AutoBaseFile {
         waitForStart();
 
         // Autonomous actions
-        sleep(5000);
+        forward(800);
 
 
-        rotateLeft();
-        sleep(1000);
-        rotateRight();
-
-        sleep(5000);
 
     }
 }
