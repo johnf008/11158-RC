@@ -198,6 +198,7 @@ public class TestingFileForAimbot extends OpMode {
         else {
             telemetry_test_var = 0.2;
         }
+
         /*
         if (gamepad2.dpadDownWasPressed()){
             outtake.setPower(0.75);
