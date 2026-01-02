@@ -46,6 +46,7 @@ public class TestingFileForAimbot extends OpMode {
     private Double ticksPerRev; // ticks per revolution
 
     private Double rangeOfGoal;
+    private Double telemetry_test_var;
 
     private static class Processor implements VisionProcessor, CameraStreamSource {
         private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
@@ -137,6 +138,7 @@ public class TestingFileForAimbot extends OpMode {
          */
 
         rangeOfGoal = 0.0;
+        telemetry_test_var = 0.0;
     }
 
     @Override
@@ -185,6 +187,18 @@ public class TestingFileForAimbot extends OpMode {
         //at 30 in: 0.50 power 90% success rate
         //at 35 in: 0.50 power 70% success rate
 
+        if (rangeOfGoal >= 35.0){
+            telemetry_test_var = 0.5;
+        }
+        else if (rangeOfGoal >= 30) {
+            telemetry_test_var = 0.4;
+        } else if (telemetry_test_var >= 25.0) {
+            telemetry_test_var = 0.3;
+        }
+        else {
+            telemetry_test_var = 0.2;
+        }
+        /*
         if (gamepad2.dpadDownWasPressed()){
             outtake.setPower(0.75);
         }
@@ -200,13 +214,11 @@ public class TestingFileForAimbot extends OpMode {
         if (gamepad2.dpadUpWasPressed()){
             outtake.setPower(0);
         }
-
+*/
         telemetry.addData("Ts (this) should always be the range: ", rangeOfGoal);
-
+        telemetry.addData("We are setting the power to have this amount: ", telemetry_test_var);
         AprilTagDetection id24 = aprilTagWebcam.getTagBySpecific(24);
         aprilTagWebcam.displayDetectionTelemetry(id24);
-
-
 
 
         // Set Intake/Outtake controls
