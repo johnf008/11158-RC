@@ -1,8 +1,7 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class AutoBaseFile extends LinearOpMode {
     public DcMotor frontLeft = null;
@@ -92,7 +91,7 @@ public class AutoBaseFile extends LinearOpMode {
         frontLeft.setPower(-0.5);
         frontRight.setPower(0.5);
 
-        sleep(1700);
+        sleep(850);
 
         setWheelMotorsPower(0);
     }
@@ -103,7 +102,7 @@ public class AutoBaseFile extends LinearOpMode {
         frontLeft.setPower(0.5);
         frontRight.setPower(-0.5);
 
-        sleep(1700);
+        sleep(850);
 
         setWheelMotorsPower(0);
     }

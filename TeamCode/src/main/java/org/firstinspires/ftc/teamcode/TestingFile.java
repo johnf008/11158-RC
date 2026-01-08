@@ -62,10 +62,10 @@ public class TestingFile extends OpMode {
 
 
         // Set motor directions
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.FORWARD);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
+        frontRight.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection(DcMotor.Direction.FORWARD);
+        backRight.setDirection(DcMotor.Direction.FORWARD);
 
         intake.setDirection(DcMotor.Direction.FORWARD);
         outtake.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -129,6 +129,15 @@ public class TestingFile extends OpMode {
         if (gamepad2.xWasPressed()) {
             outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
         }
+        if (gamepad2.yWasPressed()) {
+            outtake.setPower(outtake.getPower() == 0 ? .9 : 0);
+        }
+        if (gamepad2.bWasPressed()) {
+            outtake.setPower(outtake.getPower() == 0 ? .8 : 0);
+        }
+        if (gamepad2.aWasPressed()) {
+            outtake.setPower(outtake.getPower() == 0 ? .4 : 0);
+        }
 
         if (gamepad2.rightBumperWasPressed()) {
             timer.reset();
@@ -146,27 +155,24 @@ public class TestingFile extends OpMode {
             timer.reset();
         }
 
-        if (gamepad2.leftBumperWasPressed())
-        {
-            servoLeft.setPower(0);
-            servoRight.setPower(0);
-        }
 
 
 
         // Set motor power
-        frontLeft.setPower(-frontLeftPower);
-        frontRight.setPower(-frontRightPower);
-        backLeft.setPower(-backLeftPower);
-        backRight.setPower(-backRightPower);
+        frontLeft.setPower(frontLeftPower);
+        frontRight.setPower(frontRightPower);
+        backLeft.setPower(backLeftPower);
+        backRight.setPower(backRightPower);
 
         intake.setPower(gamepad2.right_stick_y * -0.5);
+        servoRight.setPower(gamepad2.left_stick_y);
         //test.setPower(gamepad2.right_stick_y * -0.5);
 
         telemetry.addLine("We're running");
         telemetry.addData("Motor Revs", getMotorRevs());
         telemetry.addData("Timer", timer.milliseconds());
         telemetry.update();
+
     }
 
     public double getMotorRevs() {
