@@ -39,9 +39,6 @@ public class TestingFile extends OpMode {
     private CRServo servoLeft, servoRight;
     private ElapsedTime timer;
 
-    private Double ticksPerRev; // ticks per revolution
-
-
 
 
     @Override
@@ -50,6 +47,7 @@ public class TestingFile extends OpMode {
         frontRight = hardwareMap.dcMotor.get("rightFront");
         backLeft = hardwareMap.dcMotor.get("leftBack");
         backRight = hardwareMap.dcMotor.get("rightBack");
+
 
         intake = hardwareMap.dcMotor.get("intake");
         outtake = hardwareMap.dcMotor.get("outtake");
@@ -91,11 +89,15 @@ public class TestingFile extends OpMode {
         outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        ticksPerRev = intake.getMotorType().getTicksPerRev();
-
         timer = new ElapsedTime();
 
+        //For encoders
+        final double TICKS_PER_REVOLUTION = frontLeft.getMotorType().getTicksPerRev();
+        final double DRIVE_GEAR_REDUCTION = 1.0 ;     // Gear Ratio
+        final double WHEEL_DIAMETER_INCHES = 5.51181102;
 
+        final double TICKS_PER_INCH = (TICKS_PER_REVOLUTION * DRIVE_GEAR_REDUCTION) /
+                (WHEEL_DIAMETER_INCHES * 3.1415);
     }
 
     @Override
@@ -168,16 +170,21 @@ public class TestingFile extends OpMode {
         servoRight.setPower(gamepad2.left_stick_y);
         //test.setPower(gamepad2.right_stick_y * -0.5);
 
+
+        //
+
         telemetry.addLine("We're running");
-        telemetry.addData("Motor Revs", getMotorRevs());
+        telemetry.addData("Motor Revs FL", frontLeft.getCurrentPosition());
+        telemetry.addData("Motor Revs FR", frontRight.getCurrentPosition());
+        telemetry.addData("Motor Revs BL", backLeft.getCurrentPosition());
+        telemetry.addData("Motor Revs BR", backRight.getCurrentPosition());
+
         telemetry.addData("Timer", timer.milliseconds());
         telemetry.update();
 
     }
 
-    public double getMotorRevs() {
-        return intake.getCurrentPosition() / ticksPerRev; //ticks -> revolutions translate (need to check sku number to see if we have a gear ratio)
-    }
+
 
     @Override
     public void stop() {
