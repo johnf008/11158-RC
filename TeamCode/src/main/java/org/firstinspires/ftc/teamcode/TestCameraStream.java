@@ -54,14 +54,12 @@ public class TestCameraStream extends OpMode {
 
     @Override
     public void init() {
-        new VisionPortal.Builder()
+         new VisionPortal.Builder()
                 .addProcessor(processor)
                 .setCamera(BuiltinCameraDirection.BACK)
                 .build();
 
         PanelsCameraStream.INSTANCE.startStream(processor, 60);
-
-
     }
 
     @Override

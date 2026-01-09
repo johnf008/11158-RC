@@ -10,9 +10,7 @@ import android.graphics.Canvas;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -25,32 +23,31 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.bylazar.camerastream.*;
 
-@TeleOp(name="11158-Testing-Drive-Aimbot", group="Controlled")
-public class TestingFileForAimbot extends OpMode {
+
+@TeleOp(name="Old-Camera-Stream", group="Controlled")
+public class OldCameraStream extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
-    private DcMotorEx intake, outtake, test;
+    private DcMotor intake, outtake, test;
     private CRServo servoLeft, servoRight;
 
 
     private ElapsedTime timer;
 
     private Double ticksPerRev; // ticks per revolution
-
-    private Double rangeOfGoal;
-    private Double telemetry_test_var;
-
     private static class Processor implements VisionProcessor, CameraStreamSource {
         private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
 
         @Override
         public void init(int width, int height, CameraCalibration calibration) {
             lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));
+
         }
 
         @Override
@@ -72,8 +69,6 @@ public class TestingFileForAimbot extends OpMode {
         }
     }
 
-    private final Processor processor = new Processor();
-
     @Override
     public void init() {
         frontLeft = hardwareMap.dcMotor.get("leftFront");
@@ -81,14 +76,13 @@ public class TestingFileForAimbot extends OpMode {
         backLeft = hardwareMap.dcMotor.get("leftBack");
         backRight = hardwareMap.dcMotor.get("rightBack");
 
-        intake = hardwareMap.get(DcMotorEx.class,"intake");
-        outtake = hardwareMap.get(DcMotorEx.class ,"outtake");
+        intake = hardwareMap.dcMotor.get("intake");
+        outtake = hardwareMap.dcMotor.get("outtake");
         //test = hardwareMap.dcMotor.get("test");
 
         servoLeft = hardwareMap.crservo.get("leftServo");
         servoRight = hardwareMap.crservo.get("rightServo");
 
-        //aprilTagWebcam.init(hardwareMap, telemetry);
 
         // Set motor directions
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
@@ -96,8 +90,8 @@ public class TestingFileForAimbot extends OpMode {
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
-        intake.setDirection(DcMotorEx.Direction.FORWARD);
-        outtake.setDirection(DcMotorEx.Direction.FORWARD);
+        intake.setDirection(DcMotor.Direction.FORWARD);
+        outtake.setDirection(DcMotorSimple.Direction.FORWARD);
         //test.setDirection(DcMotorSimple.Direction.FORWARD);
 
         servoLeft.setDirection(CRServo.Direction.FORWARD);
@@ -114,28 +108,17 @@ public class TestingFileForAimbot extends OpMode {
         outtake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
-
-
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        ticksPerRev = outtake.getMotorType().getTicksPerRev();
+        ticksPerRev = intake.getMotorType().getTicksPerRev();
 
         timer = new ElapsedTime();
 
 
-        /*
-        new VisionPortal.Builder()
-                .addProcessor(processor)
-                .setCamera(BuiltinCameraDirection.BACK)
-                .build();
-*/
-        PanelsCameraStream.INSTANCE.startStream(processor, 60);
 
 
-        rangeOfGoal = 0.0;
-        telemetry_test_var = 0.0;
     }
 
     @Override
@@ -153,8 +136,8 @@ public class TestingFileForAimbot extends OpMode {
 
         double speedReductionFactor = 0.6;
         double maxPower = Math.max(
-                Math.max( Math.abs(frontLeftPower), Math.abs(frontRightPower) ),
-                Math.max( Math.abs(backLeftPower), Math.abs(backRightPower) )
+                Math.max(Math.abs(frontLeftPower), Math.abs(frontRightPower)),
+                Math.max(Math.abs(backLeftPower), Math.abs(backRightPower))
         );
 
         if (maxPower > 0) {
@@ -164,64 +147,8 @@ public class TestingFileForAimbot extends OpMode {
             backRightPower = (backRightPower / maxPower) * speedReductionFactor;
         }
 
-        /*
-        AprilTagDetection id21 = aprilTagWebcam.getTagBySpecific(21);
-        aprilTagWebcam.displayDetectionTelemetry(id21);
-
-        //assign the range for the distance for each goal that will be used
-        //this is able to be applied for both the red and blue goals
-        for (AprilTagDetection detection: aprilTagWebcam.getDetectedTags()){
-            double detected_range = detection.ftcPose.range;
-            int aprilTag = detection.id;
-
-            if (aprilTag == 20 || aprilTag == 24){
-                rangeOfGoal = detected_range;
-            }
-
-        }
-
-        //Based on the blue goal at HCH
-        //at 25 in: 0.50 power 80% success rate
-        //at 30 in: 0.50 power 90% success rate
-        //at 35 in: 0.50 power 70% success rate
-
-        if (rangeOfGoal >= 35.0){
-            telemetry_test_var = 0.5;
-        }
-        else if (rangeOfGoal >= 30) {
-            telemetry_test_var = 0.4;
-        } else if (telemetry_test_var >= 25.0) {
-            telemetry_test_var = 0.3;
-        }
-        else {
-            telemetry_test_var = 0.2;
-        }
-
-        /*
-        if (gamepad2.dpadDownWasPressed()){
-            outtake.setPower(0.75);
-        }
-
-        if (gamepad2.dpadLeftWasPressed()){
-            outtake.setPower(0.5);
-        }
-
-        if (gamepad2.dpadRightWasPressed()){
-            outtake.setPower(0.25);
-        }
-
-        if (gamepad2.dpadUpWasPressed()){
-            outtake.setPower(0);
-        }
-
-        telemetry.addData("Ts (this) should always be the range: ", rangeOfGoal);
-        telemetry.addData("We are setting the power to have this amount: ", telemetry_test_var);
-        AprilTagDetection id24 = aprilTagWebcam.getTagBySpecific(24);
-        aprilTagWebcam.displayDetectionTelemetry(id24);
-        */
-
-
         // Set Intake/Outtake controls
+
         if (gamepad2.xWasPressed()) {
             outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
         }
@@ -231,20 +158,21 @@ public class TestingFileForAimbot extends OpMode {
             servoRight.setPower(1);
 
         }
-        if ((timer.milliseconds() >= 1500) && (servoRight.getPower() != 0)){
+
+        if ((timer.milliseconds() >= 1500) && (servoRight.getPower() != 0)) {
             servoRight.setPower(-1);
             timer.reset();
         }
-        if ((timer.milliseconds() >= 700) && (servoRight.getPower() == -1)){
+
+        if ((timer.milliseconds() >= 700) && (servoRight.getPower() == -1)) {
             servoRight.setPower(0);
             timer.reset();
         }
-        if (gamepad2.leftBumperWasPressed())
-        {
+
+        if (gamepad2.leftBumperWasPressed()) {
             servoLeft.setPower(0);
             servoRight.setPower(0);
         }
-
 
 
         // Set motor power
@@ -254,20 +182,12 @@ public class TestingFileForAimbot extends OpMode {
         backRight.setPower(-backRightPower);
 
         intake.setPower(gamepad2.right_stick_y * -0.5);
-
         //test.setPower(gamepad2.right_stick_y * -0.5);
 
         telemetry.addLine("We're running");
         telemetry.addData("Motor Revs", getMotorRevs());
-
-        double rpm = (outtake.getVelocity() / ticksPerRev) * 60;
-        telemetry.addData("The current rpm for the outtake: ", rpm);
-
         telemetry.addData("Timer", timer.milliseconds());
-
         telemetry.update();
-        //aprilTagWebcam.update();
-
     }
 
     public double getMotorRevs() {
@@ -276,6 +196,6 @@ public class TestingFileForAimbot extends OpMode {
 
     @Override
     public void stop() {
-        PanelsCameraStream.INSTANCE.stopStream();
+        //PanelsCameraStream.INSTANCE.stopStream();
     }
 }
