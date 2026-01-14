@@ -15,13 +15,14 @@ public class AutoBaseFile extends LinearOpMode {
 
 
     // Calculate TICKS_PER_INCH for encoders
-    final int INCH_REDUCTION = 8;
-    final double TICKS_PER_REVOLUTION = 2_786.2;
-    final double DRIVE_GEAR_REDUCTION = 1.0 ;     // Gear Ratio
-    final double WHEEL_DIAMETER_INCHES = 5.51181102;
+    final double CM_REDUCTION_MULTIPLIER = 1.0; // Test how accurate the encoders are with real world CM
 
-    final double TICKS_PER_INCH = (TICKS_PER_REVOLUTION * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1415);
+    final double TICKS_PER_REVOLUTION = 2_786.2;
+    final double DRIVE_GEAR_RATIO = 1.0 ;
+    final double WHEEL_DIAMETER_CM = 9.6;
+
+    final double TICKS_PER_MM = (TICKS_PER_REVOLUTION * DRIVE_GEAR_RATIO) /
+            (WHEEL_DIAMETER_CM * 3.1415);
 
     public void runOpMode(){
         //drive initialize
@@ -53,14 +54,14 @@ public class AutoBaseFile extends LinearOpMode {
     }
 
     public void encoderDrive( double speed,
-                              int frontLeftInches, int frontRightInches,
-                              int backLeftInches, int backRightInches,
+                              double frontLeftInches, double frontRightInches,
+                              double backLeftInches, double backRightInches,
                               double timeOutSeconds ) {
 
-        frontLeft.setTargetPosition( frontLeft.getCurrentPosition() + ( frontLeftInches * (int) TICKS_PER_INCH ) / INCH_REDUCTION );
-        frontRight.setTargetPosition( frontRight.getCurrentPosition() + ( frontRightInches * (int) TICKS_PER_INCH )  / INCH_REDUCTION);
-        backLeft.setTargetPosition( backLeft.getCurrentPosition() + ( backLeftInches * (int) TICKS_PER_INCH )  / INCH_REDUCTION);
-        backRight.setTargetPosition( backRight.getCurrentPosition() + ( backRightInches * (int) TICKS_PER_INCH )  / INCH_REDUCTION );
+        frontLeft.setTargetPosition(  frontLeft.getCurrentPosition()  + (int) ( frontLeftInches * TICKS_PER_MM * CM_REDUCTION_MULTIPLIER) );
+        frontRight.setTargetPosition( frontRight.getCurrentPosition() + (int) ( frontRightInches * TICKS_PER_MM * CM_REDUCTION_MULTIPLIER));
+        backLeft.setTargetPosition( backLeft.getCurrentPosition() + (int) ( backLeftInches *  TICKS_PER_MM * CM_REDUCTION_MULTIPLIER));
+        backRight.setTargetPosition( backRight.getCurrentPosition() + (int) ( backRightInches * TICKS_PER_MM * CM_REDUCTION_MULTIPLIER));
 
         frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -91,21 +92,21 @@ public class AutoBaseFile extends LinearOpMode {
         frontRight.setPower(power);
     }
 
-    public void forward(double speed , int distanceInches, double timeOutSeconds){
+    public void forward(double speed , double distanceInches, double timeOutSeconds){
         encoderDrive(speed,
                 distanceInches, distanceInches,
                 distanceInches, distanceInches,
                 timeOutSeconds );
     }
 
-    public void backward(double speed , int distanceInches, double timeOutSeconds){
+    public void backward(double speed, double distanceInches, double timeOutSeconds){
         encoderDrive(speed,
                 -distanceInches, -distanceInches,
                 -distanceInches, -distanceInches,
                 timeOutSeconds );
     }
 
-    public void strafeLeft(double speed , long durationSeconds){
+    public void strafeLeft(double speed, long durationSeconds){
         frontLeft.setPower(-speed);
         frontRight.setPower(speed);
         backLeft.setPower(speed);
@@ -115,7 +116,7 @@ public class AutoBaseFile extends LinearOpMode {
 
         setWheelMotorsPower(0);
     }
-    public void strafeRight(double speed , long durationSeconds){
+    public void strafeRight(double speed, long durationSeconds){
 
         frontLeft.setPower(speed);
         frontRight.setPower(-speed);
