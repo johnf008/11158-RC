@@ -30,16 +30,47 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import com.bylazar.camerastream.*;
 
-
 @TeleOp(name="11158-Testing-Drive", group="Controlled")
 public class TestingFile extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
-    private DcMotor intake, outtake, test;
+    private DcMotor intake, outtake, midtake,  test;
     private CRServo servoLeft, servoRight;
+
+
     private ElapsedTime timer;
 
+    private Double ticksPerRev; // ticks per revolution
 
+    private static class Processor implements VisionProcessor, CameraStreamSource {
+        private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
+
+        @Override
+        public void init(int width, int height, CameraCalibration calibration) {
+            lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));
+
+        }
+
+        @Override
+        public Object processFrame(Mat frame, long captureTimeNanos) {
+            Bitmap bitmap = Bitmap.createBitmap(frame.width(), frame.height(), Bitmap.Config.RGB_565);
+            Utils.matToBitmap(frame, bitmap);
+            lastFrame.set(bitmap);
+            return null;
+        }
+
+        @Override
+        public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
+            // Not used
+        }
+
+        @Override
+        public void getFrameBitmap(Continuation<? extends Consumer<Bitmap>> continuation) {
+            continuation.dispatch(bitmapConsumer -> bitmapConsumer.accept(lastFrame.get()));
+        }
+    }
+
+    private final Processor processor = new Processor();
 
     @Override
     public void init() {
@@ -48,9 +79,9 @@ public class TestingFile extends OpMode {
         backLeft = hardwareMap.dcMotor.get("leftBack");
         backRight = hardwareMap.dcMotor.get("rightBack");
 
-
         intake = hardwareMap.dcMotor.get("intake");
         outtake = hardwareMap.dcMotor.get("outtake");
+        midtake = hardwareMap.dcMotor.get("midtake");
         //test = hardwareMap.dcMotor.get("test");
 
         servoLeft = hardwareMap.crservo.get("leftServo");
@@ -60,13 +91,14 @@ public class TestingFile extends OpMode {
 
 
         // Set motor directions
-        frontLeft.setDirection(DcMotor.Direction.FORWARD);
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
-        backLeft.setDirection(DcMotor.Direction.FORWARD);
-        backRight.setDirection(DcMotor.Direction.FORWARD);
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        frontRight.setDirection(DcMotor.Direction.FORWARD);
+        backLeft.setDirection(DcMotor.Direction.REVERSE);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
 
         intake.setDirection(DcMotor.Direction.FORWARD);
         outtake.setDirection(DcMotorSimple.Direction.FORWARD);
+        midtake.setDirection(DcMotorSimple.Direction.FORWARD);
         //test.setDirection(DcMotorSimple.Direction.FORWARD);
 
         servoLeft.setDirection(CRServo.Direction.FORWARD);
@@ -85,19 +117,22 @@ public class TestingFile extends OpMode {
 
 
 
-        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        outtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        midtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        ticksPerRev = intake.getMotorType().getTicksPerRev();
 
         timer = new ElapsedTime();
 
-        //For encoders
-        final double TICKS_PER_REVOLUTION = frontLeft.getMotorType().getTicksPerRev();
-        final double DRIVE_GEAR_REDUCTION = 1.0 ;     // Gear Ratio
-        final double WHEEL_DIAMETER_INCHES = 5.51181102;
+        new VisionPortal.Builder()
+                .addProcessor(processor)
+                .setCamera(BuiltinCameraDirection.BACK)
+                .build();
 
-        final double TICKS_PER_INCH = (TICKS_PER_REVOLUTION * DRIVE_GEAR_REDUCTION) /
-                (WHEEL_DIAMETER_INCHES * 3.1415);
+        PanelsCameraStream.INSTANCE.startStream(processor, 60);
+
     }
 
     @Override
@@ -131,15 +166,6 @@ public class TestingFile extends OpMode {
         if (gamepad2.xWasPressed()) {
             outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
         }
-        if (gamepad2.yWasPressed()) {
-            outtake.setPower(outtake.getPower() == 0 ? .9 : 0);
-        }
-        if (gamepad2.bWasPressed()) {
-            outtake.setPower(outtake.getPower() == 0 ? .8 : 0);
-        }
-        if (gamepad2.aWasPressed()) {
-            outtake.setPower(outtake.getPower() == 0 ? .4 : 0);
-        }
 
         if (gamepad2.rightBumperWasPressed()) {
             timer.reset();
@@ -157,33 +183,35 @@ public class TestingFile extends OpMode {
             timer.reset();
         }
 
+        if (gamepad2.leftBumperWasPressed())
+        {
+            servoLeft.setPower(0);
+            servoRight.setPower(0);
+        }
 
 
 
         // Set motor power
-        frontLeft.setPower(frontLeftPower);
-        frontRight.setPower(frontRightPower);
-        backLeft.setPower(backLeftPower);
-        backRight.setPower(backRightPower);
+        frontLeft.setPower(-frontLeftPower);
+        frontRight.setPower(-frontRightPower);
+        backLeft.setPower(-backLeftPower);
+        backRight.setPower(-backRightPower);
 
-        intake.setPower(gamepad2.right_stick_y * -0.5);
-        servoRight.setPower(gamepad2.left_stick_y);
-        //test.setPower(gamepad2.right_stick_y * -0.5);
+        intake.setPower(gamepad2.left_stick_y * -0.5);
+        //test.setPower(gamepad2.left_stick_y * -0.5);
 
-
-        //
-
+        midtake.setPower((gamepad2.right_stick_y * -0.5));
+        
         telemetry.addLine("We're running");
-        telemetry.addData("Motor Revs FL", frontLeft.getCurrentPosition());
-        telemetry.addData("Motor Revs FR", frontRight.getCurrentPosition());
-        telemetry.addData("Motor Revs BL", backLeft.getCurrentPosition());
-        telemetry.addData("Motor Revs BR", backRight.getCurrentPosition());
-
+        telemetry.addData("Motor Revs", getMotorRevs());
         telemetry.addData("Timer", timer.milliseconds());
         telemetry.update();
 
+
     }
 
-
+    public double getMotorRevs() {
+        return intake.getCurrentPosition() / ticksPerRev; //ticks -> revolutions translate (need to check sku number to see if we have a gear ratio)
+    }
 
 }
