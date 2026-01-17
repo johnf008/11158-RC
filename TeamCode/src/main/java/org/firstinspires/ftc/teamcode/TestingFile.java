@@ -118,7 +118,7 @@ public class TestingFile extends OpMode {
 
 
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        outtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         midtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -164,7 +164,14 @@ public class TestingFile extends OpMode {
         // Set Intake/Outtake controls
 
         if (gamepad2.xWasPressed()) {
-            outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
+            outtake.setTargetPosition(outtake.getCurrentPosition() + 999999999);
+            outtake.setPower(1);
+            outtake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+
+        if (gamepad2.yWasPressed()) {
+
+            outtake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
 
         if (gamepad2.rightBumperWasPressed()) {
@@ -197,10 +204,10 @@ public class TestingFile extends OpMode {
         backLeft.setPower(-backLeftPower);
         backRight.setPower(-backRightPower);
 
-        intake.setPower(gamepad2.left_stick_y * -0.5);
+        intake.setPower(gamepad2.left_stick_y * -1);
         //test.setPower(gamepad2.left_stick_y * -0.5);
 
-        midtake.setPower((gamepad2.right_stick_y * -0.5));
+        midtake.setPower((gamepad2.right_stick_y * .5));
         
         telemetry.addLine("We're running");
         telemetry.addData("Motor Revs", getMotorRevs());
