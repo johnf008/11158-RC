@@ -15,7 +15,7 @@ import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import androidx.core.graphics.BitmapCompat;
-import com.bylazar.docs.R;
+//import com.bylazar.docs.R;
 
 import com.bylazar.camerastream.*;
 
@@ -54,14 +54,12 @@ public class TestCameraStream extends OpMode {
 
     @Override
     public void init() {
-        new VisionPortal.Builder()
+         new VisionPortal.Builder()
                 .addProcessor(processor)
                 .setCamera(BuiltinCameraDirection.BACK)
                 .build();
 
         PanelsCameraStream.INSTANCE.startStream(processor, 60);
-
-
     }
 
     @Override

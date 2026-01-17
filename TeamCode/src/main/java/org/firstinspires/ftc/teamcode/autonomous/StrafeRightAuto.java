@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name="Strafe Left Auto", group = "Auto")
-public class StrafeLeftAuto extends AutoBaseFile {
+@Autonomous(name="Strafe Right Auto", group = "Auto")
+public class StrafeRightAuto extends AutoBaseFile {
 
     @Override
     public void runOpMode(){

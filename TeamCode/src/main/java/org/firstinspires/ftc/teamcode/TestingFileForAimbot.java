@@ -1,0 +1,281 @@
+//This file shall hold the experimental stuff of the code our team will use in matches.
+//This will be used to hold things we're testing with the robot that aren't final.
+//Once the code is finalized in here, it shall be transferred to the MecanumDrive.Java file
+
+package org.firstinspires.ftc.teamcode;
+
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.function.Consumer;
+import org.firstinspires.ftc.robotcore.external.function.Continuation;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
+import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.VisionProcessor;
+import org.opencv.android.Utils;
+import org.opencv.core.Mat;
+
+import java.util.concurrent.atomic.AtomicReference;
+
+import com.bylazar.camerastream.*;
+
+@TeleOp(name="11158-Testing-Drive-Aimbot", group="Controlled")
+public class TestingFileForAimbot extends OpMode {
+
+    private DcMotor frontLeft, frontRight, backLeft, backRight;
+    private DcMotorEx intake, outtake, test;
+    private CRServo servoLeft, servoRight;
+
+
+    private ElapsedTime timer;
+
+    private Double ticksPerRev; // ticks per revolution
+
+    private Double rangeOfGoal;
+    private Double telemetry_test_var;
+
+    private static class Processor implements VisionProcessor, CameraStreamSource {
+        private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
+
+        @Override
+        public void init(int width, int height, CameraCalibration calibration) {
+            lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));
+        }
+
+        @Override
+        public Object processFrame(Mat frame, long captureTimeNanos) {
+            Bitmap bitmap = Bitmap.createBitmap(frame.width(), frame.height(), Bitmap.Config.RGB_565);
+            Utils.matToBitmap(frame, bitmap);
+            lastFrame.set(bitmap);
+            return null;
+        }
+
+        @Override
+        public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
+            // Not used
+        }
+
+        @Override
+        public void getFrameBitmap(Continuation<? extends Consumer<Bitmap>> continuation) {
+            continuation.dispatch(bitmapConsumer -> bitmapConsumer.accept(lastFrame.get()));
+        }
+    }
+
+    private final Processor processor = new Processor();
+
+    @Override
+    public void init() {
+        frontLeft = hardwareMap.dcMotor.get("leftFront");
+        frontRight = hardwareMap.dcMotor.get("rightFront");
+        backLeft = hardwareMap.dcMotor.get("leftBack");
+        backRight = hardwareMap.dcMotor.get("rightBack");
+
+        intake = hardwareMap.get(DcMotorEx.class,"intake");
+        outtake = hardwareMap.get(DcMotorEx.class ,"outtake");
+        //test = hardwareMap.dcMotor.get("test");
+
+        servoLeft = hardwareMap.crservo.get("leftServo");
+        servoRight = hardwareMap.crservo.get("rightServo");
+
+        //aprilTagWebcam.init(hardwareMap, telemetry);
+
+        // Set motor directions
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        frontRight.setDirection(DcMotor.Direction.FORWARD);
+        backLeft.setDirection(DcMotor.Direction.REVERSE);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
+
+        intake.setDirection(DcMotorEx.Direction.FORWARD);
+        outtake.setDirection(DcMotorEx.Direction.FORWARD);
+        //test.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        servoLeft.setDirection(CRServo.Direction.FORWARD);
+        servoRight.setDirection(CRServo.Direction.FORWARD);
+
+        // Set motor modes
+        frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        //test.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        outtake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+
+
+        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        ticksPerRev = outtake.getMotorType().getTicksPerRev();
+
+        timer = new ElapsedTime();
+
+
+        /*
+        new VisionPortal.Builder()
+                .addProcessor(processor)
+                .setCamera(BuiltinCameraDirection.BACK)
+                .build();
+*/
+        PanelsCameraStream.INSTANCE.startStream(processor, 60);
+
+
+        rangeOfGoal = 0.0;
+        telemetry_test_var = 0.0;
+    }
+
+    @Override
+    public void loop() {
+        // Gamepad inputs
+        double drive = -gamepad1.left_stick_y;
+        double strafe = gamepad1.right_stick_x;
+        double rotate = gamepad1.right_trigger - gamepad1.left_trigger;
+
+        // Calculate motor powers
+        double frontLeftPower = drive + strafe + rotate;
+        double frontRightPower = drive - strafe - rotate;
+        double backLeftPower = drive - strafe + rotate;
+        double backRightPower = drive + strafe - rotate;
+
+        double speedReductionFactor = 0.6;
+        double maxPower = Math.max(
+                Math.max( Math.abs(frontLeftPower), Math.abs(frontRightPower) ),
+                Math.max( Math.abs(backLeftPower), Math.abs(backRightPower) )
+        );
+
+        if (maxPower > 0) {
+            frontLeftPower = (frontLeftPower / maxPower) * speedReductionFactor;
+            frontRightPower = (frontRightPower / maxPower) * speedReductionFactor;
+            backLeftPower = (backLeftPower / maxPower) * speedReductionFactor;
+            backRightPower = (backRightPower / maxPower) * speedReductionFactor;
+        }
+
+        /*
+        AprilTagDetection id21 = aprilTagWebcam.getTagBySpecific(21);
+        aprilTagWebcam.displayDetectionTelemetry(id21);
+
+        //assign the range for the distance for each goal that will be used
+        //this is able to be applied for both the red and blue goals
+        for (AprilTagDetection detection: aprilTagWebcam.getDetectedTags()){
+            double detected_range = detection.ftcPose.range;
+            int aprilTag = detection.id;
+
+            if (aprilTag == 20 || aprilTag == 24){
+                rangeOfGoal = detected_range;
+            }
+
+        }
+
+        //Based on the blue goal at HCH
+        //at 25 in: 0.50 power 80% success rate
+        //at 30 in: 0.50 power 90% success rate
+        //at 35 in: 0.50 power 70% success rate
+
+        if (rangeOfGoal >= 35.0){
+            telemetry_test_var = 0.5;
+        }
+        else if (rangeOfGoal >= 30) {
+            telemetry_test_var = 0.4;
+        } else if (telemetry_test_var >= 25.0) {
+            telemetry_test_var = 0.3;
+        }
+        else {
+            telemetry_test_var = 0.2;
+        }
+
+        /*
+        if (gamepad2.dpadDownWasPressed()){
+            outtake.setPower(0.75);
+        }
+
+        if (gamepad2.dpadLeftWasPressed()){
+            outtake.setPower(0.5);
+        }
+
+        if (gamepad2.dpadRightWasPressed()){
+            outtake.setPower(0.25);
+        }
+
+        if (gamepad2.dpadUpWasPressed()){
+            outtake.setPower(0);
+        }
+
+        telemetry.addData("Ts (this) should always be the range: ", rangeOfGoal);
+        telemetry.addData("We are setting the power to have this amount: ", telemetry_test_var);
+        AprilTagDetection id24 = aprilTagWebcam.getTagBySpecific(24);
+        aprilTagWebcam.displayDetectionTelemetry(id24);
+        */
+
+
+        // Set Intake/Outtake controls
+        if (gamepad2.xWasPressed()) {
+            outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
+        }
+
+        if (gamepad2.rightBumperWasPressed()) {
+            timer.reset();
+            servoRight.setPower(1);
+
+        }
+        if ((timer.milliseconds() >= 1500) && (servoRight.getPower() != 0)){
+            servoRight.setPower(-1);
+            timer.reset();
+        }
+        if ((timer.milliseconds() >= 700) && (servoRight.getPower() == -1)){
+            servoRight.setPower(0);
+            timer.reset();
+        }
+        if (gamepad2.leftBumperWasPressed())
+        {
+            servoLeft.setPower(0);
+            servoRight.setPower(0);
+        }
+
+
+
+        // Set motor power
+        frontLeft.setPower(-frontLeftPower);
+        frontRight.setPower(-frontRightPower);
+        backLeft.setPower(-backLeftPower);
+        backRight.setPower(-backRightPower);
+
+        intake.setPower(gamepad2.right_stick_y * -0.5);
+
+        //test.setPower(gamepad2.right_stick_y * -0.5);
+
+        telemetry.addLine("We're running");
+        telemetry.addData("Motor Revs", getMotorRevs());
+
+        double rpm = (outtake.getVelocity() / ticksPerRev) * 60;
+        telemetry.addData("The current rpm for the outtake: ", rpm);
+
+        telemetry.addData("Timer", timer.milliseconds());
+
+        telemetry.update();
+        //aprilTagWebcam.update();
+
+    }
+
+    public double getMotorRevs() {
+        return intake.getCurrentPosition() / ticksPerRev; //ticks -> revolutions translate (need to check sku number to see if we have a gear ratio)
+    }
+
+    @Override
+    public void stop() {
+        PanelsCameraStream.INSTANCE.stopStream();
+    }
+}

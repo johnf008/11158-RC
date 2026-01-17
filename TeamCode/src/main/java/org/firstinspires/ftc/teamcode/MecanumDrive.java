@@ -8,6 +8,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.AprilTagWebcam;
@@ -16,12 +17,17 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="11158-Drive", group="Controlled")
 public class MecanumDrive extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
-    private DcMotor intake, outtake;
+    private DcMotor intake, outtake, test;
+    private CRServo servoLeft, servoRight;
+    private ElapsedTime timer;
+
+    private Double ticksPerRev; // ticks per revolution
 
     AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
 
