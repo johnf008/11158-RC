@@ -34,7 +34,7 @@ import com.bylazar.camerastream.*;
 public class TestingFile extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
-    private DcMotor intake, outtake, test;
+    private DcMotor intake, outtake, midtake,  test;
     private CRServo servoLeft, servoRight;
 
 
@@ -81,6 +81,7 @@ public class TestingFile extends OpMode {
 
         intake = hardwareMap.dcMotor.get("intake");
         outtake = hardwareMap.dcMotor.get("outtake");
+        midtake = hardwareMap.dcMotor.get("midtake");
         //test = hardwareMap.dcMotor.get("test");
 
         servoLeft = hardwareMap.crservo.get("leftServo");
@@ -97,6 +98,7 @@ public class TestingFile extends OpMode {
 
         intake.setDirection(DcMotor.Direction.FORWARD);
         outtake.setDirection(DcMotorSimple.Direction.FORWARD);
+        midtake.setDirection(DcMotorSimple.Direction.FORWARD);
         //test.setDirection(DcMotorSimple.Direction.FORWARD);
 
         servoLeft.setDirection(CRServo.Direction.FORWARD);
@@ -115,8 +117,9 @@ public class TestingFile extends OpMode {
 
 
 
-        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        outtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        midtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         ticksPerRev = intake.getMotorType().getTicksPerRev();
@@ -197,10 +200,14 @@ public class TestingFile extends OpMode {
         intake.setPower(gamepad2.right_stick_y * -0.5);
         //test.setPower(gamepad2.right_stick_y * -0.5);
 
+        midtake.setPower((gamepad2.left_stick_y * -0.5));
+        
         telemetry.addLine("We're running");
         telemetry.addData("Motor Revs", getMotorRevs());
         telemetry.addData("Timer", timer.milliseconds());
         telemetry.update();
+
+
     }
 
     public double getMotorRevs() {
