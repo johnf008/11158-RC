@@ -221,8 +221,4 @@ public class TestingFile extends OpMode {
         return intake.getCurrentPosition() / ticksPerRev; //ticks -> revolutions translate (need to check sku number to see if we have a gear ratio)
     }
 
-    @Override
-    public void stop() {
-        PanelsCameraStream.INSTANCE.stopStream();
-    }
 }
