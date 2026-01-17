@@ -11,8 +11,13 @@ public class ForwardAuto extends AutoBaseFile {
         super.runOpMode();
         waitForStart();
 
+        forward(.1,5,5);
+        sleep(8000);
+
+
+
         // Autonomous actions
-        forward(800);
+
 
 
 

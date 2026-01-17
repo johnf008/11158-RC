@@ -15,13 +15,13 @@ public class AutoBaseFile extends LinearOpMode {
 
 
     // Calculate TICKS_PER_INCH for encoders
-    final double CM_REDUCTION_MULTIPLIER = 1.0; // Test how accurate the encoders are with real world CM
+    static final double CM_REDUCTION_MULTIPLIER = 1.0; // Test how accurate the encoders are with real world CM
 
-    final double TICKS_PER_REVOLUTION = 2_786.2;
-    final double DRIVE_GEAR_RATIO = 1.0 ;
-    final double WHEEL_DIAMETER_CM = 9.6;
+    static final double TICKS_PER_REVOLUTION = 2_786.2;
+    static final double DRIVE_GEAR_RATIO = 1.0 ;
+    static final double WHEEL_DIAMETER_CM = 9.6;
 
-    final double TICKS_PER_MM = (TICKS_PER_REVOLUTION * DRIVE_GEAR_RATIO) /
+    static final double TICKS_PER_MM = (TICKS_PER_REVOLUTION * DRIVE_GEAR_RATIO) /
             (WHEEL_DIAMETER_CM * 3.1415);
 
     public void runOpMode(){

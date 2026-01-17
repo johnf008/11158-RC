@@ -14,7 +14,6 @@ public class StrafeRightAuto extends AutoBaseFile {
         // Autonomous actions
         sleep(5000);
 
-        strafeLeft(1000);
 
     }
 }
