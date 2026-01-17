@@ -197,10 +197,10 @@ public class TestingFile extends OpMode {
         backLeft.setPower(-backLeftPower);
         backRight.setPower(-backRightPower);
 
-        intake.setPower(gamepad2.right_stick_y * -0.5);
-        //test.setPower(gamepad2.right_stick_y * -0.5);
+        intake.setPower(gamepad2.left_stick_y * -0.5);
+        //test.setPower(gamepad2.left_stick_y * -0.5);
 
-        midtake.setPower((gamepad2.left_stick_y * -0.5));
+        midtake.setPower((gamepad2.right_stick_y * -0.5));
         
         telemetry.addLine("We're running");
         telemetry.addData("Motor Revs", getMotorRevs());
