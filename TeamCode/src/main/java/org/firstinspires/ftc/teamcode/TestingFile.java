@@ -186,8 +186,4 @@ public class TestingFile extends OpMode {
 
 
 
-    @Override
-    public void stop() {
-        PanelsCameraStream.INSTANCE.stopStream();
-    }
 }
