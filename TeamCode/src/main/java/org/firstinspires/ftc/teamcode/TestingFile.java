@@ -34,7 +34,7 @@ import com.bylazar.camerastream.*;
 public class TestingFile extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
-    private DcMotor intake, outtake, midtake,  test;
+    private DcMotor intake, outtake, midtake;
     private CRServo servoLeft, servoRight;
 
 
@@ -42,35 +42,6 @@ public class TestingFile extends OpMode {
 
     private Double ticksPerRev; // ticks per revolution
 
-    private static class Processor implements VisionProcessor, CameraStreamSource {
-        private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
-
-        @Override
-        public void init(int width, int height, CameraCalibration calibration) {
-            lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));
-
-        }
-
-        @Override
-        public Object processFrame(Mat frame, long captureTimeNanos) {
-            Bitmap bitmap = Bitmap.createBitmap(frame.width(), frame.height(), Bitmap.Config.RGB_565);
-            Utils.matToBitmap(frame, bitmap);
-            lastFrame.set(bitmap);
-            return null;
-        }
-
-        @Override
-        public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
-            // Not used
-        }
-
-        @Override
-        public void getFrameBitmap(Continuation<? extends Consumer<Bitmap>> continuation) {
-            continuation.dispatch(bitmapConsumer -> bitmapConsumer.accept(lastFrame.get()));
-        }
-    }
-
-    private final Processor processor = new Processor();
 
     @Override
     public void init() {
@@ -86,9 +57,6 @@ public class TestingFile extends OpMode {
 
         servoLeft = hardwareMap.crservo.get("leftServo");
         servoRight = hardwareMap.crservo.get("rightServo");
-
-
-
 
         // Set motor directions
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
@@ -110,11 +78,14 @@ public class TestingFile extends OpMode {
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         //test.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         outtake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-
 
 
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -126,12 +97,6 @@ public class TestingFile extends OpMode {
 
         timer = new ElapsedTime();
 
-        new VisionPortal.Builder()
-                .addProcessor(processor)
-                .setCamera(BuiltinCameraDirection.BACK)
-                .build();
-
-        PanelsCameraStream.INSTANCE.startStream(processor, 60);
 
     }
 
@@ -208,7 +173,7 @@ public class TestingFile extends OpMode {
         //test.setPower(gamepad2.left_stick_y * -0.5);
 
         midtake.setPower((gamepad2.right_stick_y * .5));
-        
+
         telemetry.addLine("We're running");
         telemetry.addData("Motor Revs", getMotorRevs());
         telemetry.addData("Timer", timer.milliseconds());

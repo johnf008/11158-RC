@@ -23,6 +23,7 @@ import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.VisionProcessor;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 
@@ -45,34 +46,7 @@ public class TestingFileForAimbot extends OpMode {
     private Double rangeOfGoal;
     private Double telemetry_test_var;
 
-    private static class Processor implements VisionProcessor, CameraStreamSource {
-        private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
-
-        @Override
-        public void init(int width, int height, CameraCalibration calibration) {
-            lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));
-        }
-
-        @Override
-        public Object processFrame(Mat frame, long captureTimeNanos) {
-            Bitmap bitmap = Bitmap.createBitmap(frame.width(), frame.height(), Bitmap.Config.RGB_565);
-            Utils.matToBitmap(frame, bitmap);
-            lastFrame.set(bitmap);
-            return null;
-        }
-
-        @Override
-        public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
-            // Not used
-        }
-
-        @Override
-        public void getFrameBitmap(Continuation<? extends Consumer<Bitmap>> continuation) {
-            continuation.dispatch(bitmapConsumer -> bitmapConsumer.accept(lastFrame.get()));
-        }
-    }
-
-    private final Processor processor = new Processor();
+    private AprilTagWebcam aprilTagWebcam;
 
     @Override
     public void init() {
@@ -88,7 +62,7 @@ public class TestingFileForAimbot extends OpMode {
         servoLeft = hardwareMap.crservo.get("leftServo");
         servoRight = hardwareMap.crservo.get("rightServo");
 
-        //aprilTagWebcam.init(hardwareMap, telemetry);
+        aprilTagWebcam.init(hardwareMap, telemetry);
 
         // Set motor directions
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
@@ -124,16 +98,6 @@ public class TestingFileForAimbot extends OpMode {
 
         timer = new ElapsedTime();
 
-
-        /*
-        new VisionPortal.Builder()
-                .addProcessor(processor)
-                .setCamera(BuiltinCameraDirection.BACK)
-                .build();
-*/
-        PanelsCameraStream.INSTANCE.startStream(processor, 60);
-
-
         rangeOfGoal = 0.0;
         telemetry_test_var = 0.0;
     }
@@ -164,7 +128,6 @@ public class TestingFileForAimbot extends OpMode {
             backRightPower = (backRightPower / maxPower) * speedReductionFactor;
         }
 
-        /*
         AprilTagDetection id21 = aprilTagWebcam.getTagBySpecific(21);
         aprilTagWebcam.displayDetectionTelemetry(id21);
 
@@ -185,6 +148,7 @@ public class TestingFileForAimbot extends OpMode {
         //at 30 in: 0.50 power 90% success rate
         //at 35 in: 0.50 power 70% success rate
 
+        /*
         if (rangeOfGoal >= 35.0){
             telemetry_test_var = 0.5;
         }
@@ -196,8 +160,8 @@ public class TestingFileForAimbot extends OpMode {
         else {
             telemetry_test_var = 0.2;
         }
+*/
 
-        /*
         if (gamepad2.dpadDownWasPressed()){
             outtake.setPower(0.75);
         }
@@ -218,7 +182,7 @@ public class TestingFileForAimbot extends OpMode {
         telemetry.addData("We are setting the power to have this amount: ", telemetry_test_var);
         AprilTagDetection id24 = aprilTagWebcam.getTagBySpecific(24);
         aprilTagWebcam.displayDetectionTelemetry(id24);
-        */
+
 
 
         // Set Intake/Outtake controls
@@ -266,6 +230,13 @@ public class TestingFileForAimbot extends OpMode {
         telemetry.addData("Timer", timer.milliseconds());
 
         telemetry.update();
+
+        double gravity = -9.8;
+
+        double rangeMeters = rangeOfGoal / 1000; //fix bc Idk if this is right or not
+
+
+        double motion = Math.sqrt((gravity * Math.pow(rangeOfGoal, 2)) / (2 * Math.pow(Math.cos(87), 2) * (rangeOfGoal * Math.tan(87)) + 3-54) );
         //aprilTagWebcam.update();
 
     }
