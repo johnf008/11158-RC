@@ -12,10 +12,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.AprilTagWebcam;
 import org.firstinspires.ftc.robotcore.external.function.Consumer;
 import org.firstinspires.ftc.robotcore.external.function.Continuation;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -23,6 +26,7 @@ import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.VisionProcessor;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 
@@ -30,49 +34,31 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import com.bylazar.camerastream.*;
 
-@TeleOp(name="11158-Testing-Drive-Aimbot", group="Controlled")
+@TeleOp(name="11158-Testing-Aimbot", group="Controlled")
 public class TestingFileForAimbot extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
-    private DcMotorEx intake, outtake, test;
+    private DcMotor intake, midtake;
+
+    private DcMotorEx outtake;
     private CRServo servoLeft, servoRight;
 
 
     private ElapsedTime timer;
 
     private Double ticksPerRev; // ticks per revolution
-
+    AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
     private Double rangeOfGoal;
-    private Double telemetry_test_var;
+    private Double powerAllocation;
 
-    private static class Processor implements VisionProcessor, CameraStreamSource {
-        private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
+    private Double gravity;
+    private Double goalHeight;
+    private Double robotHeight;
+    private Double launchAngle;
+    private Double linearVelocity;
 
-        @Override
-        public void init(int width, int height, CameraCalibration calibration) {
-            lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));
-        }
+    private Double angularVelocity;
 
-        @Override
-        public Object processFrame(Mat frame, long captureTimeNanos) {
-            Bitmap bitmap = Bitmap.createBitmap(frame.width(), frame.height(), Bitmap.Config.RGB_565);
-            Utils.matToBitmap(frame, bitmap);
-            lastFrame.set(bitmap);
-            return null;
-        }
-
-        @Override
-        public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
-            // Not used
-        }
-
-        @Override
-        public void getFrameBitmap(Continuation<? extends Consumer<Bitmap>> continuation) {
-            continuation.dispatch(bitmapConsumer -> bitmapConsumer.accept(lastFrame.get()));
-        }
-    }
-
-    private final Processor processor = new Processor();
 
     @Override
     public void init() {
@@ -81,14 +67,13 @@ public class TestingFileForAimbot extends OpMode {
         backLeft = hardwareMap.dcMotor.get("leftBack");
         backRight = hardwareMap.dcMotor.get("rightBack");
 
-        intake = hardwareMap.get(DcMotorEx.class,"intake");
-        outtake = hardwareMap.get(DcMotorEx.class ,"outtake");
+        intake = hardwareMap.dcMotor.get("intake");
+        outtake = hardwareMap.get(DcMotorEx.class, "outtake");
+        midtake = hardwareMap.dcMotor.get("midtake");
         //test = hardwareMap.dcMotor.get("test");
 
         servoLeft = hardwareMap.crservo.get("leftServo");
         servoRight = hardwareMap.crservo.get("rightServo");
-
-        //aprilTagWebcam.init(hardwareMap, telemetry);
 
         // Set motor directions
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
@@ -96,8 +81,9 @@ public class TestingFileForAimbot extends OpMode {
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
-        intake.setDirection(DcMotorEx.Direction.FORWARD);
+        intake.setDirection(DcMotor.Direction.FORWARD);
         outtake.setDirection(DcMotorEx.Direction.FORWARD);
+        midtake.setDirection(DcMotorSimple.Direction.FORWARD);
         //test.setDirection(DcMotorSimple.Direction.FORWARD);
 
         servoLeft.setDirection(CRServo.Direction.FORWARD);
@@ -109,33 +95,41 @@ public class TestingFileForAimbot extends OpMode {
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         //test.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         outtake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
-
-
-        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        midtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        ticksPerRev = outtake.getMotorType().getTicksPerRev();
+        ticksPerRev = intake.getMotorType().getTicksPerRev();
+
+        aprilTagWebcam.init(hardwareMap, telemetry);
+
+        // Iteration 1
+        rangeOfGoal = 0.0;
+        powerAllocation = 0.0;
+
+        //Iteration 2
+        gravity = 9.81;
+        goalHeight = 0.9845; //meters
+        robotHeight = 0.254; //meters
+        launchAngle = 87.0; //degrees
+
+        linearVelocity = 0.0;
+        angularVelocity = 0.0;
 
         timer = new ElapsedTime();
 
 
-        /*
-        new VisionPortal.Builder()
-                .addProcessor(processor)
-                .setCamera(BuiltinCameraDirection.BACK)
-                .build();
-*/
-        PanelsCameraStream.INSTANCE.startStream(processor, 60);
-
-
-        rangeOfGoal = 0.0;
-        telemetry_test_var = 0.0;
     }
 
     @Override
@@ -164,88 +158,56 @@ public class TestingFileForAimbot extends OpMode {
             backRightPower = (backRightPower / maxPower) * speedReductionFactor;
         }
 
-        /*
+        //April Tag Get the Horz, Range
         AprilTagDetection id21 = aprilTagWebcam.getTagBySpecific(21);
         aprilTagWebcam.displayDetectionTelemetry(id21);
 
-        //assign the range for the distance for each goal that will be used
-        //this is able to be applied for both the red and blue goals
         for (AprilTagDetection detection: aprilTagWebcam.getDetectedTags()){
-            double detected_range = detection.ftcPose.range;
+            double detectedRange =detection.ftcPose.range;
             int aprilTag = detection.id;
 
             if (aprilTag == 20 || aprilTag == 24){
-                rangeOfGoal = detected_range;
+                rangeOfGoal = detectedRange;
             }
-
-        }
-
-        //Based on the blue goal at HCH
-        //at 25 in: 0.50 power 80% success rate
-        //at 30 in: 0.50 power 90% success rate
-        //at 35 in: 0.50 power 70% success rate
-
-        if (rangeOfGoal >= 35.0){
-            telemetry_test_var = 0.5;
-        }
-        else if (rangeOfGoal >= 30) {
-            telemetry_test_var = 0.4;
-        } else if (telemetry_test_var >= 25.0) {
-            telemetry_test_var = 0.3;
-        }
-        else {
-            telemetry_test_var = 0.2;
         }
 
         /*
-        if (gamepad2.dpadDownWasPressed()){
-            outtake.setPower(0.75);
+        if (rangeOfGoal <= 25.0) {
+            powerAllocation = 0.3;
         }
-
-        if (gamepad2.dpadLeftWasPressed()){
-            outtake.setPower(0.5);
+        else if (rangeOfGoal <= 30.0){
+            powerAllocation = 0.4;
         }
-
-        if (gamepad2.dpadRightWasPressed()){
-            outtake.setPower(0.25);
+        else if (rangeOfGoal <= 35.0){
+            powerAllocation = 0.5;
         }
-
-        if (gamepad2.dpadUpWasPressed()){
-            outtake.setPower(0);
+        else {
+            powerAllocation = 0.6;
         }
-
-        telemetry.addData("Ts (this) should always be the range: ", rangeOfGoal);
-        telemetry.addData("We are setting the power to have this amount: ", telemetry_test_var);
-        AprilTagDetection id24 = aprilTagWebcam.getTagBySpecific(24);
-        aprilTagWebcam.displayDetectionTelemetry(id24);
         */
 
-
         // Set Intake/Outtake controls
+
         if (gamepad2.xWasPressed()) {
-            outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
+
+            outtake.setTargetPosition(outtake.getCurrentPosition() + 999999999);
+
+            //Iteration #1
+            //outtake.setPower(powerAllocation);
+
+            //Iteration #2
+            linearVelocity = Math.sqrt((Math.pow(gravity, 2) * rangeOfGoal) / (2 * (Math.pow(Math.cos(launchAngle) , 2)) * (rangeOfGoal * Math.tan(launchAngle)) + robotHeight - goalHeight));
+            angularVelocity = linearVelocity / 0.0508; //radius
+            outtake.setVelocity(angularVelocity, AngleUnit.RADIANS);
+            outtake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
 
-        if (gamepad2.rightBumperWasPressed()) {
-            timer.reset();
-            servoRight.setPower(1);
-
-        }
-        if ((timer.milliseconds() >= 1500) && (servoRight.getPower() != 0)){
-            servoRight.setPower(-1);
-            timer.reset();
-        }
-        if ((timer.milliseconds() >= 700) && (servoRight.getPower() == -1)){
-            servoRight.setPower(0);
-            timer.reset();
-        }
-        if (gamepad2.leftBumperWasPressed())
-        {
-            servoLeft.setPower(0);
-            servoRight.setPower(0);
+        if (gamepad2.yWasPressed()) {
+            outtake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
 
-
+        if (gamepad2.aWasPressed()){
+        }
 
         // Set motor power
         frontLeft.setPower(-frontLeftPower);
@@ -253,20 +215,16 @@ public class TestingFileForAimbot extends OpMode {
         backLeft.setPower(-backLeftPower);
         backRight.setPower(-backRightPower);
 
-        intake.setPower(gamepad2.right_stick_y * -0.5);
+        intake.setPower(gamepad2.left_stick_y * -1);
+        //test.setPower(gamepad2.left_stick_y * -0.5);
 
-        //test.setPower(gamepad2.right_stick_y * -0.5);
+        midtake.setPower((gamepad2.right_stick_y * .5));
 
         telemetry.addLine("We're running");
         telemetry.addData("Motor Revs", getMotorRevs());
-
-        double rpm = (outtake.getVelocity() / ticksPerRev) * 60;
-        telemetry.addData("The current rpm for the outtake: ", rpm);
-
         telemetry.addData("Timer", timer.milliseconds());
-
         telemetry.update();
-        //aprilTagWebcam.update();
+
 
     }
 
@@ -274,8 +232,4 @@ public class TestingFileForAimbot extends OpMode {
         return intake.getCurrentPosition() / ticksPerRev; //ticks -> revolutions translate (need to check sku number to see if we have a gear ratio)
     }
 
-    @Override
-    public void stop() {
-        PanelsCameraStream.INSTANCE.stopStream();
-    }
 }
