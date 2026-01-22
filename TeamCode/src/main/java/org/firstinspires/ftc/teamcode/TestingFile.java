@@ -138,7 +138,7 @@ public class TestingFile extends OpMode {
     @Override
     public void loop() {
         // Gamepad inputs
-        double drive = -gamepad1.left_stick_y;
+        double drive =  -gamepad1.left_stick_y;
         double strafe = gamepad1.right_stick_x;
         double rotate = gamepad1.right_trigger - gamepad1.left_trigger;
 
@@ -147,6 +147,10 @@ public class TestingFile extends OpMode {
         double frontRightPower = drive - strafe - rotate;
         double backLeftPower = drive - strafe + rotate;
         double backRightPower = drive + strafe - rotate;
+
+
+
+
 
         double speedReductionFactor = 0.6;
         double maxPower = Math.max(
@@ -208,9 +212,21 @@ public class TestingFile extends OpMode {
         //test.setPower(gamepad2.left_stick_y * -0.5);
 
         midtake.setPower((gamepad2.right_stick_y * .5));
-        
+
         telemetry.addLine("We're running");
-        telemetry.addData("Motor Revs", getMotorRevs());
+        telemetry.addData("Motor Revs FL", frontLeft.getCurrentPosition());
+        telemetry.addData("Motor Revs FR", frontRight.getCurrentPosition());
+        telemetry.addData("Motor Revs BL", backLeft.getCurrentPosition());
+        telemetry.addData("Motor Revs BR", backRight.getCurrentPosition());
+
+        telemetry.addData(" ", " ");
+
+
+        telemetry.addData("Motor Revs Intake", intake.getCurrentPosition());
+        telemetry.addData("Motor Revs Midtake", midtake.getCurrentPosition());
+        telemetry.addData("Motor Revs Outtake", outtake.getCurrentPosition());
+
+
         telemetry.addData("Timer", timer.milliseconds());
         telemetry.update();
 
