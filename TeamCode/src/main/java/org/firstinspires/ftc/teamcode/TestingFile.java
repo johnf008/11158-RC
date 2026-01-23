@@ -41,6 +41,7 @@ public class TestingFile extends OpMode {
     private ElapsedTime timer;
 
     private Double ticksPerRev; // ticks per revolution
+    double outtakePower = 0.8;
 
 
     @Override
@@ -134,13 +135,29 @@ public class TestingFile extends OpMode {
 
         if (gamepad2.xWasPressed()) {
             outtake.setTargetPosition(outtake.getCurrentPosition() + 999999999);
-            outtake.setPower(1);
+            outtake.setPower(outtakePower);
             outtake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
 
         if (gamepad2.yWasPressed()) {
 
             outtake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+
+        if (gamepad2.dpadUpWasPressed() && outtakePower < 1) {
+
+            outtakePower += .1;
+            outtake.setPower(0);
+            outtake.setPower(outtakePower);
+
+        }
+
+        if (gamepad2.dpadDownWasPressed()  && outtakePower > .4) {
+
+            outtakePower -= .1;
+            outtake.setPower(0);
+            outtake.setPower(outtakePower);
+
         }
 
         if (gamepad2.rightBumperWasPressed()) {
@@ -190,6 +207,10 @@ public class TestingFile extends OpMode {
         telemetry.addData("Motor Revs Intake", intake.getCurrentPosition());
         telemetry.addData("Motor Revs Midtake", midtake.getCurrentPosition());
         telemetry.addData("Motor Revs Outtake", outtake.getCurrentPosition());
+
+        telemetry.addData(" ", " ");
+        telemetry.addData("Outtake Power", outtakePower);
+
 
 
         telemetry.addData("Timer", timer.milliseconds());
