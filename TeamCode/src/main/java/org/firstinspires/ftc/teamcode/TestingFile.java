@@ -41,7 +41,7 @@ public class TestingFile extends OpMode {
     private ElapsedTime timer;
 
     private Double ticksPerRev; // ticks per revolution
-    double outtakePower = 0.8;
+    double outtakePower = 0.7;
 
 
     @Override
@@ -91,6 +91,7 @@ public class TestingFile extends OpMode {
 
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        outtake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         midtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
