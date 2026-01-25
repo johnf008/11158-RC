@@ -90,8 +90,12 @@ public class TestingFile extends OpMode {
 
 
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         outtake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        outtake.setTargetPosition(0);
+
+
         midtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -135,30 +139,48 @@ public class TestingFile extends OpMode {
         // Set Intake/Outtake controls
 
         if (gamepad2.xWasPressed()) {
-            outtake.setTargetPosition(outtake.getCurrentPosition() + 999999999);
+            outtake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            outtake.setTargetPosition(999999999);
             outtake.setPower(outtakePower);
             outtake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+
+        if (gamepad2.rightBumperWasPressed()){
+                outtake.setDirection(DcMotorSimple.Direction.FORWARD);
+
+            }
+        if (gamepad2.leftBumperWasPressed()) {
+            outtake.setDirection(DcMotorSimple.Direction.REVERSE);
         }
 
         if (gamepad2.yWasPressed()) {
 
             outtake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         }
 
         if (gamepad2.dpadUpWasPressed() && outtakePower < 1) {
 
-            outtakePower += .1;
-            outtake.setPower(0);
+            outtakePower += 0.1;
             outtake.setPower(outtakePower);
 
+            if (outtake.isBusy()){
+
+                outtake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                outtake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
         }
 
-        if (gamepad2.dpadDownWasPressed()  && outtakePower > .4) {
+        if (gamepad2.dpadDownWasPressed()  && outtakePower > 0) {
 
-            outtakePower -= .1;
-            outtake.setPower(0);
+            outtakePower -= 0.1;
             outtake.setPower(outtakePower);
 
+            if (outtake.isBusy()){
+
+                outtake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                outtake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
         }
 
         if (gamepad2.rightBumperWasPressed()) {
