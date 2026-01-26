@@ -190,23 +190,40 @@ public class TestingFileForAimbot extends OpMode {
 
         if (gamepad2.xWasPressed()) {
 
-            outtake.setTargetPosition(outtake.getCurrentPosition() + 999999999);
+            //outtake.setPower(0.25);
+            //outtake.setTargetPosition(outtake.getCurrentPosition() + 999999999);
 
             //Iteration #1
             //outtake.setPower(powerAllocation);
 
             //Iteration #2
+            /*
             linearVelocity = Math.sqrt((Math.pow(gravity, 2) * rangeOfGoal) / (2 * (Math.pow(Math.cos(launchAngle) , 2)) * (rangeOfGoal * Math.tan(launchAngle)) + robotHeight - goalHeight));
             angularVelocity = linearVelocity / 0.0508; //radius
             outtake.setVelocity(angularVelocity, AngleUnit.RADIANS);
-            outtake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            */
+
+            //outtake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
         }
 
         if (gamepad2.yWasPressed()) {
-            outtake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            outtake.setPower(1);
         }
 
         if (gamepad2.aWasPressed()){
+            outtake.setPower(0.5);
+        }
+
+        if (gamepad2.bWasPressed()){
+            outtake.setPower(0.75);
+        }
+
+        if (gamepad2.dpadRightWasPressed()){
+            outtake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         }
 
         // Set motor power
