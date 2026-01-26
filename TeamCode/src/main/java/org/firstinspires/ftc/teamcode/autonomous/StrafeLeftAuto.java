@@ -12,7 +12,8 @@ public class StrafeLeftAuto extends AutoBaseFile {
         waitForStart();
 
         // Autonomous actions
-        sleep(5000);
+        backward(.5, 25,10);
+        sleep(8000);
 
 
     }
