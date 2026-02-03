@@ -91,8 +91,7 @@ public class TestingFile extends OpMode {
 
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        outtake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        outtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         outtake.setTargetPosition(0);
 
 
@@ -138,72 +137,32 @@ public class TestingFile extends OpMode {
 
         // Set Intake/Outtake controls
 
-        if (gamepad2.xWasPressed()) {
-            outtake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            outtake.setTargetPosition(999999999);
-            outtake.setPower(outtakePower);
-            outtake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        intake.setPower( gamepad2.left_stick_y * -1);
+        midtake.setPower( gamepad2.right_stick_y * .5);
+
+        if ( gamepad2.dpadUpWasPressed())
+            outtakePower += .1;
+        if ( gamepad2.dpadRightWasPressed())
+            outtakePower += .05;
+        if ( gamepad2.dpadDownWasPressed())
+            outtakePower -= .1;
+        if ( gamepad2.dpadLeftWasPressed())
+            outtakePower -= .05;
+
+        if ( outtakePower <= 0)
+            outtakePower = .05;
+        else if ( outtakePower >= 1.05)
+            outtakePower = 1;
+
+
+
+
+        if ( gamepad2.yWasPressed() ) {
+            outtake.setPower(outtake.getPower() == 0 ? outtakePower : 0);
         }
 
-        if (gamepad2.rightBumperWasPressed()){
-                outtake.setDirection(DcMotorSimple.Direction.FORWARD);
 
-            }
-        if (gamepad2.leftBumperWasPressed()) {
-            outtake.setDirection(DcMotorSimple.Direction.REVERSE);
-        }
 
-        if (gamepad2.yWasPressed()) {
-
-            outtake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        }
-
-        if (gamepad2.dpadUpWasPressed() && outtakePower < 1) {
-
-            outtakePower += 0.1;
-            outtake.setPower(outtakePower);
-
-            if (outtake.isBusy()){
-
-                outtake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                outtake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
-        }
-
-        if (gamepad2.dpadDownWasPressed()  && outtakePower > 0) {
-
-            outtakePower -= 0.1;
-            outtake.setPower(outtakePower);
-
-            if (outtake.isBusy()){
-
-                outtake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                outtake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
-        }
-
-        if (gamepad2.rightBumperWasPressed()) {
-            timer.reset();
-            servoRight.setPower(1);
-
-        }
-
-        if ((timer.milliseconds() >= 1500) && (servoRight.getPower() != 0)){
-            servoRight.setPower(-1);
-            timer.reset();
-        }
-
-        if ((timer.milliseconds() >= 700) && (servoRight.getPower() == -1)){
-            servoRight.setPower(0);
-            timer.reset();
-        }
-
-        if (gamepad2.leftBumperWasPressed())
-        {
-            servoLeft.setPower(0);
-            servoRight.setPower(0);
-        }
 
 
 
@@ -213,29 +172,24 @@ public class TestingFile extends OpMode {
         backLeft.setPower(-backLeftPower);
         backRight.setPower(-backRightPower);
 
-        intake.setPower(gamepad2.left_stick_y * -1);
-        //test.setPower(gamepad2.left_stick_y * -0.5);
+        // Display
+        telemetry.addLine("We're Running");
+        telemetry.addData("Outtake Power", outtakePower);
 
-        midtake.setPower((gamepad2.right_stick_y * .5));
-
-        telemetry.addLine("We're running");
+        telemetry.addLine("");
         telemetry.addData("Motor Revs FL", frontLeft.getCurrentPosition());
         telemetry.addData("Motor Revs FR", frontRight.getCurrentPosition());
         telemetry.addData("Motor Revs BL", backLeft.getCurrentPosition());
         telemetry.addData("Motor Revs BR", backRight.getCurrentPosition());
 
-        telemetry.addData(" ", " ");
-
-
+        telemetry.addLine("");
         telemetry.addData("Motor Revs Intake", intake.getCurrentPosition());
         telemetry.addData("Motor Revs Midtake", midtake.getCurrentPosition());
         telemetry.addData("Motor Revs Outtake", outtake.getCurrentPosition());
 
-        telemetry.addData(" ", " ");
-        telemetry.addData("Outtake Power", outtakePower);
 
 
-
+        telemetry.addLine("");
         telemetry.addData("Timer", timer.milliseconds());
         telemetry.update();
 
