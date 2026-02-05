@@ -138,7 +138,7 @@ public class TestingFile extends OpMode {
         // Set Intake/Outtake controls
 
         intake.setPower( gamepad2.left_stick_y * -1);
-        midtake.setPower( gamepad2.right_stick_y * .5);
+        midtake.setPower( gamepad2.right_stick_y);
 
         if ( gamepad2.dpadUpWasPressed())
             outtakePower += .1;
