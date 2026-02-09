@@ -102,7 +102,6 @@ public class TestingFile extends OpMode {
 
         timer = new ElapsedTime();
 
-
     }
 
     @Override
@@ -155,15 +154,9 @@ public class TestingFile extends OpMode {
             outtakePower = 1;
 
 
-
-
         if ( gamepad2.yWasPressed() ) {
             outtake.setPower(outtake.getPower() == 0 ? outtakePower : 0);
         }
-
-
-
-
 
 
         // Set motor power
@@ -173,26 +166,23 @@ public class TestingFile extends OpMode {
         backRight.setPower(-backRightPower);
 
         // Display
-        telemetry.addLine("We're Running");
+        telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
         telemetry.addData("Outtake Power", outtakePower);
 
-        telemetry.addLine("");
+        telemetry.addLine();
         telemetry.addData("Motor Revs FL", frontLeft.getCurrentPosition());
         telemetry.addData("Motor Revs FR", frontRight.getCurrentPosition());
         telemetry.addData("Motor Revs BL", backLeft.getCurrentPosition());
         telemetry.addData("Motor Revs BR", backRight.getCurrentPosition());
 
-        telemetry.addLine("");
+        telemetry.addLine();
         telemetry.addData("Motor Revs Intake", intake.getCurrentPosition());
         telemetry.addData("Motor Revs Midtake", midtake.getCurrentPosition());
         telemetry.addData("Motor Revs Outtake", outtake.getCurrentPosition());
 
-
-
-        telemetry.addLine("");
+        telemetry.addLine();
         telemetry.addData("Timer", timer.milliseconds());
         telemetry.update();
-
 
     }
 
