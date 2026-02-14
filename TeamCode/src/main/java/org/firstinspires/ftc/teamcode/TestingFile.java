@@ -34,7 +34,8 @@ import com.bylazar.camerastream.*;
 public class TestingFile extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
-    private DcMotor intake, outtake, midtake;
+    private DcMotor intake, midtake;
+    private DcMotorEx outtake;
     private CRServo servoLeft, servoRight;
 
 
@@ -52,7 +53,7 @@ public class TestingFile extends OpMode {
         backRight = hardwareMap.dcMotor.get("rightBack");
 
         intake = hardwareMap.dcMotor.get("intake");
-        outtake = hardwareMap.dcMotor.get("outtake");
+        outtake = hardwareMap.get(DcMotorEx.class, "outtake");
         midtake = hardwareMap.dcMotor.get("midtake");
         //test = hardwareMap.dcMotor.get("test");
 
@@ -91,7 +92,7 @@ public class TestingFile extends OpMode {
 
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        outtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         outtake.setTargetPosition(0);
 
 
@@ -155,7 +156,7 @@ public class TestingFile extends OpMode {
 
 
         if ( gamepad2.xWasPressed())
-            outtake.setPower(outtake.getPower() == 0 ? -0.5 : 0 );
+            outtake.setPower(outtake.getPower() == 0 ? -0.85 : 0 );
 
         if ( gamepad2.aWasPressed() ) {
             outtake.setPower(outtake.getPower() == 0 ? -outtakePower : 0);
@@ -185,6 +186,11 @@ public class TestingFile extends OpMode {
         telemetry.addData("Motor Revs Intake", intake.getCurrentPosition());
         telemetry.addData("Motor Revs Midtake", midtake.getCurrentPosition());
         telemetry.addData("Motor Revs Outtake", outtake.getCurrentPosition());
+
+        //stuff
+        telemetry.addLine();
+        telemetry.addData("Outtake power: ", outtake.getPower());
+        telemetry.addData("Current outtake velocity: ", outtake.getVelocity());
 
         telemetry.addLine();
         telemetry.addData("Timer", timer.milliseconds());
