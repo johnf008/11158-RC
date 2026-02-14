@@ -100,15 +100,15 @@ public class AutoBaseFile extends LinearOpMode {
                 backLeft.isBusy()  || backRight.isBusy()   )
         {
 
-            telemetry.addData("Motor Revs FL", frontLeft.getCurrentPosition());
-            telemetry.addData("Motor Revs FR", frontRight.getCurrentPosition());
-            telemetry.addData("Motor Revs BL", backLeft.getCurrentPosition());
-            telemetry.addData("Motor Revs BR", backRight.getCurrentPosition());
+            telemetry.addData("FL Busy", frontLeft.isBusy());
+            telemetry.addData("FR Busy", frontRight.isBusy());
+            telemetry.addData("BL Busy", backLeft.isBusy());
+            telemetry.addData("BR Busy", backRight.isBusy());
 
             telemetry.addLine();
-            telemetry.addData("Motor Revs Intake", intake.getCurrentPosition());
-            telemetry.addData("Motor Revs Midtake", midtake.getCurrentPosition());
-            telemetry.addData("Motor Revs Outtake", outtake.getCurrentPosition());
+            telemetry.addData("Intake Busy", intake.isBusy());
+            telemetry.addData("Midtake Busy", midtake.isBusy());
+            telemetry.addData("Outtake Busy", outtake.isBusy());
 
 
 
