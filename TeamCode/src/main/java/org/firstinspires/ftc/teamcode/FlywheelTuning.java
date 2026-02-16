@@ -92,6 +92,9 @@ public class FlywheelTuning extends OpMode {
         telemetry.addData("Tuning F", "%.4f (D-Pad L/R", F);
         telemetry.addData("Step Size", "%.4f (B Button)", stepSizes[stepIndex]);
 
+        PanelsTelemetry.INSTANCE.getFtcTelemetry().addData("Target Velocity", curTargetVelocity);
+        PanelsTelemetry.INSTANCE.getFtcTelemetry().addData("Current Velocity", curVelocity);
+
 
 
     }
