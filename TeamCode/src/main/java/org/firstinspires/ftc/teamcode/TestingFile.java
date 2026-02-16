@@ -113,16 +113,16 @@ public class TestingFile extends OpMode {
         double rotate = gamepad1.right_trigger - gamepad1.left_trigger;
 
         // Calculate motor powers
-        double frontLeftPower = drive + strafe + rotate;
-        double frontRightPower = drive - strafe - rotate;
-        double backLeftPower = drive - strafe + rotate;
-        double backRightPower = drive + strafe - rotate;
+        double frontLeftPower = drive + strafe + (rotate*.8);
+        double frontRightPower = drive - strafe - (rotate*.8);
+        double backLeftPower = drive - strafe + (rotate*.8);
+        double backRightPower = drive + strafe - (rotate*.8);
 
 
 
 
 
-        double speedReductionFactor = 0.6;
+        double speedReductionFactor = 1;
         double maxPower = Math.max(
                 Math.max( Math.abs(frontLeftPower), Math.abs(frontRightPower) ),
                 Math.max( Math.abs(backLeftPower), Math.abs(backRightPower) )
@@ -140,6 +140,8 @@ public class TestingFile extends OpMode {
         intake.setPower( gamepad2.left_stick_y * -1);
         midtake.setPower( gamepad2.right_stick_y);
 
+        /*
+
         if ( gamepad2.dpadUpWasPressed())
             outtakePower += .1;
         if ( gamepad2.dpadRightWasPressed())
@@ -154,16 +156,19 @@ public class TestingFile extends OpMode {
         else if ( outtakePower >= 1.05)
             outtakePower = 1;
 
+        */
 
+
+
+
+        if ( gamepad2.yWasPressed() ) { //Far-Field
+            outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
+        }
+        if ( gamepad2.aWasPressed() ) { //MidField
+            outtake.setPower(outtake.getPower() == 0 ? .85 : 0);
+        }
         if ( gamepad2.xWasPressed())
             outtake.setPower(outtake.getPower() == 0 ? -0.85 : 0 );
-
-        if ( gamepad2.aWasPressed() ) {
-            outtake.setPower(outtake.getPower() == 0 ? -outtakePower : 0);
-        }
-        if ( gamepad2.yWasPressed() ) {
-            outtake.setPower(outtake.getPower() == 0 ? outtakePower : 0);
-        }
 
 
         // Set motor power
@@ -174,7 +179,6 @@ public class TestingFile extends OpMode {
 
         // Display
         telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
-        telemetry.addData("Outtake Power", outtakePower);
 
         telemetry.addLine();
         telemetry.addData("Motor Revs FL", frontLeft.getCurrentPosition());
@@ -192,23 +196,10 @@ public class TestingFile extends OpMode {
         telemetry.addData("Outtake power: ", outtake.getPower());
         telemetry.addData("Current outtake velocity: ", outtake.getVelocity());
 
+
         telemetry.addLine();
         telemetry.addData("Timer", timer.milliseconds());
 
-
-        telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
-        telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
-        telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
-        telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
-        telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
-        telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
-        telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
-        telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
-        telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
-        telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
-        telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
-        telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
-        telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
 
         telemetry.update();
 
