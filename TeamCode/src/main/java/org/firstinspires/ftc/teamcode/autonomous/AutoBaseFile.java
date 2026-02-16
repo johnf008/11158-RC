@@ -95,15 +95,15 @@ public class AutoBaseFile extends LinearOpMode {
         setWheelMotorsPower(speed);
         runTime.reset();
 
-        while ( runTime.seconds() < timeOutSeconds &&
-                frontLeft.isBusy() || frontRight.isBusy() ||
-                backLeft.isBusy()  || backRight.isBusy()   )
+        while ( runTime.seconds() <= timeOutSeconds &&
+                ( frontLeft.isBusy() || frontRight.isBusy() ||
+                backLeft.isBusy()  || backRight.isBusy()  ) )
         {
 
-            telemetry.addData("FL Busy", frontLeft.isBusy());
-            telemetry.addData("FR Busy", frontRight.isBusy());
-            telemetry.addData("BL Busy", backLeft.isBusy());
-            telemetry.addData("BR Busy", backRight.isBusy());
+            telemetry.addData("FL Busy; ticks; target ticks", frontLeft.isBusy() + " " + frontLeft.getCurrentPosition() + " " + frontLeft.getTargetPosition()   );
+            telemetry.addData("FR Busy; ticks; target ticks", frontRight.isBusy() + " " + frontRight.getCurrentPosition() + " " + frontRight.getTargetPosition());
+            telemetry.addData("BL Busy; ticks; target ticks", backLeft.isBusy() + " " + backLeft.getCurrentPosition() + " " + backLeft.getTargetPosition()      );
+            telemetry.addData("BR Busy; ticks; target ticks", backRight.isBusy() + " " + backRight.getCurrentPosition() + " " + backRight.getTargetPosition()   );
 
             telemetry.addLine();
             telemetry.addData("Intake Busy", intake.isBusy());
