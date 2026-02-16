@@ -11,10 +11,11 @@ public class ForwardAuto extends AutoBaseFile {
         super.runOpMode();
         waitForStart();
 
-        // Autonomous actions
+        // Autonomous actions - btw, it works way better than when at FASTER SPEEDS
 
-        forward(.5, 25,10);
+        forward(1, 10,4);
         sleep(8000);
+
 
 
 
