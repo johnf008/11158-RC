@@ -7,6 +7,7 @@ package org.firstinspires.ftc.teamcode;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -169,21 +170,21 @@ public class TestingFile extends OpMode {
 
 
         //SETTING VELOCITY BASED ON THE PIDF COEFFICIENTS DECLARED IN INIT
-        /*
+
         if (gamepad2.rightTriggerWasPressed()){
             outtake.setVelocity(1500);
         }
         if (gamepad2.rightBumperWasPressed()){
             outtake.setVelocity(0);
         }
-        */
+
 
 
 
         // Set motor power
         frontLeft.setPower(-frontLeftPower);
         frontRight.setPower(-frontRightPower);
-        backLeft.setPower(-backLeftPower);
+        backLeft.setPower(backLeftPower);
         backRight.setPower(-backRightPower);
 
         // Display
@@ -214,6 +215,20 @@ public class TestingFile extends OpMode {
         telemetry.addData("Current Velocity", outtake.getVelocity());
         telemetry.addData("Error", 1500 - outtake.getVelocity());
 
+        telemetry.addData("Frontleft port", frontLeft.getPortNumber());
+        telemetry.addData("Frontright port", frontRight.getPortNumber());
+        telemetry.addData("BackLeft port", backLeft.getPortNumber());
+        telemetry.addData("Backright port", backRight.getPortNumber());
+
+        PanelsTelemetry.INSTANCE.getTelemetry().addData("Target Velocity", 1500);
+        PanelsTelemetry.INSTANCE.getTelemetry().addData("Current Velocity", outtake.getVelocity());
+        PanelsTelemetry.INSTANCE.getTelemetry().addData("Error", 1500 - outtake.getVelocity());
+
+
+
+        telemetry.update();
+        PanelsTelemetry.INSTANCE.getTelemetry().update(telemetry);
+
 
         telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
         telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
@@ -228,6 +243,8 @@ public class TestingFile extends OpMode {
         telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
         telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
         telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
+
+
 
         telemetry.update();
 
