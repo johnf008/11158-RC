@@ -207,6 +207,11 @@ public class TestingFile extends OpMode {
         telemetry.addLine();
         telemetry.addData("Timer", timer.milliseconds());
 
+        //pidf for john
+        telemetry.addData("Target Velocity", 1500);
+        telemetry.addData("Current Velocity", outtake.getVelocity());
+        telemetry.addData("Error", 1500 - outtake.getVelocity());
+
 
         telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
         telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
