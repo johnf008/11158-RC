@@ -30,6 +30,8 @@ android {
 dependencies {
     implementation "com.bylazar:docs:1.0.5"
     implementation "com.bylazar:camerastream:1.0.0"
+    implementation "com.bylazar:telemetry:1.0.5"
+    implementation "com.bylazar:graph:1.0.4"
 }
 
 apply from: '../build.dependencies.gradle'
