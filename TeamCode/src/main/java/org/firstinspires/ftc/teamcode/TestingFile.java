@@ -167,6 +167,8 @@ public class TestingFile extends OpMode {
             outtake.setPower(outtake.getPower() == 0 ? outtakePower : 0);
         }
 
+
+        //SETTING VELOCITY BASED ON THE PIDF COEFFICIENTS DECLARED IN INIT
         /*
         if (gamepad2.rightTriggerWasPressed()){
             outtake.setVelocity(1500);
