@@ -7,11 +7,13 @@ package org.firstinspires.ftc.teamcode;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -36,13 +38,14 @@ public class TestingFile extends OpMode {
     private DcMotor frontLeft, frontRight, backLeft, backRight;
     private DcMotor intake, midtake;
     private DcMotorEx outtake;
-    private CRServo servoLeft, servoRight;
 
 
     private ElapsedTime timer;
 
     private Double ticksPerRev; // ticks per revolution
     double outtakePower = 0.7;
+    double P = 600;
+    double F = 18.6004;
 
 
     @Override
@@ -57,8 +60,6 @@ public class TestingFile extends OpMode {
         midtake = hardwareMap.dcMotor.get("midtake");
         //test = hardwareMap.dcMotor.get("test");
 
-        servoLeft = hardwareMap.crservo.get("leftServo");
-        servoRight = hardwareMap.crservo.get("rightServo");
 
         // Set motor directions
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
@@ -71,8 +72,6 @@ public class TestingFile extends OpMode {
         midtake.setDirection(DcMotorSimple.Direction.FORWARD);
         //test.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        servoLeft.setDirection(CRServo.Direction.FORWARD);
-        servoRight.setDirection(CRServo.Direction.FORWARD);
 
         // Set motor modes
         frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -100,6 +99,10 @@ public class TestingFile extends OpMode {
         //test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         ticksPerRev = intake.getMotorType().getTicksPerRev();
+
+        //set new PIDF coefficients
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
+        outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
 
         timer = new ElapsedTime();
 
@@ -171,10 +174,22 @@ public class TestingFile extends OpMode {
             outtake.setPower(outtake.getPower() == 0 ? -0.85 : 0 );
 
 
+        //SETTING VELOCITY BASED ON THE PIDF COEFFICIENTS DECLARED IN INIT
+
+        if (gamepad2.rightTriggerWasPressed()){
+            outtake.setVelocity(1500);
+        }
+        if (gamepad2.rightBumperWasPressed()){
+            outtake.setVelocity(0);
+        }
+
+
+
+
         // Set motor power
         frontLeft.setPower(-frontLeftPower);
         frontRight.setPower(-frontRightPower);
-        backLeft.setPower(-backLeftPower);
+        backLeft.setPower(backLeftPower);
         backRight.setPower(-backRightPower);
 
         // Display
@@ -199,6 +214,25 @@ public class TestingFile extends OpMode {
 
         telemetry.addLine();
         telemetry.addData("Timer", timer.milliseconds());
+
+        //pidf for john
+        telemetry.addData("Target Velocity", 1500);
+        telemetry.addData("Current Velocity", outtake.getVelocity());
+        telemetry.addData("Error", 1500 - outtake.getVelocity());
+
+        telemetry.addData("Frontleft port", frontLeft.getPortNumber());
+        telemetry.addData("Frontright port", frontRight.getPortNumber());
+        telemetry.addData("BackLeft port", backLeft.getPortNumber());
+        telemetry.addData("Backright port", backRight.getPortNumber());
+
+        PanelsTelemetry.INSTANCE.getTelemetry().addData("Target Velocity", 1500);
+        PanelsTelemetry.INSTANCE.getTelemetry().addData("Current Velocity", outtake.getVelocity());
+        PanelsTelemetry.INSTANCE.getTelemetry().addData("Error", 1500 - outtake.getVelocity());
+
+
+
+        telemetry.update();
+        PanelsTelemetry.INSTANCE.getTelemetry().update(telemetry);
 
 
         telemetry.update();
