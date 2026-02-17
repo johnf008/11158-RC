@@ -12,6 +12,7 @@ public class ForwardAuto extends AutoBaseFile {
         waitForStart();
 
         // Autonomous actions - btw, it works way better than when at FASTER SPEEDS
+        //JOhn remember to change CM_REDUCTION_MULTIPLIER
 
         forward(1, 10,4);
         sleep(8000);
