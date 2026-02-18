@@ -226,6 +226,7 @@ public class TestingFile extends OpMode {
 
         telemetry.addLine();
         telemetry.addData("Timer", timer.milliseconds());
+        telemetry.addLine();
 
         //pidf for john
         telemetry.addData("Target Velocity", 1500);
@@ -235,11 +236,13 @@ public class TestingFile extends OpMode {
 
         telemetry.addData("P: ", P);
         telemetry.addData("F: ", F);
+        telemetry.addLine();
 
         telemetry.addData("Frontleft port", frontLeft.getPortNumber());
         telemetry.addData("Frontright port", frontRight.getPortNumber());
         telemetry.addData("BackLeft port", backLeft.getPortNumber());
         telemetry.addData("Backright port", backRight.getPortNumber());
+        telemetry.addLine();
 
         PanelsTelemetry.INSTANCE.getTelemetry().addData("Target Velocity", 1500);
         PanelsTelemetry.INSTANCE.getTelemetry().addData("Current Velocity", outtake.getVelocity());
