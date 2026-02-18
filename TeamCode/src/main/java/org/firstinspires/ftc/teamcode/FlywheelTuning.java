@@ -14,8 +14,10 @@ import com.bylazar.telemetry.PanelsTelemetry;
 @TeleOp
 public class FlywheelTuning extends OpMode {
     public DcMotorEx flywheelMotor;
+    private DcMotor intake, midtake;
 
-    public double highVelocity = 1500;
+
+    public double highVelocity = 1200;
     public double lowVelocity = 900;
     double curTargetVelocity = highVelocity;
 
@@ -32,6 +34,20 @@ public class FlywheelTuning extends OpMode {
         flywheelMotor = hardwareMap.get(DcMotorEx.class, "outtake");
         flywheelMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         flywheelMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        intake = hardwareMap.dcMotor.get("intake");
+        midtake = hardwareMap.dcMotor.get("midtake");
+
+        intake.setDirection(DcMotor.Direction.FORWARD);
+        midtake.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        midtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
+
 
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
         flywheelMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
@@ -74,6 +90,10 @@ public class FlywheelTuning extends OpMode {
         if (gamepad1.dpadDownWasPressed()){
             P -= stepSizes[stepIndex];
         }
+
+        intake.setPower( gamepad1.left_stick_y * -1);
+        midtake.setPower( gamepad1.right_stick_y);
+
 
         //set new PIDF coefficients
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);

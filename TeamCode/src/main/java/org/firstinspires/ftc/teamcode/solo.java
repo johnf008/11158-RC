@@ -25,6 +25,7 @@ import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.VisionProcessor;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 
@@ -32,8 +33,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import com.bylazar.camerastream.*;
 
-@TeleOp(name="11158-Testing-Drive", group="Controlled")
-public class TestingFile extends OpMode {
+@TeleOp(name="Solo Drive", group="Controlled")
+public class solo extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
     private DcMotor intake, midtake;
@@ -46,6 +47,8 @@ public class TestingFile extends OpMode {
     double outtakePower = 0.7;
     double P = 600;
     double F = 18.6004;
+
+    AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
 
 
     @Override
@@ -105,6 +108,8 @@ public class TestingFile extends OpMode {
         outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
 
         timer = new ElapsedTime();
+
+        aprilTagWebcam.init(hardwareMap, telemetry);
 
     }
 
@@ -176,24 +181,29 @@ public class TestingFile extends OpMode {
 
         //SETTING VELOCITY BASED ON THE PIDF COEFFICIENTS DECLARED IN INIT
 
-        if (gamepad2.rightTriggerWasPressed()){
-            P = 600;
-            F = 18.6004;
-            PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
-            outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+        if (gamepad1.rightBumperWasPressed()){
             outtake.setVelocity(1500);
         }
-        if (gamepad2.rightBumperWasPressed()){
+        if (gamepad1.leftBumperWasPressed()){
             outtake.setVelocity(0);
         }
 
-        if (gamepad2.leftTriggerWasPressed()){
-            P = 130;
-            F = 17.7;
-            PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
-            outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-            outtake.setVelocity(1200);
+        if (gamepad1.xWasPressed()){
+            intake.setPower(-1);
         }
+        if (gamepad1.yWasPressed()){
+            intake.setPower(0);
+        }
+
+        if (gamepad2.bWasPressed()){
+            midtake.setPower(-1);
+        }
+
+        if (gamepad1.aWasPressed()){
+            midtake.setPower(0);
+        }
+
+
 
 
 
@@ -204,10 +214,23 @@ public class TestingFile extends OpMode {
         backLeft.setPower(backLeftPower);
         backRight.setPower(-backRightPower);
 
+        aprilTagWebcam.update();
+        AprilTagDetection id24 = aprilTagWebcam.getTagBySpecific(24);
+
+        for (AprilTagDetection detection: aprilTagWebcam.getDetectedTags()){
+            int aprilTag = detection.id;
+
+            if (aprilTag == 24){
+                aprilTagWebcam.displayDetectionTelemetry(id24);
+            }
+
+        }
+
         // Display
         telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
 
         telemetry.addLine();
+        /*
         telemetry.addData("Motor Revs FL", frontLeft.getCurrentPosition());
         telemetry.addData("Motor Revs FR", frontRight.getCurrentPosition());
         telemetry.addData("Motor Revs BL", backLeft.getCurrentPosition());
@@ -217,6 +240,8 @@ public class TestingFile extends OpMode {
         telemetry.addData("Motor Revs Intake", intake.getCurrentPosition());
         telemetry.addData("Motor Revs Midtake", midtake.getCurrentPosition());
         telemetry.addData("Motor Revs Outtake", outtake.getCurrentPosition());
+
+         */
 
         //stuff
         telemetry.addLine();
@@ -231,15 +256,14 @@ public class TestingFile extends OpMode {
         telemetry.addData("Target Velocity", 1500);
         telemetry.addData("Current Velocity", outtake.getVelocity());
         telemetry.addData("Error", 1500 - outtake.getVelocity());
-        telemetry.addLine();
 
-        telemetry.addData("P: ", P);
-        telemetry.addData("F: ", F);
-
+        /*
         telemetry.addData("Frontleft port", frontLeft.getPortNumber());
         telemetry.addData("Frontright port", frontRight.getPortNumber());
         telemetry.addData("BackLeft port", backLeft.getPortNumber());
         telemetry.addData("Backright port", backRight.getPortNumber());
+
+         */
 
         PanelsTelemetry.INSTANCE.getTelemetry().addData("Target Velocity", 1500);
         PanelsTelemetry.INSTANCE.getTelemetry().addData("Current Velocity", outtake.getVelocity());

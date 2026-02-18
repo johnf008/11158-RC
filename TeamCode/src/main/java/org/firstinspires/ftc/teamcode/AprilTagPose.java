@@ -46,6 +46,9 @@ public class AprilTagPose extends OpMode {
         AprilTagDetection id24 = aprilTagWebcam.getTagBySpecific(24);
         aprilTagWebcam.displayDetectionTelemetry(id24);
 
+        AprilTagDetection id20 = aprilTagWebcam.getTagBySpecific(20);
+        aprilTagWebcam.displayDetectionTelemetry(id20);
+
 
         aprilTagWebcam.update();
 
