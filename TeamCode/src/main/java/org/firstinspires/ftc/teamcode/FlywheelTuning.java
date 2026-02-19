@@ -17,8 +17,8 @@ public class FlywheelTuning extends OpMode {
     private DcMotor intake, midtake;
 
 
-    public double highVelocity = 1200;
-    public double lowVelocity = 900;
+    public double highVelocity = 1000;
+    public double lowVelocity = 700;
     double curTargetVelocity = highVelocity;
 
     private double F = 0;

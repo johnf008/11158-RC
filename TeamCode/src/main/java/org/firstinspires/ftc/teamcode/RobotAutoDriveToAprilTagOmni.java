@@ -91,8 +91,8 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
 {
     // Adjust these numbers to suit your robot.
     final double DESIRED_DISTANCE = 66.2; //  this is how close the camera should get to the target (inches)
-    final double DESIRED_HEADING = -0.8;
-    final double DESIRED_YAW = -8.7;
+    final double DESIRED_HEADING = -2.8;
+    final double DESIRED_YAW = -10.7;
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.

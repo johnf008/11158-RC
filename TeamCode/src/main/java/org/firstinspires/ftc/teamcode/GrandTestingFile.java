@@ -56,6 +56,10 @@ public class GrandTestingFile extends OpMode {
     final double DESIRED_HEADING = -0.8;
     final double DESIRED_YAW = -8.7;
 
+    final double DESIRED_DISTANCE_CLOSE = 42.6; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_HEADING_CLOSE = -8.8;
+    final double DESIRED_YAW_CLOSE = 4.2;
+
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
     //  Drive = Error * Gain    Make these values smaller for smoother control, or larger for a more aggressive response.
@@ -153,8 +157,6 @@ public class GrandTestingFile extends OpMode {
     @Override
     public void loop() {
 
-        targetFound = false;
-        desiredTag  = null;
         // Gamepad inputs
         double drive =  -gamepad1.left_stick_y;
         double strafe = -gamepad1.right_stick_x;
@@ -174,10 +176,12 @@ public class GrandTestingFile extends OpMode {
                 } else {
                     // This tag is in the library, but we do not want to track it right now.
                     telemetry.addData("Skipping", "Tag ID %d is not desired", detection.id);
+                    targetFound = false;
                 }
             } else {
                 // This tag is NOT in the library, so we don't have enough information to track to it.
                 telemetry.addData("Unknown", "Tag ID %d is not in TagLibrary", detection.id);
+                targetFound = false;
             }
         }
 
@@ -199,6 +203,24 @@ public class GrandTestingFile extends OpMode {
             double  rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
             double  headingError    = (desiredTag.ftcPose.bearing - DESIRED_HEADING);
             double  yawError        = (desiredTag.ftcPose.yaw - DESIRED_YAW);
+
+            // Use the speed and turn "gains" to calculate how we want the robot to move.
+            drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+            rotate   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
+            strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
+
+            telemetry.addData("Auto","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, rotate);
+        } else {
+
+            telemetry.addData("Manual","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, rotate);
+        }
+
+        if (gamepad1.right_bumper && targetFound) {
+
+            // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
+            double  rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE_CLOSE);
+            double  headingError    = (desiredTag.ftcPose.bearing - DESIRED_HEADING_CLOSE);
+            double  yawError        = (desiredTag.ftcPose.yaw - DESIRED_YAW_CLOSE);
 
             // Use the speed and turn "gains" to calculate how we want the robot to move.
             drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
@@ -290,6 +312,14 @@ public class GrandTestingFile extends OpMode {
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
             outtake.setVelocity(1200);
+        }
+        if (gamepad2.leftBumperWasPressed()){
+            P = 250;
+            F = 18.4;
+            PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
+            outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+            outtake.setVelocity(1000);
+
         }
 
 
