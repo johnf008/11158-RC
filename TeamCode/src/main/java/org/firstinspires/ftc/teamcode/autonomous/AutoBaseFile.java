@@ -19,10 +19,12 @@ public class AutoBaseFile extends LinearOpMode {
     public DcMotorEx outtake = null;
 
     public ElapsedTime runTime = new ElapsedTime();
+    public final double distance_For_360_Turn = 240;
+    public double distanceTurnNeeded;
 
 
     // Calculate TICKS_PER_INCH for encoders ....................................................................................
-    static final double CM_REDUCTION_MULTIPLIER = 0.17; // Test how accurate the encoders are with real world CM
+    static final double CM_REDUCTION_MULTIPLIER = 0.1724137931; // Test how accurate the encoders are with real world CM
 
     static final double TICKS_PER_REVOLUTION = 2_786.2;
     static final double DRIVE_GEAR_RATIO = 1.0 ;
@@ -187,16 +189,20 @@ public class AutoBaseFile extends LinearOpMode {
 
         setWheelMotorsPower(0);
     }
-    public void rotateLeft(double speed, double timeOutSeconds){
+    public void rotateLeft(double speed, double turnDegree, double timeOutSeconds){
+        turnDegree = turnDegree/360;
+        distanceTurnNeeded = distance_For_360_Turn * turnDegree;
         encoderDrive(speed,
-                -6, 6,
-                -6, 6,
+                -distanceTurnNeeded, distanceTurnNeeded,
+                -distanceTurnNeeded, distanceTurnNeeded,
                 timeOutSeconds );
     }
-    public void rotateRight(double speed, double timeOutSeconds){
+    public void rotateRight(double speed, double turnDegree, double timeOutSeconds){
+        turnDegree = turnDegree/360;
+        distanceTurnNeeded = distance_For_360_Turn * turnDegree;
         encoderDrive(speed,
-                6, -6,
-                6, -6,
+                distanceTurnNeeded, -distanceTurnNeeded,
+                distanceTurnNeeded, -distanceTurnNeeded,
                 timeOutSeconds );
     }
     //other methods
