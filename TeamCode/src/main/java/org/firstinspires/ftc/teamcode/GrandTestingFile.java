@@ -291,7 +291,7 @@ public class GrandTestingFile extends OpMode {
             outtake.setPower(outtake.getPower() == 0 ? .85 : 0);
         }
         if ( gamepad2.xWasPressed())
-            outtake.setPower(outtake.getPower() == 0 ? -0.85 : 0 );
+            outtake.setVelocity(outtake.getVelocity() == 0 ? -1100 : 0 );
 
 
         //SETTING VELOCITY BASED ON THE PIDF COEFFICIENTS DECLARED IN INIT

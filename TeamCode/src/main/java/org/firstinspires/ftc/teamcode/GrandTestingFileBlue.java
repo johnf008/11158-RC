@@ -71,7 +71,7 @@ public class GrandTestingFileBlue extends OpMode {
     final double MAX_AUTO_STRAFE= 0.5;   //  Clip the strafing speed to this max value (adjust for your robot)
     final double MAX_AUTO_TURN  = 0.3;   //  Clip the turn speed to this max value (adjust for your robot)
     private static final boolean USE_WEBCAM = true;  // Set true to use a webcam, or false for a phone camera
-    private static final int DESIRED_TAG_ID = 24;     // Choose the tag you want to approach or set to -1 for ANY tag.
+    private static final int DESIRED_TAG_ID = 20;     // Choose the tag you want to approach or set to -1 for ANY tag.
     private VisionPortal visionPortal;               // Used to manage the video source.
     private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     private AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
@@ -291,12 +291,12 @@ public class GrandTestingFileBlue extends OpMode {
             outtake.setPower(outtake.getPower() == 0 ? .85 : 0);
         }
         if ( gamepad2.xWasPressed())
-            outtake.setPower(outtake.getPower() == 0 ? -0.85 : 0 );
+            outtake.setVelocity(outtake.getVelocity() == 0 ? -1100 : 0 );
 
 
         //SETTING VELOCITY BASED ON THE PIDF COEFFICIENTS DECLARED IN INIT
 
-        if (gamepad2.rightTriggerWasPressed()){
+        if (gamepad2.rightBumperWasPressed()){
             P = 600;
             F = 18.6004;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
@@ -307,14 +307,14 @@ public class GrandTestingFileBlue extends OpMode {
             outtake.setVelocity(0);
         }
 
-        if (gamepad2.leftTriggerWasPressed()){
+        if (gamepad2.leftBumperWasPressed()){
             P = 130;
             F = 17.7;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
             outtake.setVelocity(1200);
         }
-        if (gamepad2.leftBumperWasPressed()){
+        if (gamepad2.xWasPressed()){
             P = 250;
             F = 18.4;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
