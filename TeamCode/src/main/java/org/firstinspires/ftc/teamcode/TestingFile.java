@@ -65,7 +65,7 @@ public class TestingFile extends OpMode {
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         frontRight.setDirection(DcMotor.Direction.FORWARD);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
+        backRight.setDirection(DcMotor.Direction.FORWARD);
 
         intake.setDirection(DcMotor.Direction.FORWARD);
         outtake.setDirection(DcMotorSimple.Direction.FORWARD);

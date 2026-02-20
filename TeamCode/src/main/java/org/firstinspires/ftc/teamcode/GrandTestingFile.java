@@ -102,8 +102,8 @@ public class GrandTestingFile extends OpMode {
 
 
         // Set motor directions
-        frontLeft.setDirection(DcMotor.Direction.FORWARD);
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        frontRight.setDirection(DcMotor.Direction.FORWARD);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.FORWARD);
 
@@ -161,6 +161,7 @@ public class GrandTestingFile extends OpMode {
         double drive =  -gamepad1.left_stick_y;
         double strafe = -gamepad1.right_stick_x;
         double rotate = -(gamepad1.right_trigger - gamepad1.left_trigger);
+
 
 
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();

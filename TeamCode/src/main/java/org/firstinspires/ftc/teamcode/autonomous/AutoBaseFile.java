@@ -20,7 +20,7 @@ public class AutoBaseFile extends LinearOpMode {
 
 
     // Calculate TICKS_PER_INCH for encoders ....................................................................................
-    static final double CM_REDUCTION_MULTIPLIER = 1.0; // Test how accurate the encoders are with real world CM
+    static final double CM_REDUCTION_MULTIPLIER = 0.17; // Test how accurate the encoders are with real world CM
 
     static final double TICKS_PER_REVOLUTION = 2_786.2;
     static final double DRIVE_GEAR_RATIO = 1.0 ;
@@ -43,17 +43,19 @@ public class AutoBaseFile extends LinearOpMode {
         this.outtake = hardwareMap.get(DcMotor.class, "outtake");
 
 
-        //set wheel motor settings..................................................................
-        frontLeft.setDirection(DcMotor.Direction.FORWARD);
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.FORWARD);
 
 
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        //set wheel motor settings..................................................................
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
+        frontRight.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection(DcMotor.Direction.REVERSE);
+        backRight.setDirection(DcMotor.Direction.FORWARD);
+
 
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -83,10 +85,10 @@ public class AutoBaseFile extends LinearOpMode {
 
         resetWheelMotorsEncoders();
 
-        frontLeft.setTargetPosition (  frontLeft.getCurrentPosition() + (int) ( frontLeftInches * TICKS_PER_MM * CM_REDUCTION_MULTIPLIER  ) );
-        frontRight.setTargetPosition( frontRight.getCurrentPosition() + (int) ( frontRightInches * TICKS_PER_MM * CM_REDUCTION_MULTIPLIER ) );
-        backLeft.setTargetPosition  ( backLeft.getCurrentPosition()   + (int) ( backLeftInches *  TICKS_PER_MM * CM_REDUCTION_MULTIPLIER  ) );
-        backRight.setTargetPosition ( backRight.getCurrentPosition()  + (int) ( backRightInches * TICKS_PER_MM * CM_REDUCTION_MULTIPLIER  ) );
+        frontLeft.setTargetPosition (  -(frontLeft.getCurrentPosition() + (int) ( frontLeftInches * TICKS_PER_MM * CM_REDUCTION_MULTIPLIER)  ) );
+        frontRight.setTargetPosition( -(frontRight.getCurrentPosition() + (int) ( frontRightInches * TICKS_PER_MM * CM_REDUCTION_MULTIPLIER) ) );
+        backLeft.setTargetPosition  ( (backLeft.getCurrentPosition()   + (int) ( backLeftInches *  TICKS_PER_MM * CM_REDUCTION_MULTIPLIER)  ) );
+        backRight.setTargetPosition ( (backRight.getCurrentPosition()  + (int) ( backRightInches * TICKS_PER_MM * CM_REDUCTION_MULTIPLIER)  ) );
 
 
 
@@ -95,8 +97,8 @@ public class AutoBaseFile extends LinearOpMode {
         backLeft.setMode  ( DcMotor.RunMode.RUN_TO_POSITION );
         backRight.setMode ( DcMotor.RunMode.RUN_TO_POSITION );
 
-        setWheelMotorsPower(speed);
         runTime.reset();
+        setWheelMotorsPower(1);
 
         while ( runTime.seconds() <= timeOutSeconds &&
                 ( frontLeft.isBusy() || frontRight.isBusy() ||
