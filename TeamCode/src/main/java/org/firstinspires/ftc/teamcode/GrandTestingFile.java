@@ -301,7 +301,7 @@ public class GrandTestingFile extends OpMode {
             F = 18.6004;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-            outtake.setVelocity(1500);
+            outtake.setPower(1);
         }
         if (gamepad2.rightBumperWasPressed()){
             outtake.setVelocity(0);
