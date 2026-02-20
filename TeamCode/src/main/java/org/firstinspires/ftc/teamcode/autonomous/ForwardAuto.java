@@ -14,11 +14,15 @@ public class ForwardAuto extends AutoBaseFile {
         // Autonomous actions - btw, it works way better than when at FASTER SPEEDS
         //JOhn remember to change CM_REDUCTION_MULTIPLIER
 
+        //move backwards until at a middle length from the goal
+
+        //initiate launch sequence
+
+        //strafe off the launching zone
+
+
         forward(1, 10,4);
         sleep(8000);
-
-
-
 
 
 

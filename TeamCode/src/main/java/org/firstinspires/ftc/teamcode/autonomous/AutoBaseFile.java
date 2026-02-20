@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class AutoBaseFile extends LinearOpMode {
@@ -14,7 +16,7 @@ public class AutoBaseFile extends LinearOpMode {
 
     public DcMotor intake = null;
     public DcMotor midtake = null;
-    public DcMotor outtake = null;
+    public DcMotorEx outtake = null;
 
     public ElapsedTime runTime = new ElapsedTime();
 
@@ -40,7 +42,7 @@ public class AutoBaseFile extends LinearOpMode {
 
         this.intake = hardwareMap.get(DcMotor.class, "intake");
         this.midtake = hardwareMap.get(DcMotor.class, "midtake");
-        this.outtake = hardwareMap.get(DcMotor.class, "outtake");
+        this.outtake = hardwareMap.get(DcMotorEx.class, "outtake");
 
 
 
@@ -74,6 +76,12 @@ public class AutoBaseFile extends LinearOpMode {
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         midtake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         outtake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        outtake.setTargetPosition(0);
+
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(130, 0, 0, 17.7);
+        outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+
 
 
     }
@@ -196,5 +204,18 @@ public class AutoBaseFile extends LinearOpMode {
     public void toggleIntake(){
 
         intake.setPower(intake.getPower() == 0 ? .9 : 0);
+    }
+
+    public void launch(){
+        //start the velocity for the flywheel
+        outtake.setVelocity(1200);
+        //wait 5 seconds
+        sleep(5000);
+        //power intake and midtake
+        outtake.setVelocity(1200);
+        intake.setPower(1);
+        midtake.setPower(1);
+
+
     }
 }

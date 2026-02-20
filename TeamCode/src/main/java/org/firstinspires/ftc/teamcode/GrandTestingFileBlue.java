@@ -43,8 +43,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.bylazar.camerastream.*;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="11158-Final-Drive-Red", group="Controlled")
-public class GrandTestingFile extends OpMode {
+@TeleOp(name="11158-Final-Drive-Blue", group="Controlled")
+public class GrandTestingFileBlue extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
     private DcMotor intake, midtake;
@@ -52,13 +52,13 @@ public class GrandTestingFile extends OpMode {
 
     //:3
     // Adjust these numbers to suit your robot.
-    final double DESIRED_DISTANCE = 66.2; //  this is how close the camera should get to the target (inches)
-    final double DESIRED_HEADING = -0.8;
-    final double DESIRED_YAW = -8.7;
+    final double DESIRED_DISTANCE = 64.9; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_HEADING = -17.5;
+    final double DESIRED_YAW = -0.3;
 
-    final double DESIRED_DISTANCE_CLOSE = 42.6; //  this is how close the camera should get to the target (inches)
-    final double DESIRED_HEADING_CLOSE = -8.8;
-    final double DESIRED_YAW_CLOSE = 4.2;
+    final double DESIRED_DISTANCE_CLOSE = 47.1; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_HEADING_CLOSE = -12.2;
+    final double DESIRED_YAW_CLOSE = 5.3;
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -435,13 +435,13 @@ public class GrandTestingFile extends OpMode {
         }
 
         // Set camera controls unless we are stopping.
-            ExposureControl exposureControl = visionPortal.getCameraControl(ExposureControl.class);
-            if (exposureControl.getMode() != ExposureControl.Mode.Manual) {
-                exposureControl.setMode(ExposureControl.Mode.Manual);
-            }
-            exposureControl.setExposure((long)exposureMS, TimeUnit.MILLISECONDS);
-            GainControl gainControl = visionPortal.getCameraControl(GainControl.class);
-            gainControl.setGain(gain);
+        ExposureControl exposureControl = visionPortal.getCameraControl(ExposureControl.class);
+        if (exposureControl.getMode() != ExposureControl.Mode.Manual) {
+            exposureControl.setMode(ExposureControl.Mode.Manual);
+        }
+        exposureControl.setExposure((long)exposureMS, TimeUnit.MILLISECONDS);
+        GainControl gainControl = visionPortal.getCameraControl(GainControl.class);
+        gainControl.setGain(gain);
     }
 
 
