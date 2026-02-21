@@ -168,6 +168,20 @@ public class AutoBaseFile extends LinearOpMode {
                 -distanceInches, -distanceInches,
                 timeOutSeconds );
     }
+
+    public void move_left(double speed, double distanceInches, double timeOutSeconds){
+        encoderDrive(speed,
+                -distanceInches, distanceInches,
+                distanceInches, -distanceInches,
+                timeOutSeconds );
+    }
+
+    public void move_right(double speed, double distanceInches, double timeOutSeconds){
+        encoderDrive(speed,
+                distanceInches, -distanceInches,
+                -distanceInches, distanceInches,
+                timeOutSeconds );
+    }
     public void strafeLeft(double speed, long durationSeconds){
         frontLeft.setPower(-speed);
         frontRight.setPower(speed);
@@ -220,7 +234,8 @@ public class AutoBaseFile extends LinearOpMode {
         //power intake and midtake
         outtake.setVelocity(1200);
         intake.setPower(1);
-        midtake.setPower(1);
+        midtake.setPower(-1);
+        sleep(4000);
 
 
     }
