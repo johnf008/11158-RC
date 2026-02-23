@@ -52,13 +52,13 @@ public class GrandTestingFileBlue extends OpMode {
 
     //:3
     // Adjust these numbers to suit your robot.
-    final double DESIRED_DISTANCE = 64.9; //  this is how close the camera should get to the target (inches)
-    final double DESIRED_HEADING = -17.5;
-    final double DESIRED_YAW = -0.3;
+    final double DESIRED_DISTANCE = 62.8; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_HEADING = -9.9;
+    final double DESIRED_YAW = -2.2;
 
-    final double DESIRED_DISTANCE_CLOSE = 47.1; //  this is how close the camera should get to the target (inches)
-    final double DESIRED_HEADING_CLOSE = -12.2;
-    final double DESIRED_YAW_CLOSE = 5.3;
+    final double DESIRED_DISTANCE_CLOSE = 42.4; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_HEADING_CLOSE = -14.4;
+    final double DESIRED_YAW_CLOSE = 3.7;
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.

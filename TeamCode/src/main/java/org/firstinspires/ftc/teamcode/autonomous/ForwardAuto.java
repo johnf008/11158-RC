@@ -20,10 +20,8 @@ public class ForwardAuto extends AutoBaseFile {
 
         //strafe off the launching zone
 
-        forward(1,10,5);
+        forward(1,100,5);
 
-        rotateRight(1,360, 20);
-        sleep(200);
 
 
 

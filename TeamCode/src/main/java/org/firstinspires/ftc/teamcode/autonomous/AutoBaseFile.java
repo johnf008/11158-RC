@@ -81,7 +81,7 @@ public class AutoBaseFile extends LinearOpMode {
 
         outtake.setTargetPosition(0);
 
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(130, 0, 0, 17.7);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(250, 0, 0, 18.4);
         outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
 
 
@@ -228,7 +228,7 @@ public class AutoBaseFile extends LinearOpMode {
 
     public void launch(){
         //start the velocity for the flywheel
-        outtake.setVelocity(1200);
+        outtake.setVelocity(1000);
         //wait 5 seconds
         sleep(5000);
         //power intake and midtake
