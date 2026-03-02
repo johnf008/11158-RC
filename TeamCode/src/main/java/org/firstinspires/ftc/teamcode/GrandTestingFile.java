@@ -47,7 +47,7 @@ import com.qualcomm.robotcore.util.Range;
 public class GrandTestingFile extends OpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
-    private DcMotor intake, midtake;
+    private DcMotor intake, midtake, midtake_two;
     private DcMotorEx outtake;
 
     //:3
@@ -98,6 +98,7 @@ public class GrandTestingFile extends OpMode {
         intake = hardwareMap.dcMotor.get("intake");
         outtake = hardwareMap.get(DcMotorEx.class, "outtake");
         midtake = hardwareMap.dcMotor.get("midtake");
+        midtake_two = hardwareMap.dcMotor.get("secretMotor");
         //test = hardwareMap.dcMotor.get("test");
 
 
@@ -108,8 +109,9 @@ public class GrandTestingFile extends OpMode {
         backRight.setDirection(DcMotor.Direction.FORWARD);
 
         intake.setDirection(DcMotor.Direction.FORWARD);
-        outtake.setDirection(DcMotorSimple.Direction.FORWARD);
+        outtake.setDirection(DcMotorSimple.Direction.REVERSE);
         midtake.setDirection(DcMotorSimple.Direction.FORWARD);
+        midtake_two.setDirection(DcMotorSimple.Direction.REVERSE);
         //test.setDirection(DcMotorSimple.Direction.FORWARD);
 
 
@@ -284,9 +286,10 @@ public class GrandTestingFile extends OpMode {
 
 
 
-        if ( gamepad2.yWasPressed() ) { //Far-Field
-            outtake.setPower(outtake.getPower() == 0 ? 1 : 0);
+        if ( gamepad2.rightTriggerWasPressed() ) {
+            midtake_two.setPower(midtake_two.getPower() == 0 ? 0.5 : 0);
         }
+
         if ( gamepad2.aWasPressed() ) { //MidField
             outtake.setPower(outtake.getPower() == 0 ? .85 : 0);
         }
