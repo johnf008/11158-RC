@@ -287,11 +287,14 @@ public class GrandTestingFile extends OpMode {
 
 
         if ( gamepad2.rightTriggerWasPressed() ) {
-            midtake_two.setPower(midtake_two.getPower() == 0 ? 0.5 : 0);
+            midtake_two.setPower(midtake_two.getPower() == 0 ? 1 : 0);
         }
 
-        if ( gamepad2.aWasPressed() ) { //MidField
+        if ( gamepad2.aWasPressed() ) {
             outtake.setPower(outtake.getPower() == 0 ? .85 : 0);
+        }
+        if ( gamepad2.yWasPressed() ) {
+            outtake.setVelocity(outtake.getVelocity() == 0 ? 1600 : 0 );
         }
         if ( gamepad2.xWasPressed())
             outtake.setVelocity(outtake.getVelocity() == 0 ? -1100 : 0 );
@@ -327,7 +330,7 @@ public class GrandTestingFile extends OpMode {
         backLeft.setPower(backLeftPower);
         backRight.setPower(backRightPower);
 
-        // Display
+        // Display-------------------------------------------------------------------------------------------------------------------------------------------------------------
         telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
 
         telemetry.addLine();
