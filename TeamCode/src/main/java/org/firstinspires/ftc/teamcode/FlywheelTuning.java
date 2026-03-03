@@ -14,7 +14,7 @@ import com.bylazar.telemetry.PanelsTelemetry;
 @TeleOp
 public class FlywheelTuning extends OpMode {
     public DcMotorEx flywheelMotor;
-    private DcMotor intake, midtake;
+    public DcMotor intake, midtake, midtake_two;
 
 
     public double highVelocity = 1000;
@@ -33,7 +33,7 @@ public class FlywheelTuning extends OpMode {
     public void init(){
         flywheelMotor = hardwareMap.get(DcMotorEx.class, "outtake");
         flywheelMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        flywheelMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        flywheelMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         intake = hardwareMap.dcMotor.get("intake");
         midtake = hardwareMap.dcMotor.get("midtake");
@@ -52,6 +52,14 @@ public class FlywheelTuning extends OpMode {
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
         flywheelMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         telemetry.addLine("Init complete");
+
+        midtake_two = hardwareMap.dcMotor.get("secretMotor");
+        midtake_two.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
+
+
+
 
 
     }
@@ -89,6 +97,10 @@ public class FlywheelTuning extends OpMode {
 
         if (gamepad1.dpadDownWasPressed()){
             P -= stepSizes[stepIndex];
+        }
+
+        if ( gamepad1.rightTriggerWasPressed() ) {
+            midtake_two.setPower(midtake_two.getPower() == 0 ? 1 : 0);
         }
 
         intake.setPower( gamepad1.left_stick_y * -1);

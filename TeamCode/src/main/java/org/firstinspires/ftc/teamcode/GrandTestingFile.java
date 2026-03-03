@@ -306,15 +306,15 @@ public class GrandTestingFile extends OpMode {
         }
 
         if (gamepad2.leftTriggerWasPressed()){
-            P = 130;
-            F = 17.7;
+            P = 10;
+            F = 14.3;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
             outtake.setVelocity(1200);
         }
         if (gamepad2.leftBumperWasPressed()){
-            P = 250;
-            F = 18.4;
+            P = 11;
+            F = 14.6;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
             outtake.setVelocity(1000);

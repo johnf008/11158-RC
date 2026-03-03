@@ -46,14 +46,33 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name="SIXSEVENSIXSEVEN", group="Testing")
 public class sixSevenFile extends OpMode {
 
-    private DcMotor intake, secretMotor;
+    private DcMotorEx outtake;
+    double P, F;
+    double curTargetVelocity;
+    double curVelocity;
+
+    double error;
 
 
     @Override
     public void init() {
 
-        intake = hardwareMap.dcMotor.get("intake");
-        secretMotor = hardwareMap.dcMotor.get("secretMotor");
+        outtake = hardwareMap.get(DcMotorEx.class, "motor1");
+        outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        outtake.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        P=0;
+        F = 0;
+
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
+        outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+
+        curTargetVelocity = 0;
+        curVelocity = 0;
+        error = 0;
+
+
+
 
     }
 
@@ -67,8 +86,37 @@ public class sixSevenFile extends OpMode {
 
         // Set Intake/Outtake controls
 
-        intake.setPower( gamepad2.left_stick_y * -1);
-        secretMotor.setPower( gamepad2.right_stick_y * -1);
+        //outtake.setPower( gamepad2.left_stick_y * -1);
+
+        if (gamepad2.leftTriggerWasPressed()){
+            curTargetVelocity = 1200;
+            P = 130.0;
+            F = 17.7;
+            PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
+            outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+            outtake.setVelocity(1200);
+
+        }
+        if (gamepad2.leftBumperWasPressed()){
+            curTargetVelocity = 1000;
+            P = 250.0;
+            F = 18.4;
+            PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
+            outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+            outtake.setVelocity(1000);
+        }
+
+        if (gamepad2.rightTriggerWasPressed()){
+            outtake.setVelocity(0);
+        }
+
+
+        telemetry.addData("Target Velocity", curTargetVelocity);
+        telemetry.addData("Current Velocity", "%.2f", outtake.getVelocity());
+        telemetry.addData("Error", "%.2f", curTargetVelocity - curVelocity);
+
+        telemetry.update();
+
 
 
 
