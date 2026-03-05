@@ -34,6 +34,9 @@ public class AutoBaseFile extends LinearOpMode {
             (WHEEL_DIAMETER_CM * 3.1415);
 
     // ..........................................................................................................................
+    double P = 600;
+    double F = 18.6004;
+
 
     public void runOpMode(){
         //drive initialize
@@ -112,7 +115,7 @@ public class AutoBaseFile extends LinearOpMode {
 
         while ( runTime.seconds() <= timeOutSeconds &&
                 ( frontLeft.isBusy() || frontRight.isBusy() ||
-                backLeft.isBusy()  || backRight.isBusy()  ) )
+                backLeft.isBusy()  || backRight.isBusy()  ) ) // WAIT FOR ALL MOTORS TO FINISH THEIR MOVEMENT
         {
 
             telemetry.addData("FL Busy; ticks; target ticks", frontLeft.isBusy() + " " + frontLeft.getCurrentPosition() + " " + frontLeft.getTargetPosition()   );
@@ -162,24 +165,24 @@ public class AutoBaseFile extends LinearOpMode {
                 distanceCM, distanceCM,
                 timeOutSeconds );
     }
-    public void backward(double speed, double distanceInches, double timeOutSeconds){
+    public void backward(double speed, double distanceCM, double timeOutSeconds){
         encoderDrive(speed,
-                -distanceInches, -distanceInches,
-                -distanceInches, -distanceInches,
+                -distanceCM, -distanceCM,
+                -distanceCM, -distanceCM,
                 timeOutSeconds );
     }
 
-    public void move_left(double speed, double distanceInches, double timeOutSeconds){
+    public void move_left(double speed, double distanceCM, double timeOutSeconds){
         encoderDrive(speed,
-                -distanceInches, distanceInches,
-                distanceInches, -distanceInches,
+                -distanceCM, distanceCM,
+                distanceCM, -distanceCM,
                 timeOutSeconds );
     }
 
-    public void move_right(double speed, double distanceInches, double timeOutSeconds){
+    public void move_right(double speed, double distanceCM, double timeOutSeconds){
         encoderDrive(speed,
-                distanceInches, -distanceInches,
-                -distanceInches, distanceInches,
+                distanceCM, -distanceCM,
+                -distanceCM, distanceCM,
                 timeOutSeconds );
     }
     public void strafeLeft(double speed, long durationSeconds){
@@ -223,20 +226,29 @@ public class AutoBaseFile extends LinearOpMode {
 
     public void toggleIntake(){
 
-        intake.setPower(intake.getPower() == 0 ? .9 : 0);
+        intake.setPower(intake.getPower() == 0 ? 1 : 0);
+    }
+    public void toggleMidtake(){
+
+        midtake.setPower(midtake.getPower() == 0 ? 1 : 0);
     }
 
     public void launch(){
-        //start the velocity for the flywheel
-        outtake.setVelocity(1000);
-        //wait 5 seconds
-        sleep(5000);
-        //power intake and midtake
+        P = 10;
+        F = 14.3;
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
+        outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         outtake.setVelocity(1200);
-        intake.setPower(1);
-        midtake.setPower(-1);
-        sleep(4000);
 
+        toggleIntake();
+        toggleMidtake();
+
+        sleep(5000);
+
+        toggleIntake();
+        toggleMidtake();
+
+        outtake.setVelocity(0);
 
     }
 }
