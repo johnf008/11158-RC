@@ -44,8 +44,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.bylazar.camerastream.*;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="11158-Final-Drive-Red", group="Controlled")
-public class GrandTestingFile extends OpMode {
+@TeleOp(name="Stream and Tag Detection", group="Controlled")
+public class StreamAndTags extends OpMode {
 
     private static class Processor implements VisionProcessor, CameraStreamSource {
         private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
@@ -78,9 +78,6 @@ public class GrandTestingFile extends OpMode {
     private final Processor processor = new Processor();
 
 
-    private DcMotor frontLeft, frontRight, backLeft, backRight;
-    private DcMotor intake, midtake, midtake_two;
-    private DcMotorEx outtake;
 
     //:3
     // Adjust these numbers to suit your robot.
@@ -103,7 +100,7 @@ public class GrandTestingFile extends OpMode {
     final double MAX_AUTO_STRAFE= 0.5;   //  Clip the strafing speed to this max value (adjust for your robot)
     final double MAX_AUTO_TURN  = 0.3;   //  Clip the turn speed to this max value (adjust for your robot)
     private static final boolean USE_WEBCAM = true;  // Set true to use a webcam, or false for a phone camera
-    private static final int DESIRED_TAG_ID = 24;     // Choose the tag you want to approach or set to -1 for ANY tag.
+    private static final int DESIRED_TAG_ID = 22;     // Choose the tag you want to approach or set to -1 for ANY tag.
     private VisionPortal visionPortal;               // Used to manage the video source.
     private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     private AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
@@ -122,63 +119,12 @@ public class GrandTestingFile extends OpMode {
 
     @Override
     public void init() {
-        frontLeft = hardwareMap.dcMotor.get("leftFront");
-        frontRight = hardwareMap.dcMotor.get("rightFront");
-        backLeft = hardwareMap.dcMotor.get("leftBack");
-        backRight = hardwareMap.dcMotor.get("rightBack");
-
-        intake = hardwareMap.dcMotor.get("intake");
-        outtake = hardwareMap.get(DcMotorEx.class, "outtake");
-        midtake = hardwareMap.dcMotor.get("midtake");
-        midtake_two = hardwareMap.dcMotor.get("secretMotor");
-        //test = hardwareMap.dcMotor.get("test");
 
 
-        // Set motor directions
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.FORWARD);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.FORWARD);
-
-        intake.setDirection(DcMotor.Direction.FORWARD);
-        outtake.setDirection(DcMotorSimple.Direction.REVERSE);
-        midtake.setDirection(DcMotorSimple.Direction.FORWARD);
-        midtake_two.setDirection(DcMotorSimple.Direction.REVERSE);
-        //test.setDirection(DcMotorSimple.Direction.FORWARD);
-
-
-        // Set motor modes
-        frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        //test.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        outtake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-
-        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        outtake.setTargetPosition(0);
-
-
-        midtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        ticksPerRev = intake.getMotorType().getTicksPerRev();
 
         //set new PIDF coefficients
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
-        outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-
-        timer = new ElapsedTime();
 
         targetFound = false;    // Set to true when an AprilTag target is detected
         initAprilTag();
@@ -193,10 +139,6 @@ public class GrandTestingFile extends OpMode {
     @Override
     public void loop() {
 
-        // Gamepad inputs
-        double drive =  -gamepad1.left_stick_y;
-        double strafe = -gamepad1.right_stick_x;
-        double rotate = -(gamepad1.right_trigger - gamepad1.left_trigger);
 
 
 
@@ -241,15 +183,9 @@ public class GrandTestingFile extends OpMode {
             double  headingError    = (desiredTag.ftcPose.bearing - DESIRED_HEADING);
             double  yawError        = (desiredTag.ftcPose.yaw - DESIRED_YAW);
 
-            // Use the speed and turn "gains" to calculate how we want the robot to move.
-            drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-            rotate   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
-            strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
-            telemetry.addData("Auto","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, rotate);
         } else {
 
-            telemetry.addData("Manual","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, rotate);
         }
 
         if (gamepad1.right_bumper && targetFound) {
@@ -259,45 +195,14 @@ public class GrandTestingFile extends OpMode {
             double  headingError    = (desiredTag.ftcPose.bearing - DESIRED_HEADING_CLOSE);
             double  yawError        = (desiredTag.ftcPose.yaw - DESIRED_YAW_CLOSE);
 
-            // Use the speed and turn "gains" to calculate how we want the robot to move.
-            drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-            rotate   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
-            strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
-            telemetry.addData("Auto","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, rotate);
         } else {
 
-            telemetry.addData("Manual","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, rotate);
         }
         telemetry.update();
 
         // Apply desired axes motions to the drivetrain.
 
-
-
-        // Calculate motor powers
-        // Calculate wheel powers.
-        double frontLeftPower    =  drive - strafe - rotate;
-        double frontRightPower   =  drive + strafe + rotate;
-        double backLeftPower     =  drive + strafe - rotate;
-        double backRightPower    =  drive - strafe + rotate;
-
-        // Normalize wheel powers to be less than 1.0
-        double max = Math.max(Math.abs(frontLeftPower), Math.abs(frontRightPower));
-        max = Math.max(max, Math.abs(backLeftPower));
-        max = Math.max(max, Math.abs(backRightPower));
-
-        if (max > 1.0) {
-            frontLeftPower /= max;
-            frontRightPower /= max;
-            backLeftPower /= max;
-            backRightPower /= max;
-        }
-
-        // Set Intake/Outtake controls
-
-        intake.setPower( gamepad2.left_stick_y * -1);
-        midtake.setPower( gamepad2.right_stick_y);
 
         /*
 
@@ -320,106 +225,23 @@ public class GrandTestingFile extends OpMode {
 
 
 
-        if ( gamepad2.rightTriggerWasPressed() ) {
-            midtake_two.setPower(midtake_two.getPower() == 0 ? 1 : 0);
-        }
-
-        if ( gamepad2.aWasPressed() ) {
-            outtake.setPower(outtake.getPower() == 0 ? .85 : 0);
-        }
-        if ( gamepad2.yWasPressed() ) {
-            outtake.setVelocity(outtake.getVelocity() == 0 ? 1600 : 0 );
-        }
-        if ( gamepad2.xWasPressed())
-            outtake.setVelocity(outtake.getVelocity() == 0 ? -1100 : 0 );
-
-
-        //SETTING VELOCITY BASED ON THE PIDF COEFFICIENTS DECLARED IN INIT
-        if (gamepad2.rightBumperWasPressed()){
-            outtake.setVelocity(0);
-        }
-
-        if (gamepad2.leftTriggerWasPressed()){
-            P = 10;
-            F = 14.3;
-            PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
-            outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-            outtake.setVelocity(1200);
-        }
-        if (gamepad2.leftBumperWasPressed()){
-            P = 11;
-            F = 14.6;
-            PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
-            outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-            outtake.setVelocity(1000);
-
-        }
-
-
-
-
-        // Set motor power
-        frontLeft.setPower(frontLeftPower);
-        frontRight.setPower(frontRightPower);
-        backLeft.setPower(backLeftPower);
-        backRight.setPower(backRightPower);
 
         // Display-------------------------------------------------------------------------------------------------------------------------------------------------------------
         telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
 
-        telemetry.addLine();
-        telemetry.addData("Motor Revs FL", frontLeft.getCurrentPosition());
-        telemetry.addData("Motor Revs FR", frontRight.getCurrentPosition());
-        telemetry.addData("Motor Revs BL", backLeft.getCurrentPosition());
-        telemetry.addData("Motor Revs BR", backRight.getCurrentPosition());
-
-        telemetry.addLine();
-        telemetry.addData("Motor Revs Intake", intake.getCurrentPosition());
-        telemetry.addData("Motor Revs Midtake", midtake.getCurrentPosition());
-        telemetry.addData("Motor Revs Outtake", outtake.getCurrentPosition());
-
-        //stuff
-        telemetry.addLine();
-        telemetry.addData("Outtake power: ", outtake.getPower());
-        telemetry.addData("Current outtake velocity: ", outtake.getVelocity());
-
-
-        telemetry.addLine();
-        telemetry.addData("Timer", timer.milliseconds());
-        telemetry.addLine();
-
-        //pidf for john
-        telemetry.addData("Target Velocity", 1500);
-        telemetry.addData("Current Velocity", outtake.getVelocity());
-        telemetry.addData("Error", 1500 - outtake.getVelocity());
-        telemetry.addLine();
-
-        telemetry.addData("P: ", P);
-        telemetry.addData("F: ", F);
-        telemetry.addLine();
-
-        telemetry.addData("Frontleft port", frontLeft.getPortNumber());
-        telemetry.addData("Frontright port", frontRight.getPortNumber());
-        telemetry.addData("BackLeft port", backLeft.getPortNumber());
-        telemetry.addData("Backright port", backRight.getPortNumber());
-        telemetry.addLine();
-
-        PanelsTelemetry.INSTANCE.getTelemetry().addData("Target Velocity", 1500);
-        PanelsTelemetry.INSTANCE.getTelemetry().addData("Current Velocity", outtake.getVelocity());
-        PanelsTelemetry.INSTANCE.getTelemetry().addData("Error", 1500 - outtake.getVelocity());
 
 
 
-        telemetry.update();
+
+
+
         PanelsTelemetry.INSTANCE.getTelemetry().update(telemetry);
 
 
+        telemetry.update();
 
     }
 
-    public double getMotorRevs() {
-        return intake.getCurrentPosition() / ticksPerRev; //ticks -> revolutions translate (need to check sku number to see if we have a gear ratio)
-    }
 
     private void initAprilTag() {
         // Create the AprilTag processor by using a builder.
@@ -471,13 +293,13 @@ public class GrandTestingFile extends OpMode {
         }
 
         // Set camera controls unless we are stopping.
-            ExposureControl exposureControl = visionPortal.getCameraControl(ExposureControl.class);
-            if (exposureControl.getMode() != ExposureControl.Mode.Manual) {
-                exposureControl.setMode(ExposureControl.Mode.Manual);
-            }
-            exposureControl.setExposure((long)exposureMS, TimeUnit.MILLISECONDS);
-            GainControl gainControl = visionPortal.getCameraControl(GainControl.class);
-            gainControl.setGain(gain);
+        ExposureControl exposureControl = visionPortal.getCameraControl(ExposureControl.class);
+        if (exposureControl.getMode() != ExposureControl.Mode.Manual) {
+            exposureControl.setMode(ExposureControl.Mode.Manual);
+        }
+        exposureControl.setExposure((long)exposureMS, TimeUnit.MILLISECONDS);
+        GainControl gainControl = visionPortal.getCameraControl(GainControl.class);
+        gainControl.setGain(gain);
     }
 
     @Override
