@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -39,20 +40,21 @@ public class AutoBaseFile extends LinearOpMode {
 
         //If we are adding aimbot, cords can go in here too.
 
-        BLUE_MID(10,18.4, 1000),
-        BLUE_PILLAR_FAR(10, 17.7, 1200),
-        BLUE_WALL_FAR(10, 15, 1500), //untested values
+        BLUE_MID(10,18.4, 1000, 8),
+        BLUE_PILLAR_FAR(10, 17.7, 1200, 6),
+        BLUE_WALL_FAR(10, 15, 1500, 5), //untested values
 
-        RED_MID(10, 14.3, 1000),
-        RED_PILLAR_FAR(11, 14.3, 1200),
-        RED_WALL_FAR(10, 15, 1500); // untested values
+        RED_MID(10, 14.3, 1000, 8),
+        RED_PILLAR_FAR(11, 14.3, 1200, 6),
+        RED_WALL_FAR(10, 15, 1500, 5); // untested values
 
-        final double P, F, velocityNeeded;
+        final double P, F, velocityNeeded, durationSeconds;
 
-        LAUNCH_POSTION(double P, double F, double velocityNeeded) {
+        LAUNCH_POSTION(double P, double F, double velocityNeeded, double durationSeconds) {
             this.P = P;
             this.F = F;
             this.velocityNeeded = velocityNeeded;
+            this.durationSeconds = durationSeconds;
         }
     }
 
@@ -255,15 +257,36 @@ public class AutoBaseFile extends LinearOpMode {
 
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(position.P, 0, 0, position.F);
         outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-        outtake.setVelocity(1200);
+        outtake.setVelocity(position.velocityNeeded);
 
+/*        toggleIntake();
+        toggleMidtake();*/
+
+        runTime.reset();
+
+        while (runTime.seconds() <= position.durationSeconds){
+            telemetry.addData("Target Velocity", 1500);
+            telemetry.addData("Current Velocity", outtake.getVelocity());
+            telemetry.addData("Error", 1500 - outtake.getVelocity());
+            telemetry.addLine();
+
+            telemetry.addData("Timer", runTime.milliseconds());
+            telemetry.addData("Timeout", position.durationSeconds);
+
+
+            PanelsTelemetry.INSTANCE.getTelemetry().addData("Target Velocity", 1500);
+            PanelsTelemetry.INSTANCE.getTelemetry().addData("Current Velocity", outtake.getVelocity());
+            PanelsTelemetry.INSTANCE.getTelemetry().addData("Error", 1500 - outtake.getVelocity());
+
+            telemetry.update();
+            PanelsTelemetry.INSTANCE.getTelemetry().update(telemetry);
+
+        }
+
+
+/*
         toggleIntake();
-        toggleMidtake();
-
-        sleep(5000);
-
-        toggleIntake();
-        toggleMidtake();
+        toggleMidtake();*/
 
         outtake.setVelocity(0);
 
