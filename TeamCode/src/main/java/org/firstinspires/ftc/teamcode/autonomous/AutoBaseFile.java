@@ -19,7 +19,7 @@ public class AutoBaseFile extends LinearOpMode {
     public DcMotorEx outtake = null;
 
     public ElapsedTime runTime = new ElapsedTime();
-    public final double distance_For_360_Turn = 240;
+    public final double distance_For_360_Turn = 240; //
     public double distanceTurnNeeded;
 
 
@@ -34,8 +34,27 @@ public class AutoBaseFile extends LinearOpMode {
             (WHEEL_DIAMETER_CM * 3.1415);
 
     // ..........................................................................................................................
-    double P = 600;
-    double F = 18.6004;
+
+    public enum LAUNCH_POSTION{
+
+        //If we are adding aimbot, cords can go in here too.
+
+        BLUE_MID(10,18.4, 1000),
+        BLUE_PILLAR_FAR(10, 17.7, 1200),
+        BLUE_WALL_FAR(10, 15, 1500), //untested values
+
+        RED_MID(10, 14.3, 1000),
+        RED_PILLAR_FAR(11, 14.3, 1200),
+        RED_WALL_FAR(10, 15, 1500); // untested values
+
+        final double P, F, velocityNeeded;
+
+        LAUNCH_POSTION(double P, double F, double velocityNeeded) {
+            this.P = P;
+            this.F = F;
+            this.velocityNeeded = velocityNeeded;
+        }
+    }
 
 
     public void runOpMode(){
@@ -84,8 +103,6 @@ public class AutoBaseFile extends LinearOpMode {
 
         outtake.setTargetPosition(0);
 
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(250, 0, 0, 18.4);
-        outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
 
 
 
@@ -111,7 +128,7 @@ public class AutoBaseFile extends LinearOpMode {
         backRight.setMode ( DcMotor.RunMode.RUN_TO_POSITION );
 
         runTime.reset();
-        setWheelMotorsPower(1);
+        setWheelMotorsPower(speed);
 
         while ( runTime.seconds() <= timeOutSeconds &&
                 ( frontLeft.isBusy() || frontRight.isBusy() ||
@@ -233,10 +250,10 @@ public class AutoBaseFile extends LinearOpMode {
         midtake.setPower(midtake.getPower() == 0 ? 1 : 0);
     }
 
-    public void launch(){
-        P = 10;
-        F = 14.3;
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
+    public void launch(LAUNCH_POSTION position){
+
+
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(position.P, 0, 0, position.F);
         outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         outtake.setVelocity(1200);
 

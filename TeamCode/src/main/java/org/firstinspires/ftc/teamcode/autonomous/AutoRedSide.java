@@ -15,9 +15,6 @@ public class AutoRedSide extends AutoBaseFile {
 
         backward(1,100,5);
 
-
-        launch();
-
         move_right(0.5, 100, 3);
 
         sleep(200);
