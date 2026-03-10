@@ -135,10 +135,10 @@ public class GrandTestingFile extends OpMode {
 
 
         // Set motor directions
-        frontLeft.setDirection(DcMotor.Direction.FORWARD);
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
         frontRight.setDirection(DcMotor.Direction.REVERSE);
-        backLeft.setDirection(DcMotor.Direction.FORWARD);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection(DcMotor.Direction.REVERSE);
+        backRight.setDirection(DcMotor.Direction.FORWARD);
 
         intake.setDirection(DcMotor.Direction.REVERSE);
         outtake.setDirection(DcMotorSimple.Direction.FORWARD);
