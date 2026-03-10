@@ -33,13 +33,13 @@ public class FlywheelTuning extends OpMode {
     public void init(){
         flywheelMotor = hardwareMap.get(DcMotorEx.class, "outtake");
         flywheelMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        flywheelMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        flywheelMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         intake = hardwareMap.dcMotor.get("intake");
         midtake = hardwareMap.dcMotor.get("midtake");
 
-        intake.setDirection(DcMotor.Direction.FORWARD);
-        midtake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setDirection(DcMotor.Direction.REVERSE);
+        midtake.setDirection(DcMotorSimple.Direction.REVERSE);
 
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -54,7 +54,7 @@ public class FlywheelTuning extends OpMode {
         telemetry.addLine("Init complete");
 
         midtake_two = hardwareMap.dcMotor.get("secretMotor");
-        midtake_two.setDirection(DcMotorSimple.Direction.REVERSE);
+        midtake_two.setDirection(DcMotorSimple.Direction.FORWARD);
 
 
 
@@ -99,12 +99,10 @@ public class FlywheelTuning extends OpMode {
             P -= stepSizes[stepIndex];
         }
 
-        if ( gamepad1.rightTriggerWasPressed() ) {
-            midtake_two.setPower(midtake_two.getPower() == 0 ? 1 : 0);
-        }
 
-        intake.setPower( gamepad1.left_stick_y * -1);
-        midtake.setPower( gamepad1.right_stick_y);
+        intake.setPower( gamepad1.left_stick_y * 1);
+        midtake.setPower( gamepad1.left_stick_y);
+        midtake_two.setPower(gamepad1.right_stick_y);
 
 
         //set new PIDF coefficients

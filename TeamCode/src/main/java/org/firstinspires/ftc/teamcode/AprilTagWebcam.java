@@ -32,14 +32,20 @@ public class AprilTagWebcam {
                 .setDrawAxes(true)
                 .setDrawCubeProjection(true)
                 .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
+                .setLensIntrinsics(633.701, 633.701, 326.895, 239.61)
+
+
                 .build();
 
         VisionPortal.Builder builder = new VisionPortal.Builder();
         builder.setCamera(hwMap.get(WebcamName.class, "Webcam 1")); //change
-        builder.setCameraResolution(new Size(800, 600));
+        builder.setCameraResolution(new Size(640, 480));
         builder.addProcessor(aprilTagProcessor);
 
-        visionPortal = builder.build();
+        visionPortal = builder
+                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
+                .setCameraResolution(new Size(640, 480))
+                .build();
     }
 
     public void update() {

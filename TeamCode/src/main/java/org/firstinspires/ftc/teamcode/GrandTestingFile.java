@@ -88,9 +88,9 @@ public class GrandTestingFile extends OpMode {
     final double DESIRED_HEADING = -5.2;
     final double DESIRED_YAW = -0.9;
 
-    final double DESIRED_DISTANCE_CLOSE = 43.1; //  this is how close the camera should get to the target (inches)
-    final double DESIRED_HEADING_CLOSE = -10.0;
-    final double DESIRED_YAW_CLOSE = 5.6;
+    final double DESIRED_DISTANCE_CLOSE = 40.1; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_HEADING_CLOSE = 5.6;
+    final double DESIRED_YAW_CLOSE = -9.7;
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -135,14 +135,14 @@ public class GrandTestingFile extends OpMode {
 
 
         // Set motor directions
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.FORWARD);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.FORWARD);
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
+        frontRight.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection(DcMotor.Direction.FORWARD);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
 
-        intake.setDirection(DcMotor.Direction.FORWARD);
-        outtake.setDirection(DcMotorSimple.Direction.REVERSE);
-        midtake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setDirection(DcMotor.Direction.REVERSE);
+        outtake.setDirection(DcMotorSimple.Direction.FORWARD);
+        midtake.setDirection(DcMotorSimple.Direction.REVERSE);
         midtake_two.setDirection(DcMotorSimple.Direction.REVERSE);
         //test.setDirection(DcMotorSimple.Direction.FORWARD);
 
@@ -196,7 +196,7 @@ public class GrandTestingFile extends OpMode {
         // Gamepad inputs
         double drive =  -gamepad1.left_stick_y;
         double strafe = -gamepad1.right_stick_x;
-        double rotate = -(gamepad1.right_trigger - gamepad1.left_trigger);
+        double rotate = (gamepad1.right_trigger - gamepad1.left_trigger);
 
 
 
@@ -220,6 +220,8 @@ public class GrandTestingFile extends OpMode {
                 telemetry.addData("Unknown", "Tag ID %d is not in TagLibrary", detection.id);
                 targetFound = false;
             }
+            displayDetectionTelemetry(detection);
+
         }
 
         // Tell the driver what we see, and what to do.
@@ -296,8 +298,9 @@ public class GrandTestingFile extends OpMode {
 
         // Set Intake/Outtake controls
 
-        intake.setPower( gamepad2.left_stick_y * -1);
-        midtake.setPower( gamepad2.right_stick_y);
+        intake.setPower( gamepad2.left_stick_y);
+        midtake.setPower( gamepad2.left_stick_y * 0.5 );
+        midtake_two.setPower(gamepad2.right_stick_y);
 
         /*
 
@@ -320,18 +323,7 @@ public class GrandTestingFile extends OpMode {
 
 
 
-        if ( gamepad2.rightTriggerWasPressed() ) {
-            midtake_two.setPower(midtake_two.getPower() == 0 ? 1 : 0);
-        }
 
-        if ( gamepad2.aWasPressed() ) {
-            outtake.setPower(outtake.getPower() == 0 ? .85 : 0);
-        }
-        if ( gamepad2.yWasPressed() ) {
-            outtake.setVelocity(outtake.getVelocity() == 0 ? 1600 : 0 );
-        }
-        if ( gamepad2.xWasPressed())
-            outtake.setVelocity(outtake.getVelocity() == 0 ? -1100 : 0 );
 
 
         //SETTING VELOCITY BASED ON THE PIDF COEFFICIENTS DECLARED IN INIT
@@ -340,19 +332,23 @@ public class GrandTestingFile extends OpMode {
         }
 
         if (gamepad2.leftTriggerWasPressed()){
-            P = 10;
-            F = 14.3;
+            P = 80;
+            F = 20.81;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
             outtake.setVelocity(1200);
         }
         if (gamepad2.leftBumperWasPressed()){
-            P = 11;
-            F = 14.6;
+            P = 60;
+            F = 21;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
             outtake.setVelocity(1000);
 
+        }
+
+        if (gamepad2.rightTriggerWasPressed()){
+            outtake.setPower(1);
         }
 
 
@@ -424,6 +420,7 @@ public class GrandTestingFile extends OpMode {
     private void initAprilTag() {
         // Create the AprilTag processor by using a builder.
         aprilTag = new AprilTagProcessor.Builder()
+                .setLensIntrinsics(633.701, 633.701, 326.895, 239.61)
                 .build();
 
         // Adjust Image Decimation to trade-off detection-range for detection-rate.
@@ -478,6 +475,31 @@ public class GrandTestingFile extends OpMode {
             exposureControl.setExposure((long)exposureMS, TimeUnit.MILLISECONDS);
             GainControl gainControl = visionPortal.getCameraControl(GainControl.class);
             gainControl.setGain(gain);
+    }
+
+    public void displayDetectionTelemetry(AprilTagDetection detectedId){
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        telemetry.addData("# AprilTags Detected", currentDetections.size());
+
+        for (AprilTagDetection detection : currentDetections) {
+
+            if (detection.metadata != null) {
+                telemetry.addLine(String.format("\n==== (ID %d) %s", detectedId.id, detectedId.metadata.name));
+                telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detectedId.ftcPose.x, detectedId.ftcPose.y, detectedId.ftcPose.z));
+                telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detectedId.ftcPose.pitch, detectedId.ftcPose.roll, detectedId.ftcPose.yaw));
+                telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detectedId.ftcPose.range, detectedId.ftcPose.bearing, detectedId.ftcPose.elevation));
+            } else {
+                telemetry.addLine(String.format("\n==== (ID %d) Unknown", detectedId.id));
+                telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detectedId.center.x, detectedId.center.y));
+            }
+        }
+        // Add "key" information to telemetry
+        telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
+        telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
+        telemetry.addLine("RBE = Range, Bearing & Elevation");
+
+        // end for() loop
+
     }
 
     @Override
