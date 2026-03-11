@@ -148,6 +148,14 @@ public class GrandTestingFile extends OpMode {
 
 
         // Set motor modes
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+
+
         frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -332,11 +340,11 @@ public class GrandTestingFile extends OpMode {
         }
 
         if (gamepad2.leftTriggerWasPressed()){
-            P = 80;
-            F = 20.81;
+            P = 48;
+            F = 14;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-            outtake.setVelocity(1200);
+            outtake.setVelocity(1500);
         }
         if (gamepad2.leftBumperWasPressed()){
             P = 60;
