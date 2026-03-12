@@ -52,13 +52,13 @@ public class GrandTestingFileBlue extends OpMode {
 
     //:3
     // Adjust these numbers to suit your robot.
-    final double DESIRED_DISTANCE = 62.8; //  this is how close the camera should get to the target (inches)
-    final double DESIRED_HEADING = -9.9;
-    final double DESIRED_YAW = -2.2;
+    final double DESIRED_DISTANCE = 75.1; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_HEADING = 6.0;
+    final double DESIRED_YAW = 13.4;
 
-    final double DESIRED_DISTANCE_CLOSE = 42.4; //  this is how close the camera should get to the target (inches)
-    final double DESIRED_HEADING_CLOSE = -14.4;
-    final double DESIRED_YAW_CLOSE = 3.7;
+    final double DESIRED_DISTANCE_CLOSE = 39.6; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_HEADING_CLOSE = 8.4;
+    final double DESIRED_YAW_CLOSE = 6.5;
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -306,18 +306,18 @@ public class GrandTestingFileBlue extends OpMode {
         }
 
         if (gamepad2.leftTriggerWasPressed()){
-            P = 130;
-            F = 17.7;
+            P = 40;
+            F = 18.6;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-            outtake.setVelocity(1200);
+            outtake.setVelocity(1360);
         }
         if (gamepad2.leftBumperWasPressed()){
-            P = 250;
-            F = 18.4;
+            P = 64.3;
+            F = 16;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-            outtake.setVelocity(1000);
+            outtake.setVelocity(1100);
 
         }
 
