@@ -6,6 +6,7 @@ package org.firstinspires.ftc.teamcode;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Size;
 
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -46,19 +47,50 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name="11158-Final-Drive-Blue", group="Controlled")
 public class GrandTestingFileBlue extends OpMode {
 
+    private static class Processor implements VisionProcessor, CameraStreamSource {
+        private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
+
+        @Override
+        public void init(int width, int height, CameraCalibration calibration) {
+            lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));
+
+        }
+
+        @Override
+        public Object processFrame(Mat frame, long captureTimeNanos) {
+            Bitmap bitmap = Bitmap.createBitmap(frame.width(), frame.height(), Bitmap.Config.RGB_565);
+            Utils.matToBitmap(frame, bitmap);
+            lastFrame.set(bitmap);
+            return null;
+        }
+
+        @Override
+        public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
+            // Not used
+        }
+
+        @Override
+        public void getFrameBitmap(Continuation<? extends Consumer<Bitmap>> continuation) {
+            continuation.dispatch(bitmapConsumer -> bitmapConsumer.accept(lastFrame.get()));
+        }
+    }
+
+    private final Processor processor = new Processor();
+
+
     private DcMotor frontLeft, frontRight, backLeft, backRight;
     private DcMotor intake, midtake, midtake_two;
     private DcMotorEx outtake;
 
     //:3
     // Adjust these numbers to suit your robot.
-    final double DESIRED_DISTANCE = 62.8; //  this is how close the camera should get to the target (inches)
-    final double DESIRED_HEADING = -9.9;
-    final double DESIRED_YAW = -2.2;
+    final double DESIRED_DISTANCE = 39.5; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_HEADING = 9.8;
+    final double DESIRED_YAW = 1.1;
 
-    final double DESIRED_DISTANCE_CLOSE = 42.4; //  this is how close the camera should get to the target (inches)
-    final double DESIRED_HEADING_CLOSE = -14.4;
-    final double DESIRED_YAW_CLOSE = 3.7;
+    final double DESIRED_DISTANCE_CLOSE = 40.1; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_HEADING_CLOSE = 5.6;
+    final double DESIRED_YAW_CLOSE = -9.7;
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -103,14 +135,14 @@ public class GrandTestingFileBlue extends OpMode {
 
 
         // Set motor directions
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
         frontRight.setDirection(DcMotor.Direction.FORWARD);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.FORWARD);
+        backLeft.setDirection(DcMotor.Direction.FORWARD);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
 
-        intake.setDirection(DcMotor.Direction.FORWARD);
-        outtake.setDirection(DcMotorSimple.Direction.REVERSE);
-        midtake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setDirection(DcMotor.Direction.REVERSE);
+        outtake.setDirection(DcMotorSimple.Direction.FORWARD);
+        midtake.setDirection(DcMotorSimple.Direction.REVERSE);
         midtake_two.setDirection(DcMotorSimple.Direction.REVERSE);
         //test.setDirection(DcMotorSimple.Direction.FORWARD);
 
@@ -154,6 +186,8 @@ public class GrandTestingFileBlue extends OpMode {
         if (USE_WEBCAM)
             setManualExposure(6, 250);  // Use low exposure time to reduce motion blur
 
+        PanelsCameraStream.INSTANCE.startStream(processor, 60);
+
     }
 
     @Override
@@ -162,7 +196,7 @@ public class GrandTestingFileBlue extends OpMode {
         // Gamepad inputs
         double drive =  -gamepad1.left_stick_y;
         double strafe = -gamepad1.right_stick_x;
-        double rotate = -(gamepad1.right_trigger - gamepad1.left_trigger);
+        double rotate = (gamepad1.right_trigger - gamepad1.left_trigger);
 
 
 
@@ -186,6 +220,8 @@ public class GrandTestingFileBlue extends OpMode {
                 telemetry.addData("Unknown", "Tag ID %d is not in TagLibrary", detection.id);
                 targetFound = false;
             }
+            displayDetectionTelemetry(detection);
+
         }
 
         // Tell the driver what we see, and what to do.
@@ -204,8 +240,8 @@ public class GrandTestingFileBlue extends OpMode {
 
             // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
             double  rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
-            double  headingError    = (desiredTag.ftcPose.bearing - DESIRED_HEADING);
-            double  yawError        = (desiredTag.ftcPose.yaw - DESIRED_YAW);
+            double  headingError    = (desiredTag.ftcPose.bearing);
+            double  yawError        = (desiredTag.ftcPose.yaw);
 
             // Use the speed and turn "gains" to calculate how we want the robot to move.
             drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
@@ -262,8 +298,9 @@ public class GrandTestingFileBlue extends OpMode {
 
         // Set Intake/Outtake controls
 
-        intake.setPower( gamepad2.left_stick_y * -1);
-        midtake.setPower( gamepad2.right_stick_y);
+        intake.setPower( gamepad2.left_stick_y);
+        midtake.setPower( gamepad2.left_stick_y * 0.5 );
+        midtake_two.setPower(gamepad2.right_stick_y);
 
         /*
 
@@ -286,18 +323,7 @@ public class GrandTestingFileBlue extends OpMode {
 
 
 
-        if ( gamepad2.rightTriggerWasPressed() ) {
-            midtake_two.setPower(midtake_two.getPower() == 0 ? 1 : 0);
-        }
 
-        if ( gamepad2.aWasPressed() ) {
-            outtake.setPower(outtake.getPower() == 0 ? .85 : 0);
-        }
-        if ( gamepad2.yWasPressed() ) {
-            outtake.setVelocity(outtake.getVelocity() == 0 ? 1600 : 0 );
-        }
-        if ( gamepad2.xWasPressed())
-            outtake.setVelocity(outtake.getVelocity() == 0 ? -1100 : 0 );
 
 
         //SETTING VELOCITY BASED ON THE PIDF COEFFICIENTS DECLARED IN INIT
@@ -306,20 +332,25 @@ public class GrandTestingFileBlue extends OpMode {
         }
 
         if (gamepad2.leftTriggerWasPressed()){
-            P = 130;
-            F = 17.7;
+            P = 80;
+            F = 20.81;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
             outtake.setVelocity(1200);
         }
         if (gamepad2.leftBumperWasPressed()){
-            P = 250;
-            F = 18.4;
+            P = 60;
+            F = 21;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
             outtake.setVelocity(1000);
 
         }
+
+        if (gamepad2.rightTriggerWasPressed()){
+            outtake.setPower(1);
+        }
+
 
 
 
@@ -329,7 +360,7 @@ public class GrandTestingFileBlue extends OpMode {
         backLeft.setPower(backLeftPower);
         backRight.setPower(backRightPower);
 
-        // Display
+        // Display-------------------------------------------------------------------------------------------------------------------------------------------------------------
         telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
 
         telemetry.addLine();
@@ -379,7 +410,6 @@ public class GrandTestingFileBlue extends OpMode {
         PanelsTelemetry.INSTANCE.getTelemetry().update(telemetry);
 
 
-        telemetry.update();
 
     }
 
@@ -389,7 +419,9 @@ public class GrandTestingFileBlue extends OpMode {
 
     private void initAprilTag() {
         // Create the AprilTag processor by using a builder.
-        aprilTag = new AprilTagProcessor.Builder().build();
+        aprilTag = new AprilTagProcessor.Builder()
+                .setLensIntrinsics(633.701, 633.701, 326.895, 239.61)
+                .build();
 
         // Adjust Image Decimation to trade-off detection-range for detection-rate.
         // e.g. Some typical detection data using a Logitech C920 WebCam
@@ -403,8 +435,12 @@ public class GrandTestingFileBlue extends OpMode {
         // Create the vision portal by using a builder.
         if (USE_WEBCAM) {
             visionPortal = new VisionPortal.Builder()
+                    .addProcessor(processor)
+                    .setCamera(BuiltinCameraDirection.BACK)
                     .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                     .addProcessor(aprilTag)
+                    .setStreamFormat(VisionPortal.StreamFormat.YUY2)
+                    .setCameraResolution(new Size(640, 480))
                     .build();
         } else {
             visionPortal = new VisionPortal.Builder()
@@ -439,6 +475,36 @@ public class GrandTestingFileBlue extends OpMode {
         exposureControl.setExposure((long)exposureMS, TimeUnit.MILLISECONDS);
         GainControl gainControl = visionPortal.getCameraControl(GainControl.class);
         gainControl.setGain(gain);
+    }
+
+    public void displayDetectionTelemetry(AprilTagDetection detectedId){
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        telemetry.addData("# AprilTags Detected", currentDetections.size());
+
+        for (AprilTagDetection detection : currentDetections) {
+
+            if (detection.metadata != null) {
+                telemetry.addLine(String.format("\n==== (ID %d) %s", detectedId.id, detectedId.metadata.name));
+                telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detectedId.ftcPose.x, detectedId.ftcPose.y, detectedId.ftcPose.z));
+                telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detectedId.ftcPose.pitch, detectedId.ftcPose.roll, detectedId.ftcPose.yaw));
+                telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detectedId.ftcPose.range, detectedId.ftcPose.bearing, detectedId.ftcPose.elevation));
+            } else {
+                telemetry.addLine(String.format("\n==== (ID %d) Unknown", detectedId.id));
+                telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detectedId.center.x, detectedId.center.y));
+            }
+        }
+        // Add "key" information to telemetry
+        telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
+        telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
+        telemetry.addLine("RBE = Range, Bearing & Elevation");
+
+        // end for() loop
+
+    }
+
+    @Override
+    public void stop() {
+        PanelsCameraStream.INSTANCE.stopStream();
     }
 
 
