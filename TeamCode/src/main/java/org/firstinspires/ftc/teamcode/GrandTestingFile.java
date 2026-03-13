@@ -111,7 +111,6 @@ public class GrandTestingFile extends OpMode {
 
 
 
-
     private ElapsedTime timer;
 
     private Double ticksPerRev; // ticks per revolution
@@ -138,7 +137,7 @@ public class GrandTestingFile extends OpMode {
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         frontRight.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.FORWARD);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
 
         intake.setDirection(DcMotor.Direction.REVERSE);
         outtake.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -244,15 +243,15 @@ public class GrandTestingFile extends OpMode {
         }
 
         // If Left Bumper is being pressed, AND we have found the desired target, Drive to target Automatically .
-        if (gamepad1.left_bumper && targetFound) {
+        if (gamepad1.right_bumper && targetFound) {
 
             // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
-            double  rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
-            double  headingError    = (desiredTag.ftcPose.bearing - DESIRED_HEADING);
-            double  yawError        = (desiredTag.ftcPose.yaw - DESIRED_YAW);
+             double rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
+             double headingError    = (desiredTag.ftcPose.bearing - DESIRED_HEADING);
+             double yawError        = (desiredTag.ftcPose.yaw - DESIRED_YAW);
 
             // Use the speed and turn "gains" to calculate how we want the robot to move.
-            drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+            drive  = - Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             rotate   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
             strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
@@ -264,15 +263,15 @@ public class GrandTestingFile extends OpMode {
 
         }
 
-        if (gamepad1.right_bumper && targetFound) {
+        if (gamepad1.left_bumper && targetFound) {
 
             // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
-            double  rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE_CLOSE);
-            double  headingError    = (desiredTag.ftcPose.bearing - DESIRED_HEADING_CLOSE);
-            double  yawError        = (desiredTag.ftcPose.yaw - DESIRED_YAW_CLOSE);
+              double rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE_CLOSE);
+              double headingError    = (desiredTag.ftcPose.bearing - DESIRED_HEADING_CLOSE);
+              double yawError        = (desiredTag.ftcPose.yaw - DESIRED_YAW_CLOSE);
 
             // Use the speed and turn "gains" to calculate how we want the robot to move.
-            drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+            drive  = - Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             rotate   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
             strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
@@ -409,6 +408,8 @@ public class GrandTestingFile extends OpMode {
         telemetry.addData("Frontright port", frontRight.getPortNumber());
         telemetry.addData("BackLeft port", backLeft.getPortNumber());
         telemetry.addData("Backright port", backRight.getPortNumber());
+
+
         telemetry.addLine();
 
         PanelsTelemetry.INSTANCE.getTelemetry().addData("Target Velocity", 1500);
@@ -431,7 +432,6 @@ public class GrandTestingFile extends OpMode {
     private void initAprilTag() {
         // Create the AprilTag processor by using a builder.
         aprilTag = new AprilTagProcessor.Builder()
-                .setLensIntrinsics(633.701, 633.701, 326.895, 239.61)
                 .build();
 
         // Adjust Image Decimation to trade-off detection-range for detection-rate.

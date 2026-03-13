@@ -104,9 +104,9 @@ public class GrandTestingFileBlue extends OpMode {
 
         // Set motor directions
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.FORWARD);
+        frontRight.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.FORWARD);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
 
         intake.setDirection(DcMotor.Direction.FORWARD);
         outtake.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -200,7 +200,7 @@ public class GrandTestingFileBlue extends OpMode {
         }
 
         // If Left Bumper is being pressed, AND we have found the desired target, Drive to target Automatically .
-        if (gamepad1.left_bumper && targetFound) {
+        if (gamepad1.right_bumper && targetFound) {
 
             // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
             double  rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
@@ -208,7 +208,7 @@ public class GrandTestingFileBlue extends OpMode {
             double  yawError        = (desiredTag.ftcPose.yaw - DESIRED_YAW);
 
             // Use the speed and turn "gains" to calculate how we want the robot to move.
-            drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+            drive  = - Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             rotate   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
             strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
@@ -218,7 +218,7 @@ public class GrandTestingFileBlue extends OpMode {
             telemetry.addData("Manual","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, rotate);
         }
 
-        if (gamepad1.right_bumper && targetFound) {
+        if (gamepad1.left_bumper && targetFound) {
 
             // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
             double  rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE_CLOSE);
@@ -226,7 +226,7 @@ public class GrandTestingFileBlue extends OpMode {
             double  yawError        = (desiredTag.ftcPose.yaw - DESIRED_YAW_CLOSE);
 
             // Use the speed and turn "gains" to calculate how we want the robot to move.
-            drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+            drive  = - Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             rotate   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
             strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
@@ -262,8 +262,9 @@ public class GrandTestingFileBlue extends OpMode {
 
         // Set Intake/Outtake controls
 
-        intake.setPower( gamepad2.left_stick_y * -1);
-        midtake.setPower( gamepad2.right_stick_y);
+        intake.setPower( gamepad2.left_stick_y);
+        midtake.setPower( gamepad2.left_stick_y * 0.5 );
+        midtake_two.setPower(gamepad2.right_stick_y);
 
         /*
 
