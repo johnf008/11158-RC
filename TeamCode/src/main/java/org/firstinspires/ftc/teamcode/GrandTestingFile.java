@@ -88,9 +88,9 @@ public class GrandTestingFile extends OpMode {
     final double DESIRED_HEADING = 11.4;
     final double DESIRED_YAW = -12.7;
 
-    final double DESIRED_DISTANCE_CLOSE = 55.5; //  this is how close the camera should get to the target (inches)
-    final double DESIRED_HEADING_CLOSE = 12.9;
-    final double DESIRED_YAW_CLOSE = 11.9;
+    final double DESIRED_DISTANCE_CLOSE = 43.7; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_HEADING_CLOSE = 15.4;
+    final double DESIRED_YAW_CLOSE = -4.3;
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -108,7 +108,6 @@ public class GrandTestingFile extends OpMode {
     private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     private AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
     private boolean targetFound;
-
 
 
 
@@ -244,15 +243,15 @@ public class GrandTestingFile extends OpMode {
         }
 
         // If Left Bumper is being pressed, AND we have found the desired target, Drive to target Automatically .
-        if (gamepad1.left_bumper && targetFound) {
+        if (gamepad1.right_bumper && targetFound) {
 
             // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
-            double  rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
-            double  headingError    = (desiredTag.ftcPose.bearing - DESIRED_HEADING);
-            double  yawError        = (desiredTag.ftcPose.yaw - DESIRED_YAW);
+             double rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
+             double headingError    = (desiredTag.ftcPose.bearing - DESIRED_HEADING);
+             double yawError        = (desiredTag.ftcPose.yaw - DESIRED_YAW);
 
             // Use the speed and turn "gains" to calculate how we want the robot to move.
-            drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+            drive  = - Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             rotate   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
             strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
@@ -264,15 +263,15 @@ public class GrandTestingFile extends OpMode {
 
         }
 
-        if (gamepad1.right_bumper && targetFound) {
+        if (gamepad1.left_bumper && targetFound) {
 
             // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
-            double  rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE_CLOSE);
-            double  headingError    = (desiredTag.ftcPose.bearing - DESIRED_HEADING_CLOSE);
-            double  yawError        = (desiredTag.ftcPose.yaw - DESIRED_YAW_CLOSE);
+              double rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE_CLOSE);
+              double headingError    = (desiredTag.ftcPose.bearing - DESIRED_HEADING_CLOSE);
+              double yawError        = (desiredTag.ftcPose.yaw - DESIRED_YAW_CLOSE);
 
             // Use the speed and turn "gains" to calculate how we want the robot to move.
-            drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+            drive  = - Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             rotate   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
             strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
@@ -350,11 +349,11 @@ public class GrandTestingFile extends OpMode {
             outtake.setVelocity(1370);
         }
         if (gamepad2.leftBumperWasPressed()){
-            P = 58.5;
-            F = 19.9;
+            P = 50.1;
+            F = 18.3042;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-            outtake.setVelocity(1200);
+            outtake.setVelocity(1080);
 
         }
 
@@ -409,6 +408,8 @@ public class GrandTestingFile extends OpMode {
         telemetry.addData("Frontright port", frontRight.getPortNumber());
         telemetry.addData("BackLeft port", backLeft.getPortNumber());
         telemetry.addData("Backright port", backRight.getPortNumber());
+
+
         telemetry.addLine();
 
         PanelsTelemetry.INSTANCE.getTelemetry().addData("Target Velocity", 1500);
@@ -431,7 +432,6 @@ public class GrandTestingFile extends OpMode {
     private void initAprilTag() {
         // Create the AprilTag processor by using a builder.
         aprilTag = new AprilTagProcessor.Builder()
-                .setLensIntrinsics(633.701, 633.701, 326.895, 239.61)
                 .build();
 
         // Adjust Image Decimation to trade-off detection-range for detection-rate.

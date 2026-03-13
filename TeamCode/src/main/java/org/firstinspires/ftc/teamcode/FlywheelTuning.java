@@ -129,7 +129,7 @@ public class FlywheelTuning extends OpMode {
             telemetry.addData("Target Velocity", curTargetVelocity);
             telemetry.addData("Current Velocity", "%.2f", curVelocity);
             telemetry.addData("Error", "%.2f", error);
-            telemetry.addLine("X to change form high velocity to low velocity & vice versa, A to turn off");
+            telemetry.addLine("X to change from high velocity to low velocity & vice versa, A to turn off");
             telemetry.addLine("-----------------");
 
             telemetry.addData("HighVelocity", highVelocity);
