@@ -109,7 +109,7 @@ public class GrandTestingFileBlue extends OpMode {
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
         intake.setDirection(DcMotor.Direction.FORWARD);
-        outtake.setDirection(DcMotorSimple.Direction.REVERSE);
+        outtake.setDirection(DcMotorSimple.Direction.FORWARD);
         midtake.setDirection(DcMotorSimple.Direction.FORWARD);
         midtake_two.setDirection(DcMotorSimple.Direction.REVERSE);
         //test.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -162,7 +162,7 @@ public class GrandTestingFileBlue extends OpMode {
         // Gamepad inputs
         double drive =  -gamepad1.left_stick_y;
         double strafe = -gamepad1.right_stick_x;
-        double rotate = -(gamepad1.right_trigger - gamepad1.left_trigger);
+        double rotate = (gamepad1.right_trigger - gamepad1.left_trigger);
 
 
 
@@ -210,7 +210,7 @@ public class GrandTestingFileBlue extends OpMode {
             // Use the speed and turn "gains" to calculate how we want the robot to move.
             drive  = - Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             rotate   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
-            strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
+            strafe = - Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
             telemetry.addData("Auto","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, rotate);
         } else {
@@ -262,9 +262,9 @@ public class GrandTestingFileBlue extends OpMode {
 
         // Set Intake/Outtake controls
 
-        intake.setPower( gamepad2.left_stick_y);
-        midtake.setPower( gamepad2.left_stick_y * 0.5 );
-        midtake_two.setPower(gamepad2.right_stick_y);
+        intake.setPower( -gamepad2.left_stick_y);
+        midtake.setPower( -gamepad2.left_stick_y * 0.5 );
+        midtake_two.setPower(-gamepad2.right_stick_y);
 
         /*
 
@@ -311,7 +311,7 @@ public class GrandTestingFileBlue extends OpMode {
             F = 18.6;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-            outtake.setVelocity(1360);
+            outtake.setVelocity(1375);
         }
         if (gamepad2.leftBumperWasPressed()){
             P = 64.3;
