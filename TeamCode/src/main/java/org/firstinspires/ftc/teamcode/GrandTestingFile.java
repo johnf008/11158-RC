@@ -88,9 +88,9 @@ public class GrandTestingFile extends OpMode {
     final double DESIRED_HEADING = 11.4;
     final double DESIRED_YAW = -12.7;
 
-    final double DESIRED_DISTANCE_CLOSE = 55.5; //  this is how close the camera should get to the target (inches)
-    final double DESIRED_HEADING_CLOSE = 12.9;
-    final double DESIRED_YAW_CLOSE = 11.9;
+    final double DESIRED_DISTANCE_CLOSE = 43.7; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_HEADING_CLOSE = 15.4;
+    final double DESIRED_YAW_CLOSE = -4.3;
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -350,11 +350,11 @@ public class GrandTestingFile extends OpMode {
             outtake.setVelocity(1370);
         }
         if (gamepad2.leftBumperWasPressed()){
-            P = 58.5;
-            F = 19.9;
+            P = 50.1;
+            F = 18.3042;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-            outtake.setVelocity(1200);
+            outtake.setVelocity(1080);
 
         }
 
