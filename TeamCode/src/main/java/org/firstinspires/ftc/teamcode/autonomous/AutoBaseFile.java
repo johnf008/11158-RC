@@ -34,6 +34,9 @@ public class AutoBaseFile extends LinearOpMode {
     static final double TICKS_PER_MM = (TICKS_PER_REVOLUTION * DRIVE_GEAR_RATIO) /
             (WHEEL_DIAMETER_CM * 3.1415);
 
+
+    static final double TICK_MAX_RANGE = 15; // The min error the motors go until they stop
+
     // ..........................................................................................................................
 
     public enum LAUNCH_POSTION{
@@ -79,8 +82,8 @@ public class AutoBaseFile extends LinearOpMode {
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //set wheel motor settings..................................................................
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
+        frontRight.setDirection(DcMotor.Direction.FORWARD);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
@@ -154,6 +157,24 @@ public class AutoBaseFile extends LinearOpMode {
             telemetry.addData("Timeout", timeOutSeconds);
             telemetry.update();
 
+            if (runTime.seconds() > 0.2) {
+                if (Math.abs(frontLeft.getTargetPosition() - frontLeft.getCurrentPosition()) < TICK_MAX_RANGE) {
+                    frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                }
+                if (Math.abs(frontRight.getTargetPosition() - frontRight.getCurrentPosition()) < TICK_MAX_RANGE) {
+                    frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                }
+                if (Math.abs(backLeft.getTargetPosition() - backLeft.getCurrentPosition()) < TICK_MAX_RANGE) {
+                    backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                }
+                if (Math.abs(backRight.getTargetPosition() - backRight.getCurrentPosition()) < TICK_MAX_RANGE) {
+                    backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                }
+            }
         }
 
         setWheelMotorsPower(0);
@@ -259,8 +280,8 @@ public class AutoBaseFile extends LinearOpMode {
         outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         outtake.setVelocity(position.velocityNeeded);
 
-/*        toggleIntake();
-        toggleMidtake();*/
+       toggleIntake();
+       toggleMidtake();
 
         runTime.reset();
 
@@ -284,9 +305,9 @@ public class AutoBaseFile extends LinearOpMode {
         }
 
 
-/*
+
         toggleIntake();
-        toggleMidtake();*/
+        toggleMidtake();
 
         outtake.setVelocity(0);
 
