@@ -201,9 +201,9 @@ public class GrandTestingFile extends OpMode {
     public void loop() {
 
         // Gamepad inputs
-        double drive =  -gamepad1.left_stick_y;
-        double strafe = -gamepad1.right_stick_x;
-        double rotate = (gamepad1.right_trigger - gamepad1.left_trigger);
+        double drive =  gamepad1.left_stick_y;
+        double strafe = gamepad1.right_stick_x;
+        double rotate = -(gamepad1.right_trigger - gamepad1.left_trigger);
 
 
 

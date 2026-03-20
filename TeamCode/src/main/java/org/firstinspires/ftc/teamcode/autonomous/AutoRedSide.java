@@ -16,8 +16,17 @@ public class AutoRedSide extends AutoBaseFile {
         encoderDrive(1,100,97,100,97,.8);
         sleep(2000);
 
-        rotateRight(1,2,1.25);
+        //rotateRight(1,2,1.25);
+        rotateRightQuarter(0.25, 2, 1.25);
+        sleep(2000);
 
+        encoderDrive(1,75,73,75,73,2);
+        toggleIntake();
+        toggleMidtake();
+        sleep(3000);
+
+        move_left(0.5,15, 1 );
+        sleep(2000);
 
 
 

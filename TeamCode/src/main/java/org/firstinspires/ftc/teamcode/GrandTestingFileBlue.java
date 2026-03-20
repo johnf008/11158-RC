@@ -56,9 +56,9 @@ public class GrandTestingFileBlue extends OpMode {
     final double DESIRED_HEADING = 6.0;
     final double DESIRED_YAW = 13.4;
 
-    final double DESIRED_DISTANCE_CLOSE = 39.6; //  this is how close the camera should get to the target (inches)
-    final double DESIRED_HEADING_CLOSE = 8.4;
-    final double DESIRED_YAW_CLOSE = 6.5;
+    final double DESIRED_DISTANCE_CLOSE = 41.2; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_HEADING_CLOSE = 13.9;
+    final double DESIRED_YAW_CLOSE = -8.6;
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -162,7 +162,7 @@ public class GrandTestingFileBlue extends OpMode {
         // Gamepad inputs
         double drive =  -gamepad1.left_stick_y;
         double strafe = -gamepad1.right_stick_x;
-        double rotate = (gamepad1.right_trigger - gamepad1.left_trigger);
+        double rotate = -(gamepad1.right_trigger - gamepad1.left_trigger);
 
 
 
@@ -302,18 +302,19 @@ public class GrandTestingFileBlue extends OpMode {
 
 
         //SETTING VELOCITY BASED ON THE PIDF COEFFICIENTS DECLARED IN INIT
-        if (gamepad2.rightBumperWasPressed()){
+        if (gamepad2.dpadDownWasPressed()){
             outtake.setVelocity(0);
         }
 
-        if (gamepad2.leftTriggerWasPressed()){
+        if (gamepad2.dpadLeftWasPressed()){
             P = 40;
             F = 18.6;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
             outtake.setVelocity(1375);
         }
-        if (gamepad2.leftBumperWasPressed()){
+
+        if (gamepad2.dpadRightWasPressed()){
             P = 64.3;
             F = 16;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);

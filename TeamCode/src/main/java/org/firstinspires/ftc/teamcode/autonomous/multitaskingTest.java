@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name="Auto Blue Side", group = "Auto")
-public class AutoBlueSide extends AutoBaseFile {
+@Autonomous(name="MultitaskingTest", group = "Auto")
+public class multitaskingTest extends AutoBaseFile {
 
     @Override
     public void runOpMode(){
@@ -13,8 +13,6 @@ public class AutoBlueSide extends AutoBaseFile {
 
         // Autonomous actions - btw, it works way better than when at FASTER SPEEDS,
 
-        //backward(1,150,3);
-        forward(1,100, .8);
         launch(LAUNCH_POSTION.BLUE_PILLAR_FAR);
 
         sleep(3000);

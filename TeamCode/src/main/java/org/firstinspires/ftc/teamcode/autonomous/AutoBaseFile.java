@@ -16,7 +16,7 @@ public class AutoBaseFile extends LinearOpMode {
     public DcMotor backRight = null;
 
     public DcMotor intake = null;
-    public DcMotor midtake = null;
+    public DcMotor midtake, midtake_two = null;
     public DcMotorEx outtake = null;
 
     public ElapsedTime runTime = new ElapsedTime();
@@ -71,6 +71,9 @@ public class AutoBaseFile extends LinearOpMode {
 
         this.intake = hardwareMap.get(DcMotor.class, "intake");
         this.midtake = hardwareMap.get(DcMotor.class, "midtake");
+
+        this.midtake_two = hardwareMap.get(DcMotor.class, "secretMotor");
+
         this.outtake = hardwareMap.get(DcMotorEx.class, "outtake");
 
 
@@ -105,6 +108,9 @@ public class AutoBaseFile extends LinearOpMode {
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         midtake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         outtake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        midtake_two.setDirection(DcMotor.Direction.REVERSE);
+        midtake_two.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         outtake.setTargetPosition(0);
 
@@ -262,6 +268,16 @@ public class AutoBaseFile extends LinearOpMode {
                 distanceTurnNeeded, -distanceTurnNeeded,
                 timeOutSeconds );
     }
+
+    public void rotateRightQuarter(double speed, double turnDegree, double timeOutSeconds){
+        turnDegree = turnDegree/360;
+        distanceTurnNeeded = (170 * turnDegree);
+        encoderDrive(speed,
+                -distanceTurnNeeded, distanceTurnNeeded,
+                -distanceTurnNeeded, distanceTurnNeeded,
+                timeOutSeconds );
+
+    }
     //other methods
 
     public void toggleIntake(){
@@ -273,15 +289,24 @@ public class AutoBaseFile extends LinearOpMode {
         midtake.setPower(midtake.getPower() == 0 ? 1 : 0);
     }
 
+    public void toggleMidtakeTwo() {
+        midtake_two.setPower(midtake_two.getPower() == 0 ? 1 : 0);
+
+    }
+
     public void launch(LAUNCH_POSTION position){
 
 
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(position.P, 0, 0, position.F);
         outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         outtake.setVelocity(position.velocityNeeded);
+        sleep(5000);
 
-       toggleIntake();
-       toggleMidtake();
+        toggleIntake();
+        toggleMidtake();
+        toggleMidtakeTwo();
+
+
 
         runTime.reset();
 
@@ -302,12 +327,16 @@ public class AutoBaseFile extends LinearOpMode {
             telemetry.update();
             PanelsTelemetry.INSTANCE.getTelemetry().update(telemetry);
 
-        }
 
+        }
 
 
         toggleIntake();
         toggleMidtake();
+
+
+
+
 
         outtake.setVelocity(0);
 
