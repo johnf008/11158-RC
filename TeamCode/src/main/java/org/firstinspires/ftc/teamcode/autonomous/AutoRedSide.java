@@ -13,20 +13,13 @@ public class AutoRedSide extends AutoBaseFile {
         super.runOpMode();
         waitForStart();
 
-        encoderDrive(1,100,97,100,97,.8);
+        forward(1,100, 1.6);
+        launch(LAUNCH_POSTION.RED_PILLAR_FAR);
+
         sleep(2000);
 
-        //rotateRight(1,2,1.25);
-        rotateRightQuarter(0.25, 2, 1.25);
-        sleep(2000);
 
-        encoderDrive(1,75,73,75,73,2);
-        toggleIntake();
-        toggleMidtake();
-        sleep(3000);
-
-        move_left(0.5,15, 1 );
-        sleep(2000);
+        strafeRight(1,1);
 
 
 

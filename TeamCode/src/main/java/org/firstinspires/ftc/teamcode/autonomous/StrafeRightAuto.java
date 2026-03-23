@@ -12,7 +12,9 @@ public class StrafeRightAuto extends AutoBaseFile {
         waitForStart();
 
         // Autonomous actions
-        sleep(5000);
+        sleep(28000);
+
+        strafeRight(1,2);
 
 
     }

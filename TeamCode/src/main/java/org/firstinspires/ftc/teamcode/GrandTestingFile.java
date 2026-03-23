@@ -84,13 +84,13 @@ public class GrandTestingFile extends OpMode {
 
     //:3
     // Adjust these numbers to suit your robot.
-    final double DESIRED_DISTANCE = 71.8; //  this is how close the camera should get to the target (inches)
-    final double DESIRED_HEADING = 11.4;
-    final double DESIRED_YAW = -12.7;
+    final double DESIRED_DISTANCE = 71.2; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_HEADING = 5.6;
+    final double DESIRED_YAW = -16.5;
 
-    final double DESIRED_DISTANCE_CLOSE = 43.7; //  this is how close the camera should get to the target (inches)
-    final double DESIRED_HEADING_CLOSE = 15.4;
-    final double DESIRED_YAW_CLOSE = -4.3;
+    final double DESIRED_DISTANCE_CLOSE = 44.1; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_HEADING_CLOSE = 9.3;
+    final double DESIRED_YAW_CLOSE = -7.0;
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -134,9 +134,9 @@ public class GrandTestingFile extends OpMode {
 
 
         // Set motor directions
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
+        frontRight.setDirection(DcMotor.Direction.FORWARD);
+        backLeft.setDirection(DcMotor.Direction.FORWARD);
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
         intake.setDirection(DcMotor.Direction.REVERSE);
@@ -342,18 +342,19 @@ public class GrandTestingFile extends OpMode {
         }
 
         if (gamepad2.leftTriggerWasPressed()){
-            P = 40.7;
+            P = 40;
             F = 18.6;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-            outtake.setVelocity(1370);
+            outtake.setVelocity(1375);
         }
+
         if (gamepad2.leftBumperWasPressed()){
-            P = 50.1;
-            F = 18.3042;
+            P = 64.3;
+            F = 16;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
             outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-            outtake.setVelocity(1080);
+            outtake.setVelocity(1100);
 
         }
 

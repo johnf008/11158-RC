@@ -14,10 +14,13 @@ public class AutoBlueSide extends AutoBaseFile {
         // Autonomous actions - btw, it works way better than when at FASTER SPEEDS,
 
         //backward(1,150,3);
-        forward(1,100, .8);
+        forward(1,75, 1.6);
         launch(LAUNCH_POSTION.BLUE_PILLAR_FAR);
 
-        sleep(3000);
+        sleep(2000);
+
+        strafeLeft(1,1);
+
 
         /*
         rotateLeft(0.5, 45, 1);

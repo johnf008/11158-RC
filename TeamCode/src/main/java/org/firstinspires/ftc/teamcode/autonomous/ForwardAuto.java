@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous(name="Forward Auto Blue", group = "Auto")
-public class ForwardAuto extends AutoBaseFile {
+public class ForwardAuto extends ForwardAutoPowerBased {
 
 @Override
     public void runOpMode(){
@@ -12,15 +12,11 @@ public class ForwardAuto extends AutoBaseFile {
         waitForStart();
 
         // Autonomous actions - btw, it works way better than when at FASTER SPEEDS
-        //JOhn remember to change CM_REDUCTION_MULTIPLIER
 
-        //move backwards until at a middle length from the goal
 
-        //initiate launch sequence
+        sleep(29000);
 
-        //strafe off the launching zone
-
-        forward(1,100,5);
+        strafeLeft(1000);
 
 
 

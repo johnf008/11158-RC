@@ -52,13 +52,13 @@ public class GrandTestingFileBlue extends OpMode {
 
     //:3
     // Adjust these numbers to suit your robot.
-    final double DESIRED_DISTANCE = 75.1; //  this is how close the camera should get to the target (inches)
-    final double DESIRED_HEADING = 6.0;
-    final double DESIRED_YAW = 13.4;
+    final double DESIRED_DISTANCE = 59.5; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_HEADING = 3.5;
+    final double DESIRED_YAW = -17.2;
 
-    final double DESIRED_DISTANCE_CLOSE = 41.2; //  this is how close the camera should get to the target (inches)
-    final double DESIRED_HEADING_CLOSE = 13.9;
-    final double DESIRED_YAW_CLOSE = -8.6;
+    final double DESIRED_DISTANCE_CLOSE = 36.9; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_HEADING_CLOSE = 12.7;
+    final double DESIRED_YAW_CLOSE = -5.3;
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -103,9 +103,9 @@ public class GrandTestingFileBlue extends OpMode {
 
 
         // Set motor directions
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
+        frontRight.setDirection(DcMotor.Direction.FORWARD);
+        backLeft.setDirection(DcMotor.Direction.FORWARD);
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
         intake.setDirection(DcMotor.Direction.FORWARD);
@@ -160,9 +160,9 @@ public class GrandTestingFileBlue extends OpMode {
     public void loop() {
 
         // Gamepad inputs
-        double drive =  -gamepad1.left_stick_y;
-        double strafe = -gamepad1.right_stick_x;
-        double rotate = -(gamepad1.right_trigger - gamepad1.left_trigger);
+        double drive =  gamepad1.left_stick_y;
+        double strafe = gamepad1.right_stick_x;
+        double rotate = (gamepad1.right_trigger - gamepad1.left_trigger);
 
 
 
@@ -228,7 +228,7 @@ public class GrandTestingFileBlue extends OpMode {
             // Use the speed and turn "gains" to calculate how we want the robot to move.
             drive  = - Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             rotate   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
-            strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
+            strafe = -Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
             telemetry.addData("Auto","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, rotate);
         } else {
@@ -302,11 +302,11 @@ public class GrandTestingFileBlue extends OpMode {
 
 
         //SETTING VELOCITY BASED ON THE PIDF COEFFICIENTS DECLARED IN INIT
-        if (gamepad2.dpadDownWasPressed()){
+        if (gamepad2.rightBumperWasPressed()){
             outtake.setVelocity(0);
         }
 
-        if (gamepad2.dpadLeftWasPressed()){
+        if (gamepad2.leftTriggerWasPressed()){
             P = 40;
             F = 18.6;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
@@ -314,7 +314,7 @@ public class GrandTestingFileBlue extends OpMode {
             outtake.setVelocity(1375);
         }
 
-        if (gamepad2.dpadRightWasPressed()){
+        if (gamepad2.leftBumperWasPressed()){
             P = 64.3;
             F = 16;
             PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);

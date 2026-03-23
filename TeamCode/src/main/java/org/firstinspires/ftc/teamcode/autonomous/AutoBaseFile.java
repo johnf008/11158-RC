@@ -85,10 +85,10 @@ public class AutoBaseFile extends LinearOpMode {
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //set wheel motor settings..................................................................
-        frontLeft.setDirection(DcMotor.Direction.FORWARD);
-        frontRight.setDirection(DcMotor.Direction.FORWARD);
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        frontRight.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
+        backRight.setDirection(DcMotor.Direction.FORWARD);
 
 
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -113,6 +113,7 @@ public class AutoBaseFile extends LinearOpMode {
         midtake_two.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         outtake.setTargetPosition(0);
+        resetWheelMotorsEncoders();
 
 
 

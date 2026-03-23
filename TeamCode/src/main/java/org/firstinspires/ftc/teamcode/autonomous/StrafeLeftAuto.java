@@ -10,10 +10,11 @@ public class StrafeLeftAuto extends AutoBaseFile {
         // Initialize hardware and wait for start
         super.runOpMode();
         waitForStart();
+        sleep(29000);
+
 
         // Autonomous actions
-        backward(.5, 25,10);
-        sleep(8000);
+        strafeLeft(1.0, 1 );
 
 
     }
