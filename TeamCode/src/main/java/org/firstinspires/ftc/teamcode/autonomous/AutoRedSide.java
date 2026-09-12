@@ -13,7 +13,7 @@ public class AutoRedSide extends AutoBaseFile {
         super.runOpMode();
         waitForStart();
 
-        forward(1,100, 1.6);
+        forward(1,100, 4);
         launch(LAUNCH_POSTION.RED_PILLAR_FAR);
 
         sleep(2000);
