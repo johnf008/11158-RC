@@ -1,0 +1,135 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.firstinspires.ftc",
+    "module": "OnBotJava",
+    "version": "11.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.9"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "OnBotJava-11.1.0.aar",
+          "url": "OnBotJava-11.1.0.aar",
+          "size": 5410776,
+          "sha512": "c3ec369b92844910f531cf6541f41b0267533f54c4816509f1a562a257d599129dc4ad7e2c5db0e7d2318bf65c629a2858dc677375f84ce5bc39d7959db66b61",
+          "sha256": "8aeb4449f22766b2bf84d184b70cb1904c30aa1d6863a504d4929a7d351b1206",
+          "sha1": "baba8ac41e4774adb87b7119bfa17fb4acaa8357",
+          "md5": "30dde2f863c3faec232d57af2ea0ea3e"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.2.0"
+          }
+        },
+        {
+          "group": "com.android.tools",
+          "module": "r8",
+          "version": {
+            "requires": "8.5.35"
+          }
+        },
+        {
+          "group": "org.firstinspires.ftc",
+          "module": "Blocks",
+          "version": {
+            "requires": "11.1.0"
+          }
+        },
+        {
+          "group": "org.firstinspires.ftc",
+          "module": "RobotCore",
+          "version": {
+            "requires": "11.1.0"
+          }
+        },
+        {
+          "group": "org.firstinspires.ftc",
+          "module": "RobotServer",
+          "version": {
+            "requires": "11.1.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "OnBotJava-11.1.0.aar",
+          "url": "OnBotJava-11.1.0.aar",
+          "size": 5410776,
+          "sha512": "c3ec369b92844910f531cf6541f41b0267533f54c4816509f1a562a257d599129dc4ad7e2c5db0e7d2318bf65c629a2858dc677375f84ce5bc39d7959db66b61",
+          "sha256": "8aeb4449f22766b2bf84d184b70cb1904c30aa1d6863a504d4929a7d351b1206",
+          "sha1": "baba8ac41e4774adb87b7119bfa17fb4acaa8357",
+          "md5": "30dde2f863c3faec232d57af2ea0ea3e"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseSourcePublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "OnBotJava-11.1.0-sources.jar",
+          "url": "OnBotJava-11.1.0-sources.jar",
+          "size": 117980,
+          "sha512": "ed59bfaf5f07c485a766742dbb9880b642933a80de197b68703c5b69a25a86f7ac75f1850a55c4c801ab8343f1e38b0928e33b44560844489034d3516dc26b74",
+          "sha256": "5c7e050d47e2bda19274e8d0763942f7dbe8fd74c45989b5c0638919f8d30ff4",
+          "sha1": "83e39d9c2f492e159341fe2fbf52411d86dabd36",
+          "md5": "23d9e4011e31b29e53a8376898cabe99"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseJavaDocPublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "OnBotJava-11.1.0-javadoc.jar",
+          "url": "OnBotJava-11.1.0-javadoc.jar",
+          "size": 511432,
+          "sha512": "c3c751bce42e0022c5fe87a0a31c26974922085947b6521696c8bb1861e1113d2893c73d3d7f7f97d47650530d7f7cb98357a5e1c1b07c829604560ad73572dd",
+          "sha256": "6243bc9572b2a11eabee75656252b9c2376f0de6c54484f604dfbb899352b189",
+          "sha1": "7a19c184677acf8b2a319698b0d7d1e46b5ea6bf",
+          "md5": "bb25a5641769e777f5793a44dcd5606b"
+        }
+      ]
+    }
+  ]
+}

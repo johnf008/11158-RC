@@ -1,0 +1,76 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.bylazar",
+    "module": "telemetry",
+    "version": "1.0.3",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.9"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "telemetry-1.0.3.aar",
+          "url": "telemetry-1.0.3.aar",
+          "size": 90814,
+          "sha512": "e10465c944da0afcb925b8ad450d3e38de0655e1d8dbc7023f34bf15a82e2f1d39eb3301226f323d9124212f2e2e5e7e1653161ef7f3d1f5eef7cffa89a56c87",
+          "sha256": "a102badece6bcc17c1531e992b842a350b1a98bfb8fb5c781b4d8ed40640ee3a",
+          "sha1": "3cf40a9c55d79957904acfcbdb2bc463ffa41574",
+          "md5": "67a1cc84aa725aa31812cb6d6bd956e5"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "telemetry-1.0.3.aar",
+          "url": "telemetry-1.0.3.aar",
+          "size": 90814,
+          "sha512": "e10465c944da0afcb925b8ad450d3e38de0655e1d8dbc7023f34bf15a82e2f1d39eb3301226f323d9124212f2e2e5e7e1653161ef7f3d1f5eef7cffa89a56c87",
+          "sha256": "a102badece6bcc17c1531e992b842a350b1a98bfb8fb5c781b4d8ed40640ee3a",
+          "sha1": "3cf40a9c55d79957904acfcbdb2bc463ffa41574",
+          "md5": "67a1cc84aa725aa31812cb6d6bd956e5"
+        }
+      ]
+    }
+  ]
+}

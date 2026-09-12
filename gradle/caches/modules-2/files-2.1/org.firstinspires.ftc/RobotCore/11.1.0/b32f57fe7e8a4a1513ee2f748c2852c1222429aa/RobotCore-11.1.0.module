@@ -1,0 +1,123 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.firstinspires.ftc",
+    "module": "RobotCore",
+    "version": "11.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.9"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.jakewharton.threetenabp",
+          "module": "threetenabp",
+          "version": {
+            "requires": "1.3.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "RobotCore-11.1.0.aar",
+          "url": "RobotCore-11.1.0.aar",
+          "size": 2250599,
+          "sha512": "096496ceb32c8cf50d0350c4e922abdf1ca45a9167a00cf905e370c2bd7600d702b998ce59b4200a597a7bebdffa3acca8483963bfbeadc1127456afe7495269",
+          "sha256": "1e2af88a29dd784fcf85fbc7fc76aad8cb19dd47cfa5be796efeffb38c591343",
+          "sha1": "58745f810401dfa07bd71d6e750b5ddad54c149d",
+          "md5": "2d1badb6373aa0423b96cbc289734ce1"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.2.0"
+          }
+        },
+        {
+          "group": "com.jakewharton.threetenabp",
+          "module": "threetenabp",
+          "version": {
+            "requires": "1.3.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "RobotCore-11.1.0.aar",
+          "url": "RobotCore-11.1.0.aar",
+          "size": 2250599,
+          "sha512": "096496ceb32c8cf50d0350c4e922abdf1ca45a9167a00cf905e370c2bd7600d702b998ce59b4200a597a7bebdffa3acca8483963bfbeadc1127456afe7495269",
+          "sha256": "1e2af88a29dd784fcf85fbc7fc76aad8cb19dd47cfa5be796efeffb38c591343",
+          "sha1": "58745f810401dfa07bd71d6e750b5ddad54c149d",
+          "md5": "2d1badb6373aa0423b96cbc289734ce1"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseSourcePublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "RobotCore-11.1.0-sources.jar",
+          "url": "RobotCore-11.1.0-sources.jar",
+          "size": 1434014,
+          "sha512": "4042612de98f43668760d7a93e3b12feba5142e11848a6eabef503e906194064e790ec48b145777ffa0864bfd045b0ce079d0f6facc814a865265af8f2b28642",
+          "sha256": "e8a594c7b9ded2bc73cf2f5abeca03b436fb4e7109e73938df64fa21f0d01ea2",
+          "sha1": "d90f546b66fee52a1f644a61b9947162cc8803ef",
+          "md5": "dd06fedd3920e7b03e8ba17e080abad7"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseJavaDocPublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "RobotCore-11.1.0-javadoc.jar",
+          "url": "RobotCore-11.1.0-javadoc.jar",
+          "size": 3767836,
+          "sha512": "f098da6baed9a841352decf30700c93de0d349ed98853f9f60e4cf1b4c4850ea1abfbcc5af3eb2365ffaa349c6c6dc108b0a1e0112b08df92075ab94afa8e22a",
+          "sha256": "f578ed5f578a09788a5685970589a48add18657e621bfb292cd28fb81b7e246d",
+          "sha1": "617a64c8d4160db1c3acaaba9b3a73be32ca1a46",
+          "md5": "ca75f5a023cd46126f36d2e2db3d519e"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.openftc",
+    "module": "apriltag",
+    "version": "2.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "apriltag-2.1.0.aar",
+          "url": "apriltag-2.1.0.aar",
+          "size": 339407,
+          "sha512": "025cd4f1047c71ace2686a76c45ccc02f34bf9a1cedc937f48e09f8f11e677bed6c800e3e7958627ace1a1267599346ac6f1ff22ae4a96fe54521b382fc131de",
+          "sha256": "7db88efef0d59b726df45440d7a61c0f52158c9f9f1b92a4e570e3f8c715437e",
+          "sha1": "347a257bec5cd1d1a89fd3de949033aa3d69f455",
+          "md5": "6cb6b78d4565256e7d29a785ae41dd92"
+        }
+      ]
+    },
+    {
+      "name": "releaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "apriltag-2.1.0.aar",
+          "url": "apriltag-2.1.0.aar",
+          "size": 339407,
+          "sha512": "025cd4f1047c71ace2686a76c45ccc02f34bf9a1cedc937f48e09f8f11e677bed6c800e3e7958627ace1a1267599346ac6f1ff22ae4a96fe54521b382fc131de",
+          "sha256": "7db88efef0d59b726df45440d7a61c0f52158c9f9f1b92a4e570e3f8c715437e",
+          "sha1": "347a257bec5cd1d1a89fd3de949033aa3d69f455",
+          "md5": "6cb6b78d4565256e7d29a785ae41dd92"
+        }
+      ]
+    }
+  ]
+}

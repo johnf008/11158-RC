@@ -1,0 +1,110 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.pedropathing",
+    "module": "ftc",
+    "version": "2.0.4",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.14.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.pedropathing",
+          "module": "core",
+          "version": {
+            "requires": "2.0.4"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "ftc-2.0.4.aar",
+          "url": "ftc-2.0.4.aar",
+          "size": 37089,
+          "sha512": "7547f9ec935a78c435604956e999f8186d5574e09f57042653100162d873dc94d0bd087891e1f0019ae36fccc9396f1025f95dc6de522e214649f584350b09f9",
+          "sha256": "edfeb833a9cf538e91ef69640b34c179518c8158b7aed3ff1171757435c338d8",
+          "sha1": "ecdea1bbaafe81c63b2ac6689bf4a257ffddec02",
+          "md5": "391cf55b4a44be4e284744dca619a9b0"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.pedropathing",
+          "module": "core",
+          "version": {
+            "requires": "2.0.4"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "ftc-2.0.4.aar",
+          "url": "ftc-2.0.4.aar",
+          "size": 37089,
+          "sha512": "7547f9ec935a78c435604956e999f8186d5574e09f57042653100162d873dc94d0bd087891e1f0019ae36fccc9396f1025f95dc6de522e214649f584350b09f9",
+          "sha256": "edfeb833a9cf538e91ef69640b34c179518c8158b7aed3ff1171757435c338d8",
+          "sha1": "ecdea1bbaafe81c63b2ac6689bf4a257ffddec02",
+          "md5": "391cf55b4a44be4e284744dca619a9b0"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseSourcePublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "ftc-2.0.4-sources.jar",
+          "url": "ftc-2.0.4-sources.jar",
+          "size": 33469,
+          "sha512": "c330ce4caf81c998bfdfd5cfab38158cc877cba3a1fd6996f6ff0a971d6d86b1d7fbebaa1a4fa72ed083a1cc3b09ff4f77ab68a5f572eab34618109a2cfe16e0",
+          "sha256": "0ffb77ebe6bbd1f844586fcfa529f52ba85e474169a735bec90ea20b7004d030",
+          "sha1": "786a68df7706320529a5eafe529961bcf998b689",
+          "md5": "9fcefa0488a0275af2f1d1149606a77a"
+        }
+      ]
+    }
+  ]
+}

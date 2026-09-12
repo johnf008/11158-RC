@@ -1,0 +1,135 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.firstinspires.ftc",
+    "module": "FtcCommon",
+    "version": "11.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.9"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "FtcCommon-11.1.0.aar",
+          "url": "FtcCommon-11.1.0.aar",
+          "size": 4098769,
+          "sha512": "c46c6f88d10ffc52dbbb936b48df48787762810429d996cb85b8fb8cec5e45eaafa70203605ccc458b6820086e22c092998506743eb926de129a3c1612f05eca",
+          "sha256": "90ea09fe7c00595cc3b7686fe83d0b021a770d15dc284ab203a8b04908f2294f",
+          "sha1": "2a7439a1cd967e3e79770b1f8ed4b012b3e3305e",
+          "md5": "75097389452f9a852d9ab221efd5c41c"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.2.0"
+          }
+        },
+        {
+          "group": "org.firstinspires.ftc",
+          "module": "RobotCore",
+          "version": {
+            "requires": "11.1.0"
+          }
+        },
+        {
+          "group": "org.firstinspires.ftc",
+          "module": "RobotServer",
+          "version": {
+            "requires": "11.1.0"
+          }
+        },
+        {
+          "group": "org.firstinspires.ftc",
+          "module": "Hardware",
+          "version": {
+            "requires": "11.1.0"
+          }
+        },
+        {
+          "group": "org.firstinspires.ftc",
+          "module": "Inspection",
+          "version": {
+            "requires": "11.1.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "FtcCommon-11.1.0.aar",
+          "url": "FtcCommon-11.1.0.aar",
+          "size": 4098769,
+          "sha512": "c46c6f88d10ffc52dbbb936b48df48787762810429d996cb85b8fb8cec5e45eaafa70203605ccc458b6820086e22c092998506743eb926de129a3c1612f05eca",
+          "sha256": "90ea09fe7c00595cc3b7686fe83d0b021a770d15dc284ab203a8b04908f2294f",
+          "sha1": "2a7439a1cd967e3e79770b1f8ed4b012b3e3305e",
+          "md5": "75097389452f9a852d9ab221efd5c41c"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseSourcePublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "FtcCommon-11.1.0-sources.jar",
+          "url": "FtcCommon-11.1.0-sources.jar",
+          "size": 315596,
+          "sha512": "d2872eec50dffa8414cbf8be4fbe5c4e73e714963b6296917360a72f5341760b85bd854f3a48b64948ba5597220bc5846cfadd692a4ceb1da8fc09b0ea258e57",
+          "sha256": "d3bcfeeb2a7380bee457f5057e8b8d8675973555904b914d629acfc2c2bcddd3",
+          "sha1": "d69e1b4aca3db8e630eb13c20837d7263c735df6",
+          "md5": "7bca398b67cd41e731bf757f25f426fa"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseJavaDocPublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "FtcCommon-11.1.0-javadoc.jar",
+          "url": "FtcCommon-11.1.0-javadoc.jar",
+          "size": 1125427,
+          "sha512": "32388edc4142329c4e82ece9926386e257227e7b1c614bd2db13cee7974c1f1aa5ab26cfbf60c2a944de16fa797469b5fe784ea4d6aca66d57ea7769d46d53bf",
+          "sha256": "6870dcfe7e8902a46cab90ab787fc69d68096f078e507b8a1a9d5a3304973b1a",
+          "sha1": "87e4c5a99bc40bee84cfba9beead0417b9383d40",
+          "md5": "96eed3c58670476d1a278cf3c7c202b2"
+        }
+      ]
+    }
+  ]
+}

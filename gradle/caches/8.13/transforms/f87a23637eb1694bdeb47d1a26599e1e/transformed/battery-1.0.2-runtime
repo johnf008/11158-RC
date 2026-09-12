@@ -1,0 +1,5 @@
+com.bylazar.battery.BatteryPluginConfig
+com.bylazar.battery.BatteryProvider
+com.bylazar.battery.PanelsBattery
+com.bylazar.battery.Plugin
+com.bylazar.battery.Plugin$startSendingTime$1

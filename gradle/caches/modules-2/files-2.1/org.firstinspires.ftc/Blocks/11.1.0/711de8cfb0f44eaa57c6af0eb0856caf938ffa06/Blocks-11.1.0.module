@@ -1,0 +1,142 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.firstinspires.ftc",
+    "module": "Blocks",
+    "version": "11.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.9"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "Blocks-11.1.0.aar",
+          "url": "Blocks-11.1.0.aar",
+          "size": 1419563,
+          "sha512": "c55e88b743fb6a2ba3d8b56e9b1fcbbcbd3e1af5f2277c89106bde1fea3719d2b161e9e3798f7a757497b1afd10513fb15a3d3bcf3eb6767beee35d1252e8564",
+          "sha256": "fb1f9d36a6a985f0734345c692c050dd58b53b59544745b7d9b9aea8abac6937",
+          "sha1": "a45537029cba9b2a5d2cf505589d7ed7781230db",
+          "md5": "600cadbff0226c4252486cc24f78ae22"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.2.0"
+          }
+        },
+        {
+          "group": "org.firstinspires.ftc",
+          "module": "RobotCore",
+          "version": {
+            "requires": "11.1.0"
+          }
+        },
+        {
+          "group": "org.firstinspires.ftc",
+          "module": "RobotServer",
+          "version": {
+            "requires": "11.1.0"
+          }
+        },
+        {
+          "group": "org.firstinspires.ftc",
+          "module": "Vision",
+          "version": {
+            "requires": "11.1.0"
+          }
+        },
+        {
+          "group": "org.firstinspires.ftc",
+          "module": "Hardware",
+          "version": {
+            "requires": "11.1.0"
+          }
+        },
+        {
+          "group": "org.firstinspires.ftc",
+          "module": "FtcCommon",
+          "version": {
+            "requires": "11.1.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "Blocks-11.1.0.aar",
+          "url": "Blocks-11.1.0.aar",
+          "size": 1419563,
+          "sha512": "c55e88b743fb6a2ba3d8b56e9b1fcbbcbd3e1af5f2277c89106bde1fea3719d2b161e9e3798f7a757497b1afd10513fb15a3d3bcf3eb6767beee35d1252e8564",
+          "sha256": "fb1f9d36a6a985f0734345c692c050dd58b53b59544745b7d9b9aea8abac6937",
+          "sha1": "a45537029cba9b2a5d2cf505589d7ed7781230db",
+          "md5": "600cadbff0226c4252486cc24f78ae22"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseSourcePublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "Blocks-11.1.0-sources.jar",
+          "url": "Blocks-11.1.0-sources.jar",
+          "size": 240548,
+          "sha512": "db956274ca604f22c663c816e89ec4e8d382007fdafd0d8665f298554e09711182ae79e2f5229c899ae4ea03935cd46350abce991dc3b453f77038fc450411dc",
+          "sha256": "8abdb8eaaccd115c6f2092855ba39f6c377cf8c6c6780840c9c0bcdcdd3f0e2e",
+          "sha1": "eb4c3a4dd3d6e3303af384582b5091c3b770555d",
+          "md5": "091af6ef6dbc8ce29c494087f49c16d4"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseJavaDocPublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "Blocks-11.1.0-javadoc.jar",
+          "url": "Blocks-11.1.0-javadoc.jar",
+          "size": 456832,
+          "sha512": "ef67a387a7b092b9e2c22c0c16d3e286aeb4d114919d3072c28c237aeba8ed43cb80fb471d3aa044cfd4106534f7bd8b5d59ef303df2b9225ab3c9f906c1332f",
+          "sha256": "30833d04a27b757b9709ada6bc7943e17a1be67ead20b1240f4400bedb60dd8c",
+          "sha1": "0260bdf26386af4ddc27b6f040ab9013a98df718",
+          "md5": "9dd75e1306cf1d723ac37e275684e4b0"
+        }
+      ]
+    }
+  ]
+}

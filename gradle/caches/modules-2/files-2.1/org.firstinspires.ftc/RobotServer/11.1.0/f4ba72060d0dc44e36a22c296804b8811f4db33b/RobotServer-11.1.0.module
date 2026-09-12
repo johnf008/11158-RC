@@ -1,0 +1,114 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.firstinspires.ftc",
+    "module": "RobotServer",
+    "version": "11.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.9"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "RobotServer-11.1.0.aar",
+          "url": "RobotServer-11.1.0.aar",
+          "size": 10428229,
+          "sha512": "f27b221ef3ef1c25e297298d9a9f40de2e7a6154c47a4dafef22140ce68bde989ba18fcef00df7bf184d084c775fb7db7ab0dec0b57ccae25f422f27a0ecbbda",
+          "sha256": "e6cf263e4e303fa70661e75116a850d48a37226a571c90249c17f20aedd39f62",
+          "sha1": "13872bdc171562bf92a45442308f5221c9e59279",
+          "md5": "8a62b3fe30c424b73660d5890255b3bf"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.2.0"
+          }
+        },
+        {
+          "group": "org.firstinspires.ftc",
+          "module": "RobotCore",
+          "version": {
+            "requires": "11.1.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "RobotServer-11.1.0.aar",
+          "url": "RobotServer-11.1.0.aar",
+          "size": 10428229,
+          "sha512": "f27b221ef3ef1c25e297298d9a9f40de2e7a6154c47a4dafef22140ce68bde989ba18fcef00df7bf184d084c775fb7db7ab0dec0b57ccae25f422f27a0ecbbda",
+          "sha256": "e6cf263e4e303fa70661e75116a850d48a37226a571c90249c17f20aedd39f62",
+          "sha1": "13872bdc171562bf92a45442308f5221c9e59279",
+          "md5": "8a62b3fe30c424b73660d5890255b3bf"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseSourcePublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "RobotServer-11.1.0-sources.jar",
+          "url": "RobotServer-11.1.0-sources.jar",
+          "size": 80835,
+          "sha512": "bbf8f8eb559c4c6fe91e5cdc7f4a14309aa62b33ef5d7a321bcf14fcb2274b5cec86301386d66f56e92e0ea8f754e17a68d1246ecb1cace96b2a6be68d09a6bd",
+          "sha256": "e4669eda162bddc1bc908cbc7d2603e9ce507baaff28f8bc53d9e202694cd116",
+          "sha1": "8c4bb29766d6cfc1945251c2c7f4436f86e8e7ae",
+          "md5": "6328532b0677cffc67fb8f5e5542db07"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseJavaDocPublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "RobotServer-11.1.0-javadoc.jar",
+          "url": "RobotServer-11.1.0-javadoc.jar",
+          "size": 505797,
+          "sha512": "4046ad2e100a13e5c1606f2da1d0b91e8e578cdc38f208bb83f88a17a18d23a0d85450f9557a72110014e6abc0eadd78fe6957e34a2fdbecbab5a036cef1f991",
+          "sha256": "151c60627c4adf90fc770211fa13dfb538e5205bc18e393d37148fc64e726092",
+          "sha1": "af32efa4a572d8e3a78b04968d2816b9ab810593",
+          "md5": "10a3dd2f210495049b995140b0dd18df"
+        }
+      ]
+    }
+  ]
+}

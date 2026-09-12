@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <!-- This module was also published with a richer model, Gradle metadata,  -->
+  <!-- which should be used instead. Do not delete the following line which  -->
+  <!-- is to indicate to Gradle or any Gradle module metadata file consumer  -->
+  <!-- that they should prefer consuming it instead. -->
+  <!-- do_not_remove: published-with-gradle-metadata -->
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.pedropathing</groupId>
+  <artifactId>telemetry</artifactId>
+  <version>1.0.0</version>
+  <packaging>aar</packaging>
+  <name>Pedro Pathing Telemetry</name>
+  <description>A path follower designed to revolutionize autonomous pathing in robotics</description>
+  <url>https://github.com/Pedro-Pathing/Telemetry</url>
+  <licenses>
+    <license>
+      <name>BSD 3-Clause License</name>
+      <url>https://opensource.org/licenses/BSD-3-Clause</url>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Baron Henderson</name>
+      <email>baron@pedropathing.com</email>
+    </developer>
+    <developer>
+      <name>Havish Sripada</name>
+      <email>havish@pedropathing.com</email>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:git://github.com/Pedro-Pathing/Telemetry.git</connection>
+    <developerConnection>scm:git:ssh://github.com:Pedro-Pathing/Telemetry.git</developerConnection>
+    <tag>v1.0.0</tag>
+    <url>https://github.com/Pedro-Pathing/Telemetry</url>
+  </scm>
+</project>

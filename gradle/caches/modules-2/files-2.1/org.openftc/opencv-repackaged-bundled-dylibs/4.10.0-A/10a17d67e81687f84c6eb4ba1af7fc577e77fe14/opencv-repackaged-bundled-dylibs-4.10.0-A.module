@@ -1,0 +1,58 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.openftc",
+    "module": "opencv-repackaged-bundled-dylibs",
+    "version": "4.10.0-A",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "opencv-repackaged-bundled-dylibs-4.10.0-A.aar",
+          "url": "opencv-repackaged-bundled-dylibs-4.10.0-A.aar",
+          "size": 16658022,
+          "sha512": "6bd11f2c8b1568d8d3551e63bea17b0196bcd2805761c119692c79dff832f81d543ac034297bbbb8777f4c2f1d3802addc5ca7c5dca066b11dd2ec97390a9bfd",
+          "sha256": "81e8b70373cf56b6d3683fd4c56e4d9e0c75e6ed60c33a3053f1d54393af944f",
+          "sha1": "bc03e766b64bdbe926b6fa2006ba6f2d0c732f82",
+          "md5": "d38dc8c610da0eeb95d48392ed3e029f"
+        }
+      ]
+    },
+    {
+      "name": "releaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "opencv-repackaged-bundled-dylibs-4.10.0-A.aar",
+          "url": "opencv-repackaged-bundled-dylibs-4.10.0-A.aar",
+          "size": 16658022,
+          "sha512": "6bd11f2c8b1568d8d3551e63bea17b0196bcd2805761c119692c79dff832f81d543ac034297bbbb8777f4c2f1d3802addc5ca7c5dca066b11dd2ec97390a9bfd",
+          "sha256": "81e8b70373cf56b6d3683fd4c56e4d9e0c75e6ed60c33a3053f1d54393af944f",
+          "sha1": "bc03e766b64bdbe926b6fa2006ba6f2d0c732f82",
+          "md5": "d38dc8c610da0eeb95d48392ed3e029f"
+        }
+      ]
+    }
+  ]
+}

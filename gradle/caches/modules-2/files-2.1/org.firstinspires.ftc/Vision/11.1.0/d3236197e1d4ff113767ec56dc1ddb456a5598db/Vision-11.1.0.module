@@ -1,0 +1,144 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.firstinspires.ftc",
+    "module": "Vision",
+    "version": "11.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.9"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.openftc",
+          "module": "easyopencv",
+          "version": {
+            "requires": "1.7.3"
+          }
+        },
+        {
+          "group": "org.openftc",
+          "module": "apriltag",
+          "version": {
+            "requires": "2.1.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "Vision-11.1.0.aar",
+          "url": "Vision-11.1.0.aar",
+          "size": 88029,
+          "sha512": "d0a2a66e03524a72509e3d6404e1db0d7a94f9b16ebfbf8284d06a408490ee7b7c446ce840270d9bfeb580d16627309077587b2f2822539d31728a3278244212",
+          "sha256": "9506b74e6b00ae1feb796af5f5697192cf6d69341efa78c6f082eabb00c9885d",
+          "sha1": "8cc4d263421cba9d67209caa21d5474c86a6cccb",
+          "md5": "9efeadc9155a8c18d2afa9290c5c789e"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.annotation",
+          "module": "annotation",
+          "version": {
+            "requires": "1.2.0"
+          }
+        },
+        {
+          "group": "org.firstinspires.ftc",
+          "module": "RobotCore",
+          "version": {
+            "requires": "11.1.0"
+          }
+        },
+        {
+          "group": "org.openftc",
+          "module": "easyopencv",
+          "version": {
+            "requires": "1.7.3"
+          }
+        },
+        {
+          "group": "org.openftc",
+          "module": "apriltag",
+          "version": {
+            "requires": "2.1.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "Vision-11.1.0.aar",
+          "url": "Vision-11.1.0.aar",
+          "size": 88029,
+          "sha512": "d0a2a66e03524a72509e3d6404e1db0d7a94f9b16ebfbf8284d06a408490ee7b7c446ce840270d9bfeb580d16627309077587b2f2822539d31728a3278244212",
+          "sha256": "9506b74e6b00ae1feb796af5f5697192cf6d69341efa78c6f082eabb00c9885d",
+          "sha1": "8cc4d263421cba9d67209caa21d5474c86a6cccb",
+          "md5": "9efeadc9155a8c18d2afa9290c5c789e"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseSourcePublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "Vision-11.1.0-sources.jar",
+          "url": "Vision-11.1.0-sources.jar",
+          "size": 59154,
+          "sha512": "1a57975cbe1a8ff4c3939ace92c84b78b3203e84d591c6e8513777f9d3621a5846d222b351c313a5fbe57bc9dbcfc4714a6fd8cfdf5cd3c5b7cf87c6a50babce",
+          "sha256": "f56f0ebdccf136448acea6e9610566ddabc916f30da86aec06981b497a47c308",
+          "sha1": "a01824a3ca8a3b6bae83546af124f36756694648",
+          "md5": "5b32cc460c65a59dc8c641c862335400"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseJavaDocPublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "Vision-11.1.0-javadoc.jar",
+          "url": "Vision-11.1.0-javadoc.jar",
+          "size": 435985,
+          "sha512": "a06bd16fdf9cae1ca6c92f334f65c142135a2c4d8e5182d57c339f528bbf1109802cd48e8b83684874c0666d584beb284d77f36a4181ff08c0a895982edeec25",
+          "sha256": "9e756ee2d0530a46506fd172de4e313578e034b62bf0522e729b69d3e590493e",
+          "sha1": "aaff2b06816bd439d4af21a5965764cf0192d39e",
+          "md5": "46aef2cfcaa5ee5b1188907edfc6765b"
+        }
+      ]
+    }
+  ]
+}

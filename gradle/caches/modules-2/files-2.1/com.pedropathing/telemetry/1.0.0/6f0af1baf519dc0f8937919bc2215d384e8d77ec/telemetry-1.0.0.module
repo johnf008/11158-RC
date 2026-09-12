@@ -1,0 +1,78 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.pedropathing",
+    "module": "telemetry",
+    "version": "1.0.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.14.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "telemetry-1.0.0.aar",
+          "url": "telemetry-1.0.0.aar",
+          "size": 9270,
+          "sha512": "f0680e9fe1bc15f13db33f703aa5bc29596c0a8a663b21c79bbe8f1102e46ccbd3c466bd2d5d37bc0529a81966c2b49f4539896f725b8d5b6dff5b541f2bd661",
+          "sha256": "00b0813585f08b27d7f5a8d6165e0ecfda36f5f3c8a1ce5bf9bbf008e8ac0cf7",
+          "sha1": "2d26ade773bf4e7547f523fc880a13f2848c3890",
+          "md5": "c328f8ce33fe410604163dd8ec3549d8"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "telemetry-1.0.0.aar",
+          "url": "telemetry-1.0.0.aar",
+          "size": 9270,
+          "sha512": "f0680e9fe1bc15f13db33f703aa5bc29596c0a8a663b21c79bbe8f1102e46ccbd3c466bd2d5d37bc0529a81966c2b49f4539896f725b8d5b6dff5b541f2bd661",
+          "sha256": "00b0813585f08b27d7f5a8d6165e0ecfda36f5f3c8a1ce5bf9bbf008e8ac0cf7",
+          "sha1": "2d26ade773bf4e7547f523fc880a13f2848c3890",
+          "md5": "c328f8ce33fe410604163dd8ec3549d8"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseSourcePublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "telemetry-1.0.0-sources.jar",
+          "url": "telemetry-1.0.0-sources.jar",
+          "size": 4796,
+          "sha512": "78a0b2c3652afbf74eb9b8ba2613e0aa1daaa4f7a8eca39fa910a91fcb849fcbd0ee2ce869f1a6b011bf6338885e085510c627a0080f7e740c0d0814020bc3ff",
+          "sha256": "07407c20c33607e8c3d1528e1b374358e66008d4a3749b32443018dd6fe34811",
+          "sha1": "fa8fd9971cc19d99b956ab6d1632a5392e5b25a9",
+          "md5": "a1cef7380a45c630392569e53573efdb"
+        }
+      ]
+    }
+  ]
+}

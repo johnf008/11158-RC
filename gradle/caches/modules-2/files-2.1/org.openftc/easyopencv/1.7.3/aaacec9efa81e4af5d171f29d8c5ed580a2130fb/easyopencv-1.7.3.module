@@ -1,0 +1,76 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.openftc",
+    "module": "easyopencv",
+    "version": "1.7.3",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.4.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.openftc",
+          "module": "opencv-repackaged-bundled-dylibs",
+          "version": {
+            "requires": "4.10.0-A"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "easyopencv-1.7.3.aar",
+          "url": "easyopencv-1.7.3.aar",
+          "size": 1193207,
+          "sha512": "81499d7725817f404d737d2db3cf2db5fb850514cf4468abfdd2daf8c358a7bc82c4af39f76eae53f80bde3a9ac635832f214ceddc35ebf838e3e220126c3eff",
+          "sha256": "e4a434b55e0d6867194e06686bb3717b3d4e64c29369b1450aec3e8d970a0dc2",
+          "sha1": "a2cb83b87e0e3f0538aecab481261f2cdb2331ce",
+          "md5": "266e98cb691f0c4edfb29a2eb2da663a"
+        }
+      ]
+    },
+    {
+      "name": "releaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.openftc",
+          "module": "opencv-repackaged-bundled-dylibs",
+          "version": {
+            "requires": "4.10.0-A"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "easyopencv-1.7.3.aar",
+          "url": "easyopencv-1.7.3.aar",
+          "size": 1193207,
+          "sha512": "81499d7725817f404d737d2db3cf2db5fb850514cf4468abfdd2daf8c358a7bc82c4af39f76eae53f80bde3a9ac635832f214ceddc35ebf838e3e220126c3eff",
+          "sha256": "e4a434b55e0d6867194e06686bb3717b3d4e64c29369b1450aec3e8d970a0dc2",
+          "sha1": "a2cb83b87e0e3f0538aecab481261f2cdb2331ce",
+          "md5": "266e98cb691f0c4edfb29a2eb2da663a"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+com.bylazar.gamepad.Gamepad
+com.bylazar.gamepad.GamepadManager
+com.bylazar.gamepad.GamepadPluginConfig
+com.bylazar.gamepad.GamepadTimestamps
+com.bylazar.gamepad.PanelsGamepad
+com.bylazar.gamepad.Plugin
+com.bylazar.gamepad.Plugin$onMessage$$inlined$convertData$1
+com.bylazar.gamepad.Stick
+com.bylazar.gamepad.StickTimestamps
