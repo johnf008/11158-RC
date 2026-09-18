@@ -13,7 +13,7 @@ public class multitaskingTest extends AutoBaseFile {
 
         // Autonomous actions - btw, it works way better than when at FASTER SPEEDS,
 
-        launch(LAUNCH_POSTION.BLUE_PILLAR_FAR);
+        launch(LAUNCH_POSITION.BLUE_PILLAR_FAR);
 
         sleep(3000);
 
