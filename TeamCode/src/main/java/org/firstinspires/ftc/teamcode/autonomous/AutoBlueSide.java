@@ -5,6 +5,36 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Autonomous(name="Auto Blue Side", group = "Auto")
 public class AutoBlueSide extends AutoBaseFile {
 
+
+
+    private void forward(double speed, long time){
+
+        frontRight.setPower(speed);
+        frontLeft.setPower(speed);
+        backRight.setPower(speed);
+        backLeft.setPower(speed);
+        sleep(time);
+        frontRight.setPower(0);
+        frontLeft.setPower(0);
+        backRight.setPower(0);
+        backLeft.setPower(0);
+
+    }
+
+    private void roatate(double speed, long time){
+        backLeft.setPower(-speed);
+        backRight.setPower(speed);
+        frontLeft.setPower(-speed);
+        frontRight.setPower(speed);
+
+        sleep(time);
+
+        backLeft.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+
+    }
     @Override
     public void runOpMode(){
         // Initialize hardware and wait for start
@@ -16,20 +46,29 @@ public class AutoBlueSide extends AutoBaseFile {
         //backward(1,150,3);
         //forward(1,75, 1.6);
 
-        frontRight.setPower(.8);
-        frontLeft.setPower(.8);
-        backRight.setPower(.8);
-        backLeft.setPower(.8);
-        sleep(1000);
-        frontRight.setPower(0);
-        frontLeft.setPower(0);
-        backRight.setPower(0);
-        backLeft.setPower(0);
+        forward(.8,1000);
+        launch(LAUNCH_POSTION.BLUE_PILLAR_FAR);
+        sleep(200);
+        toggleIntake();
+        toggleMidtake();
+
+        roatate(.5,1700);
+
+        toggleIntake();
+        toggleMidtake();
+
+
+
+        forward(.9,200);
+        sleep(200);
+        forward(-.9,200);
+
+        roatate(-.5,1700);
+        sleep(200);
         launch(LAUNCH_POSTION.BLUE_PILLAR_FAR);
 
 
 
-        sleep(20000);
 
 
         /*
