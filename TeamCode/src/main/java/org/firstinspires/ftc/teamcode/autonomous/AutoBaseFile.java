@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.bylazar.telemetry.PanelsTelemetry;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 public class AutoBaseFile extends LinearOpMode {
 
     public DcMotor frontLeft = null;
@@ -349,14 +349,6 @@ public class AutoBaseFile extends LinearOpMode {
 
 
         }
-
-
-        toggleIntake();
-        toggleMidtake();
-
-
-
-
 
         outtake.setVelocity(0);
 
