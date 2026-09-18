@@ -133,51 +133,10 @@ public class GrandTestingFile extends OpMode {
         //test = hardwareMap.dcMotor.get("test");
 
 
-        // Set motor directions
-        frontLeft.setDirection(DcMotor.Direction.FORWARD);
-        frontRight.setDirection(DcMotor.Direction.FORWARD);
-        backLeft.setDirection(DcMotor.Direction.FORWARD);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
-
-        intake.setDirection(DcMotor.Direction.REVERSE);
-        outtake.setDirection(DcMotorSimple.Direction.FORWARD);
-        midtake.setDirection(DcMotorSimple.Direction.REVERSE);
-        midtake_two.setDirection(DcMotorSimple.Direction.REVERSE);
-        //test.setDirection(DcMotorSimple.Direction.FORWARD);
-
-
-        // Set motor modes
-        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
-
-
-        frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        //test.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        outtake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-
-        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        outtake.setTargetPosition(0);
-
-
-        midtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        // Set motor settings
+        defaultSettings settings = new defaultSettings();
+        settings.setWheelSettingsTeleOp(frontLeft, frontRight, backLeft, backRight);
+        settings.setInOuttakesSettings(intake, midtake, midtake_two, outtake);
 
         ticksPerRev = intake.getMotorType().getTicksPerRev();
 

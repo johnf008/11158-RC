@@ -102,42 +102,13 @@ public class GrandTestingFileBlue extends OpMode {
         //test = hardwareMap.dcMotor.get("test");
 
 
-        // Set motor directions
-        frontLeft.setDirection(DcMotor.Direction.FORWARD);
-        frontRight.setDirection(DcMotor.Direction.FORWARD);
-        backLeft.setDirection(DcMotor.Direction.FORWARD);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
+        // Set motor settings
 
-        intake.setDirection(DcMotor.Direction.FORWARD);
-        outtake.setDirection(DcMotorSimple.Direction.FORWARD);
-        midtake.setDirection(DcMotorSimple.Direction.FORWARD);
-        midtake_two.setDirection(DcMotorSimple.Direction.REVERSE);
-        //test.setDirection(DcMotorSimple.Direction.FORWARD);
+        defaultSettings settings = new defaultSettings();
+        settings.setWheelSettingsTeleOp(frontLeft, frontRight, backLeft, backRight);
+        settings.setInOuttakesSettings(intake, midtake, midtake_two, outtake);
 
 
-        // Set motor modes
-        frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        //test.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        outtake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-
-        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        outtake.setTargetPosition(0);
-
-
-        midtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         ticksPerRev = intake.getMotorType().getTicksPerRev();
@@ -266,8 +237,8 @@ public class GrandTestingFileBlue extends OpMode {
 
         // Set Intake/Outtake controls
 
-        intake.setPower( -gamepad2.left_stick_y);
-        midtake.setPower( -gamepad2.left_stick_y * 0.5 );
+        intake.setPower( gamepad2.left_stick_y);
+        midtake.setPower( gamepad2.left_stick_y * 0.5 );
         midtake_two.setPower(-gamepad2.right_stick_y);
 
         /*
