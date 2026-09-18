@@ -157,6 +157,10 @@ public class GrandTestingFileBlue extends OpMode {
     }
 
     @Override
+    public void init_loop(){
+        display();
+    }
+    @Override
     public void loop() {
 
         // Gamepad inputs
@@ -331,57 +335,7 @@ public class GrandTestingFileBlue extends OpMode {
         backLeft.setPower(backLeftPower);
         backRight.setPower(backRightPower);
 
-        // Display
-        telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
-
-        telemetry.addLine();
-        telemetry.addData("Motor Revs FL", frontLeft.getCurrentPosition());
-        telemetry.addData("Motor Revs FR", frontRight.getCurrentPosition());
-        telemetry.addData("Motor Revs BL", backLeft.getCurrentPosition());
-        telemetry.addData("Motor Revs BR", backRight.getCurrentPosition());
-
-        telemetry.addLine();
-        telemetry.addData("Motor Revs Intake", intake.getCurrentPosition());
-        telemetry.addData("Motor Revs Midtake", midtake.getCurrentPosition());
-        telemetry.addData("Motor Revs Outtake", outtake.getCurrentPosition());
-
-        //stuff
-        telemetry.addLine();
-        telemetry.addData("Outtake power: ", outtake.getPower());
-        telemetry.addData("Current outtake velocity: ", outtake.getVelocity());
-
-
-        telemetry.addLine();
-        telemetry.addData("Timer", timer.milliseconds());
-        telemetry.addLine();
-
-        //pidf for john
-        telemetry.addData("Target Velocity", 1500);
-        telemetry.addData("Current Velocity", outtake.getVelocity());
-        telemetry.addData("Error", 1500 - outtake.getVelocity());
-        telemetry.addLine();
-
-        telemetry.addData("P: ", P);
-        telemetry.addData("F: ", F);
-        telemetry.addLine();
-
-        telemetry.addData("Frontleft port", frontLeft.getPortNumber());
-        telemetry.addData("Frontright port", frontRight.getPortNumber());
-        telemetry.addData("BackLeft port", backLeft.getPortNumber());
-        telemetry.addData("Backright port", backRight.getPortNumber());
-        telemetry.addLine();
-
-        PanelsTelemetry.INSTANCE.getTelemetry().addData("Target Velocity", 1500);
-        PanelsTelemetry.INSTANCE.getTelemetry().addData("Current Velocity", outtake.getVelocity());
-        PanelsTelemetry.INSTANCE.getTelemetry().addData("Error", 1500 - outtake.getVelocity());
-
-
-
-        telemetry.update();
-        PanelsTelemetry.INSTANCE.getTelemetry().update(telemetry);
-
-
-        telemetry.update();
+        display();
 
     }
 
@@ -441,6 +395,60 @@ public class GrandTestingFileBlue extends OpMode {
         exposureControl.setExposure((long)exposureMS, TimeUnit.MILLISECONDS);
         GainControl gainControl = visionPortal.getCameraControl(GainControl.class);
         gainControl.setGain(gain);
+    }
+
+    private void display(){
+        // Display
+        telemetry.addLine("\uD80C\uDD9D \uD80C\uDD9F \uD80C\uDD9E \uD80C\uDD9D \uD80C\uDD9F"); //fish
+
+        telemetry.addLine();
+        telemetry.addData("Motor Revs FL", frontLeft.getCurrentPosition());
+        telemetry.addData("Motor Revs FR", frontRight.getCurrentPosition());
+        telemetry.addData("Motor Revs BL", backLeft.getCurrentPosition());
+        telemetry.addData("Motor Revs BR", backRight.getCurrentPosition());
+
+        telemetry.addLine();
+        telemetry.addData("Motor Revs Intake", intake.getCurrentPosition());
+        telemetry.addData("Motor Revs Midtake", midtake.getCurrentPosition());
+        telemetry.addData("Motor Revs Outtake", outtake.getCurrentPosition());
+
+        //stuff
+        telemetry.addLine();
+        telemetry.addData("Outtake power: ", outtake.getPower());
+        telemetry.addData("Current outtake velocity: ", outtake.getVelocity());
+
+
+        telemetry.addLine();
+        telemetry.addData("Timer", timer.milliseconds());
+        telemetry.addLine();
+
+        //pidf for john
+        telemetry.addData("Target Velocity", 1500);
+        telemetry.addData("Current Velocity", outtake.getVelocity());
+        telemetry.addData("Error", 1500 - outtake.getVelocity());
+        telemetry.addLine();
+
+        telemetry.addData("P: ", P);
+        telemetry.addData("F: ", F);
+        telemetry.addLine();
+
+        telemetry.addData("Frontleft port", frontLeft.getPortNumber());
+        telemetry.addData("Frontright port", frontRight.getPortNumber());
+        telemetry.addData("BackLeft port", backLeft.getPortNumber());
+        telemetry.addData("Backright port", backRight.getPortNumber());
+        telemetry.addLine();
+
+        PanelsTelemetry.INSTANCE.getTelemetry().addData("Target Velocity", 1500);
+        PanelsTelemetry.INSTANCE.getTelemetry().addData("Current Velocity", outtake.getVelocity());
+        PanelsTelemetry.INSTANCE.getTelemetry().addData("Error", 1500 - outtake.getVelocity());
+
+
+
+        telemetry.update();
+        PanelsTelemetry.INSTANCE.getTelemetry().update(telemetry);
+
+
+        telemetry.update();
     }
 
 
