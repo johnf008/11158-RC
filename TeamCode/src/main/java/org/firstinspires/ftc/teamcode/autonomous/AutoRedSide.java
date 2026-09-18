@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name="Auto Red Side", group = "Auto")
 public class AutoRedSide extends AutoBaseFile {
@@ -23,7 +21,7 @@ public class AutoRedSide extends AutoBaseFile {
         frontLeft.setPower(0);
         backRight.setPower(0);
         backLeft.setPower(0);
-        launch(LAUNCH_POSTION.BLUE_PILLAR_FAR);
+        launch(LAUNCH_POSITION.BLUE_PILLAR_FAR);
 
 
 

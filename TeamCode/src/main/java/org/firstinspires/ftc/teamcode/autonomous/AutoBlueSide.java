@@ -46,26 +46,29 @@ public class AutoBlueSide extends AutoBaseFile {
         //backward(1,150,3);
         //forward(1,75, 1.6);
 
+        //1st Cycle............
+
         forward(.8,1000);
-        launch(LAUNCH_POSTION.BLUE_PILLAR_FAR);
-        sleep(200);
+        launch(LAUNCH_POSITION.BLUE_PILLAR_FAR);
+        sleep(100);
+
+        //2cd Cycle............
         toggleIntake();
         toggleMidtake();
-
         roatate(.5,1700);
-
         toggleIntake();
         toggleMidtake();
-
-
-
         forward(.9,200);
-        sleep(200);
-        forward(-.9,200);
 
+        //Reset to Launch position
+        sleep(100);
+        forward(-.9,200);
         roatate(-.5,1700);
-        sleep(200);
-        launch(LAUNCH_POSTION.BLUE_PILLAR_FAR);
+        sleep(100);
+
+        launch(LAUNCH_POSITION.BLUE_PILLAR_FAR);
+
+        //3rd Cycle
 
 
 

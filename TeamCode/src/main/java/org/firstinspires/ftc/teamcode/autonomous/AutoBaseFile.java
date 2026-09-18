@@ -1,15 +1,14 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.bylazar.telemetry.PanelsTelemetry;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
-public class AutoBaseFile extends LinearOpMode {
 
+public class AutoBaseFile extends LinearOpMode {
     public DcMotor frontLeft = null;
     public DcMotor frontRight = null;
     public DcMotor backLeft = null;
@@ -32,14 +31,14 @@ public class AutoBaseFile extends LinearOpMode {
     static final double WHEEL_DIAMETER_CM = 9.6;
 
     static final double TICKS_PER_MM = (TICKS_PER_REVOLUTION * DRIVE_GEAR_RATIO) /
-            (WHEEL_DIAMETER_CM * 3.1415);
+            (WHEEL_DIAMETER_CM * 3.1415); //Math.PI?
 
 
     static final double TICK_TOLERANCE = 15; // The error the motors are allowed
 
     // ..........................................................................................................................
 
-    public enum LAUNCH_POSTION{
+    public enum LAUNCH_POSITION {
 
         //If we are adding aimbot, cords can go in here too.
 
@@ -53,7 +52,7 @@ public class AutoBaseFile extends LinearOpMode {
 
         final double P, F, velocityNeeded, durationSeconds;
 
-        LAUNCH_POSTION(double P, double F, double velocityNeeded, double durationSeconds) {
+        LAUNCH_POSITION(double P, double F, double velocityNeeded, double durationSeconds) {
             this.P = P;
             this.F = F;
             this.velocityNeeded = velocityNeeded;
@@ -75,8 +74,6 @@ public class AutoBaseFile extends LinearOpMode {
         this.midtake_two = hardwareMap.get(DcMotor.class, "secretMotor");
 
         this.outtake = hardwareMap.get(DcMotorEx.class, "outtake");
-
-
 
 
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -116,8 +113,6 @@ public class AutoBaseFile extends LinearOpMode {
         resetWheelMotorsEncoders();
 
 
-
-
     }
     //set a function to use encoders in the auto functions.............................................
     public void encoderDrive( double speed,
@@ -127,10 +122,11 @@ public class AutoBaseFile extends LinearOpMode {
 
         resetWheelMotorsEncoders();
 
-        frontLeft.setTargetPosition (  -(frontLeft.getCurrentPosition() + (int) ( frontLeftCM * TICKS_PER_MM * CM_REDUCTION_MULTIPLIER)  ) );
-        frontRight.setTargetPosition( -(frontRight.getCurrentPosition() + (int) ( frontRightCM * TICKS_PER_MM * CM_REDUCTION_MULTIPLIER) ) );
-        backLeft.setTargetPosition  ( (backLeft.getCurrentPosition()   + (int) ( backLeftCM *  TICKS_PER_MM * CM_REDUCTION_MULTIPLIER)  ) );
-        backRight.setTargetPosition ( (backRight.getCurrentPosition()  + (int) ( backRightCM * TICKS_PER_MM * CM_REDUCTION_MULTIPLIER)  ) );
+        //
+        frontLeft.setTargetPosition (  (int) (-frontLeft.getCurrentPosition() +  ( frontLeftCM * TICKS_PER_MM * CM_REDUCTION_MULTIPLIER)   ) );
+        frontRight.setTargetPosition( -(int) (frontRight.getCurrentPosition() +  ( frontRightCM * TICKS_PER_MM * CM_REDUCTION_MULTIPLIER)  ) );
+        backLeft.setTargetPosition  (  (int) (backLeft.getCurrentPosition()   +  ( backLeftCM *  TICKS_PER_MM * CM_REDUCTION_MULTIPLIER)   ) );
+        backRight.setTargetPosition (  (int) (backRight.getCurrentPosition()  +  ( backRightCM * TICKS_PER_MM * CM_REDUCTION_MULTIPLIER)   ) );
 
 
 
@@ -143,27 +139,28 @@ public class AutoBaseFile extends LinearOpMode {
         setWheelMotorsPower(speed);
 
         // WAIT FOR ALL MOTORS TO FINISH THEIR MOVEMENT
+        telemetry.setCaptionValueSeparator(": ");
         while ( runTime.seconds() <= timeOutSeconds &&
                 ( frontLeft.isBusy() || frontRight.isBusy() ||
-                backLeft.isBusy()  || backRight.isBusy()  ) )
+                  backLeft.isBusy()  || backRight.isBusy()  ) )
         {
 
-            //Show Data In the robot
+            //Show motor data from the robot
             telemetry.addData("FL Busy", frontLeft.isBusy() +
-                    "\n Ticks--> " +frontLeft.getCurrentPosition()+
-                    " Target Ticks--> " +frontLeft.getTargetPosition() );
+                    "\n Ticks" +frontLeft.getCurrentPosition()+
+                    " Target Ticks" +frontLeft.getTargetPosition() );
 
             telemetry.addData("FR Busy", frontRight.isBusy() +
-                    "\n Ticks--> " +frontRight.getCurrentPosition()+
-                    " Target Ticks--> " +frontRight.getTargetPosition() );
+                    "\n Ticks" +frontRight.getCurrentPosition()+
+                    " Target Ticks" +frontRight.getTargetPosition() );
 
             telemetry.addData("BL Busy", backLeft.isBusy() +
-                    "\n Ticks--> " +backLeft.getCurrentPosition()+
-                    " Target Ticks--> " +backLeft.getTargetPosition() );
+                    "\n Ticks" +backLeft.getCurrentPosition()+
+                    " Target Ticks" +backLeft.getTargetPosition() );
 
             telemetry.addData("BR Busy", backRight.isBusy() +
-                    "\n Ticks--> " +backRight.getCurrentPosition()+
-                    " Target Ticks--> " +backRight.getTargetPosition() );
+                    "\n Ticks" +backRight.getCurrentPosition()+
+                    " Target Ticks" +backRight.getTargetPosition() );
 
             telemetry.addLine();
             telemetry.addData("Intake Busy", intake.isBusy());
@@ -175,26 +172,27 @@ public class AutoBaseFile extends LinearOpMode {
             telemetry.addData("Timeout", timeOutSeconds);
             telemetry.update();
 
-            if (runTime.seconds() > 0.2) { //Gives time to the motors to set target position
-                if (Math.abs(frontLeft.getTargetPosition() - frontLeft.getCurrentPosition()) < TICK_TOLERANCE) {
-                    frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                }
-                if (Math.abs(frontRight.getTargetPosition() - frontRight.getCurrentPosition()) < TICK_TOLERANCE) {
-                    frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                }
-                if (Math.abs(backLeft.getTargetPosition() - backLeft.getCurrentPosition()) < TICK_TOLERANCE) {
-                    backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                }
-                if (Math.abs(backRight.getTargetPosition() - backRight.getCurrentPosition()) < TICK_TOLERANCE) {
-                    backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                }
+            if (runTime.seconds() < 0.2) {
+                continue;  //Gives time to the motors to set target position
+            }
+
+            if (Math.abs(frontLeft.getTargetPosition() - frontLeft.getCurrentPosition()) < TICK_TOLERANCE) {
+                frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+            if (Math.abs(frontRight.getTargetPosition() - frontRight.getCurrentPosition()) < TICK_TOLERANCE) {
+                frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+            if (Math.abs(backLeft.getTargetPosition() - backLeft.getCurrentPosition()) < TICK_TOLERANCE) {
+                backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+            if (Math.abs(backRight.getTargetPosition() - backRight.getCurrentPosition()) < TICK_TOLERANCE) {
+                backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
         }
-
         setWheelMotorsPower(0);
         resetWheelMotorsEncoders();
     }
@@ -290,66 +288,56 @@ public class AutoBaseFile extends LinearOpMode {
                 -distanceTurnNeeded, distanceTurnNeeded,
                 -distanceTurnNeeded, distanceTurnNeeded,
                 timeOutSeconds );
-
     }
-    //other methods
 
+    //Other methods....
     public void toggleIntake(){
-
         intake.setPower(intake.getPower() == 0 ? 1 : 0);
     }
     public void toggleMidtake(){
-
         midtake.setPower(midtake.getPower() == 0 ? 1 : 0);
     }
 
     public void toggleMidtakeTwo() {
         midtake_two.setPower(midtake_two.getPower() == 0 ? 1 : 0);
-
     }
 
-    public void launch(LAUNCH_POSTION position){
+    public void launch(LAUNCH_POSITION position){
 
 
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(position.P, 0, 0, position.F);
         outtake.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         outtake.setVelocity(position.velocityNeeded);
 
-        sleep(5000);
+        //sleep(5000);
         toggleIntake();
         toggleMidtake();
         toggleMidtakeTwo();
-        sleep(4000);
-        toggleIntake();
-        toggleMidtake();
-        toggleMidtakeTwo();
-        outtake.setVelocity(0);
-
-
-
-
         runTime.reset();
 
         while (runTime.seconds() <= position.durationSeconds){
-            telemetry.addData("Target Velocity", 1500);
+
+            telemetry.setCaptionValueSeparator(": ");
+            telemetry.addData("Target Velocity", position.velocityNeeded );
             telemetry.addData("Current Velocity", outtake.getVelocity());
-            telemetry.addData("Error", 1500 - outtake.getVelocity());
+            telemetry.addData("Error", position.velocityNeeded - outtake.getVelocity());
             telemetry.addLine();
 
             telemetry.addData("Timer", runTime.milliseconds());
             telemetry.addData("Timeout", position.durationSeconds);
 
 
-            PanelsTelemetry.INSTANCE.getTelemetry().addData("Target Velocity", 1500);
+            PanelsTelemetry.INSTANCE.getTelemetry().addData("Target Velocity", position.velocityNeeded);
             PanelsTelemetry.INSTANCE.getTelemetry().addData("Current Velocity", outtake.getVelocity());
-            PanelsTelemetry.INSTANCE.getTelemetry().addData("Error", 1500 - outtake.getVelocity());
+            PanelsTelemetry.INSTANCE.getTelemetry().addData("Error", position.velocityNeeded - outtake.getVelocity());
 
             telemetry.update();
             PanelsTelemetry.INSTANCE.getTelemetry().update(telemetry);
-
-
         }
 
+        toggleIntake();
+        toggleMidtake();
+        toggleMidtakeTwo();
         outtake.setVelocity(0);
 
     }
