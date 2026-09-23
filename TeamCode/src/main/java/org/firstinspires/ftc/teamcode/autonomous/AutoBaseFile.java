@@ -115,6 +115,7 @@ public class AutoBaseFile extends LinearOpMode {
 
     }
     //set a function to use encoders in the auto functions.............................................
+    
     public void encoderDrive( double speed,
                               double frontLeftCM, double frontRightCM,
                               double backLeftCM, double backRightCM,
